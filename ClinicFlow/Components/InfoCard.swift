@@ -11,6 +11,7 @@ struct InfoCard: View {
     let title: String
     let subtitle: String
     let icon: String
+    let detail: String
 
     var body: some View {
         HStack(spacing: 16) {
@@ -22,6 +23,9 @@ struct InfoCard: View {
                 Text(title)
                     .font(.headline)
                 Text(subtitle)
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+                Text(detail)
                     .font(.caption)
                     .foregroundColor(.secondary)
             }

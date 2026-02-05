@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct HomeView: View {
+struct DashboardView: View {
     @State private var appear = false
 
     var body: some View {
@@ -27,29 +27,33 @@ struct HomeView: View {
                     .opacity(appear ? 1 : 0)
                     .offset(y: appear ? 0 : 10)
 
-                    NavigationLink(destination: QueueView()) {
+                    NavigationLink(destination: QueueStatusView()) {
                         InfoCard(title: "Queue Status",
                                  subtitle: "View your waiting time",
-                                 icon: "clock")
+                                 icon: "clock",
+                                 detail: "Now Serving: A-08")
                     }
 
                     NavigationLink(destination: ProgressView()) {
                         InfoCard(title: "Visit Progress",
                                  subtitle: "See completed steps",
-                                 icon: "list.bullet.rectangle")
+                                 icon: "list.bullet.rectangle",
+                                 detail: "2 of 4 complete")
                     }
 
-                    NavigationLink(destination: MapView()) {
+                    NavigationLink(destination: ClinicMapView()) {
                         InfoCard(title: "Clinic Map",
                                  subtitle: "Find your department",
-                                 icon: "map")
+                                 icon: "map",
+                                 detail: "Tap to view map")
                     }
                     
                     NavigationLink(destination: NotificationsView()) {
                         InfoCard(
                             title: "Notifications",
                             subtitle: "View visit updates",
-                            icon: "bell"
+                            icon: "bell",
+                            detail: "3 new updates"
                         )
                     }
 
