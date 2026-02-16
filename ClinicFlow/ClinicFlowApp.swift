@@ -9,12 +9,17 @@ import SwiftUI
 
 @main
 struct ClinicFlowApp: App {
-    @AppStorage("isDarkMode") private var isDarkMode = false
-
+    
+    @State private var isLoggedIn = false
+    
     var body: some Scene {
         WindowGroup {
-            MainTabView()
-                .preferredColorScheme(isDarkMode ? .dark : .light)
+            if isLoggedIn {
+                Text("Dashboard/Home Screen Coming Soon")
+                    .font(.title)
+            } else {
+                StartView(isLoggedIn: $isLoggedIn)
+            }
         }
     }
 }
