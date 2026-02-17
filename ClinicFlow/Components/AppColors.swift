@@ -11,6 +11,14 @@ extension Color {
     static let primaryButton = Color(hex: "#0B5566")
     static let inputStroke = Color(hex: "#2D6876")
     static let startingBox = Color(hex: "CFE0CD")
+    static let headerColor = Color(hex: "#2D6876")
+    static let homeBox1 = Color(hex: "#E2EAFF")
+    static let homeBox2 = Color(hex: "#EDFCF2")
+    static let homeBox3 = Color(hex: "#FEF6EE")
+    static let homeBox4 = Color(hex: "#FDCEC9")
+    static let specialtyBorder = Color(hex: "#68B2A1")
+    static let lightGrayBG = Color.gray.opacity(0.08)
+    static let disabledGray = Color.gray.opacity(0.2)
 }
 
 // Hex color initializer

@@ -10,13 +10,12 @@ import SwiftUI
 @main
 struct ClinicFlowApp: App {
     
-    @State private var isLoggedIn = false
+    @State private var isLoggedIn = true
     
     var body: some Scene {
         WindowGroup {
             if isLoggedIn {
-                Text("Dashboard/Home Screen Coming Soon")
-                    .font(.title)
+                MainTabView()
             } else {
                 StartView(isLoggedIn: $isLoggedIn)
             }
