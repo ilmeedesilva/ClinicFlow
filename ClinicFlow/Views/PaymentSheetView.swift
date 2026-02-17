@@ -15,6 +15,9 @@ struct PaymentSheetView: View {
     @State private var showPrivacy = false
     @State private var showRefund = false
     
+    @State private var isProcessing = false
+    @State private var showSuccess = false
+    
     var body: some View {
         ZStack {
             
@@ -143,15 +146,22 @@ struct PaymentSheetView: View {
                     
                     // MARK: Pay Button
                     Button {
-                        dismiss()
+                        isProcessing = true
+                        
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                            isProcessing = false
+                            showSuccess = true
+                        }
                     } label: {
-                        Text("Pay Rs \(Int(amount)).00")
+                        Text(isProcessing ? "Processing..." : "Pay Rs \(Int(amount)).00")
                             .foregroundColor(.white)
                             .frame(maxWidth: .infinity)
                             .padding()
                             .background(Color.headerColor)
                             .cornerRadius(14)
                     }
+                    .disabled(isProcessing)
+
                 }
                 .padding()
                 .frame(maxWidth: .infinity)

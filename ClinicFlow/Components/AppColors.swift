@@ -19,6 +19,7 @@ extension Color {
     static let specialtyBorder = Color(hex: "#68B2A1")
     static let lightGrayBG = Color.gray.opacity(0.08)
     static let disabledGray = Color.gray.opacity(0.2)
+    static let successBackround = Color(hex: "#68B2A1")
 }
 
 // Hex color initializer
