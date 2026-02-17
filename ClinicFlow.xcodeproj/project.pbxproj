@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		B116A7BF2F441ABF000ECED6 /* InfoStatView.txt in Resources */ = {isa = PBXBuildFile; fileRef = B116A7BE2F441ABF000ECED6 /* InfoStatView.txt */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		B17F484B2F2F423F008AC1F2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -24,6 +28,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		B116A7BE2F441ABF000ECED6 /* InfoStatView.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = InfoStatView.txt; sourceTree = "<group>"; };
 		B17F483B2F2F423D008AC1F2 /* ClinicFlow.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClinicFlow.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B17F484A2F2F423F008AC1F2 /* ClinicFlowTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ClinicFlowTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B17F48542F2F423F008AC1F2 /* ClinicFlowUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ClinicFlowUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -79,6 +84,7 @@
 				B17F484D2F2F423F008AC1F2 /* ClinicFlowTests */,
 				B17F48572F2F423F008AC1F2 /* ClinicFlowUITests */,
 				B17F483C2F2F423D008AC1F2 /* Products */,
+				B116A7BE2F441ABF000ECED6 /* InfoStatView.txt */,
 			);
 			sourceTree = "<group>";
 		};
@@ -212,6 +218,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B116A7BF2F441ABF000ECED6 /* InfoStatView.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
