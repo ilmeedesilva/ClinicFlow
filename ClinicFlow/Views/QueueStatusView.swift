@@ -95,6 +95,11 @@ struct QueueStatusView: View {
         .onAppear {
             startQueueFlow()
         }
+        .fullScreenCover(isPresented: $appState.shouldNavigateToPharmacyPayment) {
+            PharmacyPaymentReadyView()
+                .environmentObject(appState)
+        }
+
     }
 
 
@@ -239,8 +244,19 @@ struct QueueStatusView: View {
     
     func startQueueFlow() {
         
-        guard appState.currentStage == .awaiting else { return }
+        guard let item = appState.currentItem else { return }
         
+        // PHARMACY FLOW
+        if item.serviceType == .pharmacy {
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                appState.shouldNavigateToPharmacyPayment = true
+            }
+            
+            return
+        }
+        
+        // DOCTOR & LAB FLOW
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
             appState.currentStage = .yourTurn
             
@@ -249,6 +265,7 @@ struct QueueStatusView: View {
             }
         }
     }
+
     
     func resetFlow() {
         appState.hasActiveAppointment = false

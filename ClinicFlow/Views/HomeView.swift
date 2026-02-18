@@ -97,7 +97,7 @@ struct HomeView: View {
                         }
                         
                         NavigationLink {
-                            Text("Pharmacy Flow")
+                            PharmacyUploadView()
                         } label: {
                             HomeCard(
                                 imageName: "homecard-pharmacyimg",
