@@ -2,13 +2,15 @@ import SwiftUI
 
 struct PaymentSuccessView: View {
     
+    let item: BookableItem
+    
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var appState: AppState
     
     var body: some View {
+        
         ZStack {
             
-            // MARK: Background
             Color(Color.successBackround)
                 .ignoresSafeArea()
             
@@ -18,7 +20,6 @@ struct PaymentSuccessView: View {
                 
                 ZStack {
                     
-                    // MARK: White Card
                     VStack(spacing: 28) {
                         
                         Spacer().frame(height: 50)
@@ -28,56 +29,64 @@ struct PaymentSuccessView: View {
                         
                         Text("an appointment")
                             .font(.title3)
-                
                         
-                        // Doctor Image
-                        Image("doctor1")
+                        // Dynamic Service Image
+                        Image(item.image)
                             .resizable()
                             .scaledToFill()
                             .frame(width: 70, height: 70)
                             .clipShape(RoundedRectangle(cornerRadius: 12))
                         
                         VStack(spacing: 4) {
-                            Text("Dr. Stone Gaze")
+                            Text(item.title)
                                 .font(.headline)
                             
-                            Text("Ear, Nose & Throat specialist")
+                            Text(item.subtitle)
                                 .font(.caption)
                                 .foregroundColor(.gray)
                         }
                         
                         Spacer().frame(height: 10)
                         
-                        // MARK: Appointment Details
-                        HStack(alignment: .center, spacing: 12) {
+                        // MARK: Dynamic Appointment Details
+                       
                             
-                            Image("appointment-icon")
-                                .font(.title2)
-                                .foregroundColor(.black)
-                            
-                            VStack(alignment: .leading, spacing: 6) {
-                                Text("Appointment")
-                                    .font(.caption)
-                                    .foregroundColor(.gray)
+                            HStack(alignment: .center, spacing: 12) {
                                 
-                                Text("No 14")
-                                    .fontWeight(.bold)
+                                Image("appointment-icon")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 28, height: 28)
                                 
-                                Text("Room 204")
-                                    .fontWeight(.bold)
-                                
-                                Text("10 Feb 2026, 11:00")
-                                    .fontWeight(.bold)
+                                VStack(alignment: .leading, spacing: 6) {
+                                    
+                                    Text("Appointment")
+                                        .font(.caption)
+                                        .foregroundColor(.gray)
+                                    
+                                    Text("No \(appState.queueNumber)")
+                                                .fontWeight(.bold)
+                                    
+                                    if let item = appState.currentItem {
+                                                Text("\(item.room)")
+                                                    .fontWeight(.bold)
+                                            }
+                                    
+                                    Text("10 Feb 2026, 11:00")
+                                                .fontWeight(.bold)
+                                }
                             }
-                        }
-                        .padding(.top, 10)
+                            .padding(.top, 10)
+                    
                         
                         Spacer()
                         
-                        // MARK: Back Button
                         Button {
-                            appState.hasActiveAppointment = true
-                            dismiss()
+                            appState.currentItem = item
+                                appState.hasActiveAppointment = true
+                                appState.currentStage = .awaiting
+                                
+                                dismiss()
                         } label: {
                             Text("Back to home")
                                 .foregroundColor(.white)
@@ -86,13 +95,12 @@ struct PaymentSuccessView: View {
                                 .background(Color(hex: "#2D6876"))
                                 .cornerRadius(14)
                         }
-
                     }
                     .padding()
                     .background(Color.white)
                     .cornerRadius(30)
                     
-                    // MARK: Floating Success Icon
+                    // Floating Success Icon
                     VStack {
                         ZStack {
                             RoundedRectangle(cornerRadius: 20)
@@ -104,10 +112,11 @@ struct PaymentSuccessView: View {
                                 )
                             
                             Image("success")
-                                .font(.system(size: 40, weight: .bold))
-                                .foregroundColor(Color(hex: "#2D6876"))
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 40, height: 40)
                         }
-                        .offset(y: -45) // 👈 Proper position
+                        .offset(y: -45)
                         
                         Spacer()
                     }
@@ -121,8 +130,52 @@ struct PaymentSuccessView: View {
 }
 
 
-#Preview {
-    ZStack {
-        PaymentSuccessView()
-    }
+#Preview("Doctor Success") {
+    
+    let appState = AppState()
+    appState.currentAppointment = AppointmentDetails(
+        queueNumber: 14,
+        room: "Room 204",
+        dateTime: "10 Feb 2026, 11:00"
+    )
+    appState.hasActiveAppointment = true
+    
+    return PaymentSuccessView(
+        item: BookableItem(
+            serviceType: .doctor,
+            title: "Dr. Patricia Ahoy",
+            subtitle: "ENT Specialist",
+            price: 2500,
+            image: "doctor1",
+            room: "Room 204",
+            floor: "Ground Floor"
+        )
+    )
+    .environmentObject(appState)
 }
+
+#Preview("Lab Success") {
+    
+    let appState = AppState()
+    appState.currentAppointment = AppointmentDetails(
+        queueNumber: 11,
+        room: "Room 12",
+        dateTime: "12 Feb 2026, 09:30"
+    )
+    appState.hasActiveAppointment = true
+    
+    return PaymentSuccessView(
+        item: BookableItem(
+            serviceType: .laboratory,
+            title: "Complete Blood Count",
+            subtitle: "Full blood cell analysis",
+            price: 800,
+            image: "BT",
+            room: "Room 12",
+            floor: "First Floor"
+        )
+    )
+    .environmentObject(appState)
+}
+
+

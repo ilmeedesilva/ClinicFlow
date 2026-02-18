@@ -95,9 +95,11 @@ struct BookingSummaryView: View {
         title: "Dr. Patricia Ahoy",
         subtitle: "ENT Specialist",
         price: 2500,
-        image: "doctor1"
+        image: "doctor1",
+        room: "Room 204",
+        floor: "Ground Floor"
     )
-    return NavigationStack {
+    NavigationStack {
         BookingSummaryView(
             item: mockItem,
             selectedDay: "Wed 10",

@@ -147,10 +147,13 @@ struct DateTimeSelectionView: View {
         serviceType: .doctor,
         title: "Dr. Patricia Ahoy",
         subtitle: "ENT Specialist",
-        price: 2500,
-        image: "doctor1"
+        price: 2500.0,
+        image: "doctor1",
+        room: "A12",
+        floor: "3"
     )
-    return NavigationStack {
+    NavigationStack {
         DateTimeSelectionView(item: mockItem)
     }
 }
+

@@ -20,6 +20,17 @@ struct PaymentView: View {
         case cash
     }
     
+    var feeTitle: String {
+        switch item.serviceType {
+        case .doctor:
+            return "Consultation Fee"
+        case .laboratory:
+            return "Laboratory Fee"
+        case .pharmacy:
+            return "Medicine Fee"
+        }
+    }
+    
     var body: some View {
         VStack(spacing: 0) {
             
@@ -93,7 +104,7 @@ struct PaymentView: View {
                             .font(.headline)
                         
                         HStack {
-                            Text("Consultation Fee")
+                            Text(feeTitle)
                                 .foregroundColor(.gray)
                             Spacer()
                             Text("Rs \(Int(item.price)).00")
@@ -143,7 +154,7 @@ struct PaymentView: View {
                             .cornerRadius(14)
                     }
                     .sheet(isPresented: $showPaymentSheet) {
-                        PaymentSheetView(amount: item.price)
+                        PaymentSheetView(item: item)
                     }
 
                 }
@@ -213,6 +224,8 @@ struct PaymentView: View {
                     .stroke(Color.headerColor, lineWidth: 1)
             )
     }
+    
+    
 }
 
 #Preview("Payment View") {
@@ -221,9 +234,11 @@ struct PaymentView: View {
         title: "Dr. Patricia Ahoy",
         subtitle: "ENT Specialist",
         price: 2500,
-        image: "doctor1"
+        image: "doctor1",
+        room: "Room 204",
+        floor: "Ground Floor"
     )
-    return NavigationStack {
+    NavigationStack {
         PaymentView(item: mockItem)
     }
 }

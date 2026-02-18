@@ -12,4 +12,6 @@ struct BookableItem {
     let subtitle: String
     let price: Double
     let image: String
+    let room: String
+    let floor: String
 }

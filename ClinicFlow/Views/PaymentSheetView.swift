@@ -2,9 +2,11 @@ import SwiftUI
 
 struct PaymentSheetView: View {
     
-    let amount: Double
+    let item: BookableItem
     
     @Environment(\.dismiss) var dismiss
+    @EnvironmentObject var appState: AppState
+
     
     @State private var cardNumber = ""
     @State private var expiry = ""
@@ -19,6 +21,7 @@ struct PaymentSheetView: View {
     @State private var showSuccess = false
     
     var body: some View {
+        
         ZStack {
             
             // MARK: Dim Background
@@ -98,62 +101,41 @@ struct PaymentSheetView: View {
                             .foregroundColor(.blue)
                     }
                     
-                    // MARK: Terms & Policies Section
+                    // MARK: Terms & Policies
                     VStack(alignment: .leading, spacing: 8) {
                         
                         Text("By confirming your payment, you acknowledge and agree to our")
                             .font(.caption)
-                            .multilineTextAlignment(.leading)
                             .fixedSize(horizontal: false, vertical: true)
                         
                         HStack(spacing: 4) {
-                            linkText("Terms & Conditions") {
-                                showTerms = true
-                            }
-                            
+                            linkText("Terms & Conditions") { showTerms = true }
                             Text(",")
-                            
-                            linkText("Privacy Policy") {
-                                showPrivacy = true
-                            }
-                            
+                            linkText("Privacy Policy") { showPrivacy = true }
                             Text("and")
-                            
-                            linkText("Refund Policy") {
-                                showRefund = true
-                            }
+                            linkText("Refund Policy") { showRefund = true }
                         }
                         .font(.caption)
                         
                         Text("Please review your clinic visit details carefully, including the selected service, appointment date, and payment method. Once the payment is confirmed, changes may be subject to clinic policies.")
                             .font(.caption)
-                            .multilineTextAlignment(.leading)
                             .fixedSize(horizontal: false, vertical: true)
 
                         Text("Refunds or rescheduling options are available according to clinic guidelines. To learn more, read our full")
                             .font(.caption)
-                            .multilineTextAlignment(.leading)
                             .fixedSize(horizontal: false, vertical: true)
 
-                        linkText("Refund Policy") {
-                            showRefund = true
-                        }
-                        .font(.caption)
-
+                        linkText("Refund Policy") { showRefund = true }
+                            .font(.caption)
                     }
                     
                     Spacer()
                     
                     // MARK: Pay Button
                     Button {
-                        isProcessing = true
-                        
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                            isProcessing = false
-                            showSuccess = true
-                        }
+                        processPayment()
                     } label: {
-                        Text(isProcessing ? "Processing..." : "Pay Rs \(Int(amount)).00")
+                        Text(isProcessing ? "Processing..." : "Pay Rs \(Int(item.price)).00")
                             .foregroundColor(.white)
                             .frame(maxWidth: .infinity)
                             .padding()
@@ -161,7 +143,6 @@ struct PaymentSheetView: View {
                             .cornerRadius(14)
                     }
                     .disabled(isProcessing)
-
                 }
                 .padding()
                 .frame(maxWidth: .infinity)
@@ -170,6 +151,8 @@ struct PaymentSheetView: View {
                 .padding(.horizontal, 20)
             }
         }
+        
+        // MARK: Policy Sheets
         .sheet(isPresented: $showTerms) {
             PolicyView(title: "Terms & Conditions")
         }
@@ -179,7 +162,38 @@ struct PaymentSheetView: View {
         .sheet(isPresented: $showRefund) {
             PolicyView(title: "Refund Policy")
         }
+        
+        // MARK: Success Screen
+        .fullScreenCover(isPresented: $showSuccess) {
+            PaymentSuccessView(item: item)
+                .environmentObject(appState)
+        }
+
     }
+    
+    
+    // MARK: Process Payment
+    func processPayment() {
+        isProcessing = true
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            isProcessing = false
+            
+            _ = AppointmentDetails(
+                queueNumber: Int.random(in: 10...20),
+                room: item.room,
+                dateTime: "10 Feb 2026, 11:00"
+            )
+            
+            appState.currentItem = item
+            appState.queueNumber = Int.random(in: 1...20)
+            appState.hasActiveAppointment = true
+            appState.currentStage = .awaiting
+            
+            showSuccess = true
+        }
+    }
+    
     
     // MARK: Payment Icon
     func paymentIcon(_ name: String) -> some View {
@@ -191,6 +205,7 @@ struct PaymentSheetView: View {
             .cornerRadius(12)
     }
     
+    
     // MARK: Input Field
     func inputField(_ placeholder: String, text: Binding<String>) -> some View {
         TextField(placeholder, text: text)
@@ -200,6 +215,7 @@ struct PaymentSheetView: View {
                     .stroke(Color.headerColor, lineWidth: 1)
             )
     }
+    
     
     // MARK: Link Text
     func linkText(_ text: String, action: @escaping () -> Void) -> some View {
@@ -211,9 +227,26 @@ struct PaymentSheetView: View {
     }
 }
 
-#Preview {
-    ZStack {
+
+#Preview("Doctor Payment Sheet") {
+    
+    let appState = AppState()
+    
+    return ZStack {
         Color.black.opacity(0.4).ignoresSafeArea()
-        PaymentSheetView(amount: 2500)
+        
+        PaymentSheetView(
+            item: BookableItem(
+                serviceType: .doctor,
+                title: "Dr. Patricia Ahoy",
+                subtitle: "ENT Specialist",
+                price: 2500,
+                image: "doctor1",
+                room: "Room 204",
+                floor: "Ground Floor"
+            )
+        )
+        .environmentObject(appState)
     }
 }
+
