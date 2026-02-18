@@ -19,13 +19,13 @@ struct HomeView: View {
                         .foregroundColor(.gray)
                     
                     NavigationLink {
-                        QueueStatusView()
-                    } label: {
-                        queueBox
+                            QueueStatusView()
+                                .environmentObject(appState)
+                        } label: {
+                            queueBox
+                        }
+                        .buttonStyle(.plain)
                     }
-                    .buttonStyle(.plain)
-
-                }
                 .padding()
                 
             } else {
@@ -86,7 +86,7 @@ struct HomeView: View {
                     HStack(spacing: 16) {
                         
                         NavigationLink {
-                            Text("Lab Flow")
+                            LaboratoryView()
                         } label: {
                             HomeCard(
                                 imageName: "homecard-labimg",

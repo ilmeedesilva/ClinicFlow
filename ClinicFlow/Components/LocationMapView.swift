@@ -10,9 +10,11 @@ struct LocationMapView: View {
             
             Text("Ground Floor")
                 .foregroundColor(.gray)
+                .font(.caption)
             
             Text("Room No 204")
                 .foregroundColor(.gray)
+                .font(.caption)
                 
             
             ZStack {

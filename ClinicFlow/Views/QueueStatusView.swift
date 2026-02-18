@@ -2,26 +2,13 @@ import SwiftUI
 
 struct QueueStatusView: View {
     
-    enum QueueStage {
-        case awaiting
-        case yourTurn
-        case completed
-    }
-    
     @EnvironmentObject var appState: AppState
-    
     @Environment(\.dismiss) var dismiss
-    @State private var stage: QueueStage
-
-    init(stage: QueueStage = .awaiting) {
-        _stage = State(initialValue: stage)
-    }
-
     
     var body: some View {
         ZStack {
             
-            // Background
+            // MARK: Background
             Color(hex: "#68B2A1")
                 .ignoresSafeArea()
             
@@ -41,8 +28,9 @@ struct QueueStatusView: View {
                         
                         Spacer().frame(height: 20)
                         
-                        // Queue Info
+                        // MARK: Queue Info
                         VStack(spacing: 6) {
+                            
                             Image("ticket")
                                 .resizable()
                                 .scaledToFit()
@@ -52,7 +40,7 @@ struct QueueStatusView: View {
                                 .font(.caption)
                                 .foregroundColor(.gray)
                             
-                            Text("14")
+                            Text("\(appState.queueNumber)")
                                 .font(.title2)
                                 .fontWeight(.bold)
                         }
@@ -64,9 +52,7 @@ struct QueueStatusView: View {
                         Spacer()
                         
                         Button {
-                            appState.hasActiveAppointment = false
-                            dismiss()
-
+                            resetFlow()
                         } label: {
                             Text("Back to home")
                                 .foregroundColor(.white)
@@ -80,7 +66,7 @@ struct QueueStatusView: View {
                     .background(Color.white)
                     .cornerRadius(30)
                     
-                    // Floating Icon
+                    // MARK: Floating Icon
                     VStack {
                         ZStack {
                             RoundedRectangle(cornerRadius: 20)
@@ -95,8 +81,6 @@ struct QueueStatusView: View {
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: 40, height: 40)
-                                .font(.system(size: 36, weight: .bold))
-                                .foregroundColor(Color(hex: "#2D6876"))
                         }
                         .offset(y: -50)
                         
@@ -112,22 +96,40 @@ struct QueueStatusView: View {
             startQueueFlow()
         }
     }
+
+
     
     // MARK: Dynamic Content
     
     var titleText: String {
-        switch stage {
+        
+        switch appState.currentStage {
+            
         case .awaiting:
             return "Awaiting Appointment"
+            
         case .yourTurn:
             return "Your Turn"
+            
         case .completed:
-            return "Consultation Completed"
+            
+            switch appState.currentItem?.serviceType {
+            case .doctor:
+                return "Consultation Completed"
+            case .laboratory:
+                return "Laboratory Service Completed"
+            case .pharmacy:
+                return "Medicine Collection Completed"
+            default:
+                return "Completed"
+            }
         }
     }
+
     
     var stageIcon: String {
-        switch stage {
+        
+        switch appState.currentStage {
         case .awaiting:
             return "ready"
         case .yourTurn:
@@ -137,14 +139,17 @@ struct QueueStatusView: View {
         }
     }
 
+
     
     @ViewBuilder
     var stageContent: some View {
-        switch stage {
+        
+        switch appState.currentStage {
             
         case .awaiting:
             VStack(spacing: 12) {
-                circularProgress(current: 11)
+                
+                circularProgress(current: appState.queueNumber - 3)
                 
                 Text("Estimated waiting time 30 minutes")
                     .font(.caption)
@@ -155,13 +160,16 @@ struct QueueStatusView: View {
             
         case .yourTurn:
             VStack(spacing: 12) {
-                circularProgress(current: 14)
                 
-                Text("Please visit the doctor")
-                    .font(.caption)
+                circularProgress(current: appState.queueNumber)
                 
-                Text("Ground Floor, Room No 204")
-                    .font(.caption)
+                if let item = appState.currentItem {
+                    Text("Please visit")
+                        .font(.caption)
+                    
+                    Text("\(item.floor), \(item.room)")
+                        .font(.caption)
+                }
                 
                 Text("Wednesday, 15 Feb")
                     .font(.caption)
@@ -169,16 +177,31 @@ struct QueueStatusView: View {
             
         case .completed:
             VStack(spacing: 12) {
+                
                 circularCheck()
                 
-                Text("Your appointment has been completed.")
-                    .font(.caption)
+                if let item = appState.currentItem {
+                    Text("\(completionMessage(for: item.serviceType))")
+                        .font(.caption)
+                }
                 
                 Text("Thank you for your cooperation.")
                     .font(.caption)
             }
         }
     }
+
+    func completionMessage(for type: ServiceType) -> String {
+        switch type {
+        case .doctor:
+            return "Your appointment has been completed."
+        case .laboratory:
+            return "Your laboratory visit has been completed successfully."
+        case .pharmacy:
+            return "Your medicine collection has been completed."
+        }
+    }
+
     
     // MARK: Circular Progress
     
@@ -215,27 +238,46 @@ struct QueueStatusView: View {
     // MARK: Auto Flow
     
     func startQueueFlow() {
+        
+        guard appState.currentStage == .awaiting else { return }
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-            stage = .yourTurn
+            appState.currentStage = .yourTurn
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                stage = .completed
+                appState.currentStage = .completed
             }
         }
     }
+    
+    func resetFlow() {
+        appState.hasActiveAppointment = false
+        appState.currentStage = .awaiting
+        dismiss()
+    }
+
+
 }
 
-#Preview("Awaiting") {
-    QueueStatusView(stage: .awaiting)
+#Preview {
+    
+    let state = AppState()
+    state.hasActiveAppointment = true
+    state.queueNumber = 10
+    state.currentStage = .awaiting
+    state.currentItem = BookableItem(
+        serviceType: .laboratory,
+        title: "Complete Blood Count",
+        subtitle: "Full blood cell analysis",
+        price: 800,
+        image: "BT",
+        room: "Room 12",
+        floor: "First Floor"
+    )
+    
+    return QueueStatusView()
+        .environmentObject(state)
 }
 
-#Preview("Your Turn") {
-    QueueStatusView(stage: .yourTurn)
-}
-
-#Preview("Completed") {
-    QueueStatusView(stage: .completed)
-        .environmentObject(AppState())
-}
 
 

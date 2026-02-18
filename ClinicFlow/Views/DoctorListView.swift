@@ -31,14 +31,15 @@ struct DoctorListView: View {
                             
                             NavigationLink {
                                 let item = BookableItem(
-                                        serviceType: .doctor,
-                                        title: doctor.name,
-                                        subtitle: doctor.subtitle,
-                                        price: 2500,
-                                        image: doctor.image
-                                    )
-                                    
-                                    DateTimeSelectionView(item: item)
+                                    serviceType: .doctor,
+                                    title: doctor.name,
+                                    subtitle: doctor.subtitle,
+                                    price: 2500,
+                                    image: doctor.image,
+                                    room: "Room 1",
+                                    floor: "1"                                )
+                                
+                                DateTimeSelectionView(item: item)
                             } label: {
                                 DoctorRow(
                                     imageName: doctor.image,
