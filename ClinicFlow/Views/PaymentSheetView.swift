@@ -179,20 +179,11 @@ struct PaymentSheetView: View {
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             isProcessing = false
             
-            _ = AppointmentDetails(
-                queueNumber: Int.random(in: 10...20),
-                room: item.room,
-                dateTime: "10 Feb 2026, 11:00"
-            )
-            
-            appState.currentItem = item
-            appState.queueNumber = Int.random(in: 1...20)
-            appState.hasActiveAppointment = true
-            appState.currentStage = .awaiting
-            
+            appState.createAppointment(for: item)
             showSuccess = true
         }
     }
+
     
     
     // MARK: Payment Icon

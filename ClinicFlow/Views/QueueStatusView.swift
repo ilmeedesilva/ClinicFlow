@@ -246,25 +246,45 @@ struct QueueStatusView: View {
         
         guard let item = appState.currentItem else { return }
         
-        // PHARMACY FLOW
         if item.serviceType == .pharmacy {
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                
+                appState.addNotification(
+                    type: .pharmacyReady,
+                    title: "Pharmacy service ready",
+                    message: "Please proceed to the pharmacy counter."
+                )
+                
                 appState.shouldNavigateToPharmacyPayment = true
             }
             
             return
         }
         
-        // DOCTOR & LAB FLOW
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            
             appState.currentStage = .yourTurn
             
+            appState.addNotification(
+                type: .yourTurn,
+                title: "It’s your turn now",
+                message: "Please proceed to the consultation room."
+            )
+            
             DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                
                 appState.currentStage = .completed
+                
+                appState.addNotification(
+                    type: .consultationReady,
+                    title: "Consultation completed",
+                    message: "Your service has been completed."
+                )
             }
         }
     }
+
 
     
     func resetFlow() {

@@ -129,53 +129,72 @@ struct PaymentSuccessView: View {
     }
 }
 
-
 #Preview("Doctor Success") {
     
-    let appState = AppState()
-    appState.currentAppointment = AppointmentDetails(
-        queueNumber: 14,
+    let state = AppState()
+    
+    state.queueNumber = 14
+    state.currentItem = BookableItem(
+        serviceType: .doctor,
+        title: "Dr. Patricia Ahoy",
+        subtitle: "ENT Specialist",
+        price: 2500,
+        image: "doctor1",
         room: "Room 204",
-        dateTime: "10 Feb 2026, 11:00"
+        floor: "Ground Floor"
     )
-    appState.hasActiveAppointment = true
+    state.hasActiveAppointment = true
+    state.currentStage = .awaiting
     
     return PaymentSuccessView(
-        item: BookableItem(
-            serviceType: .doctor,
-            title: "Dr. Patricia Ahoy",
-            subtitle: "ENT Specialist",
-            price: 2500,
-            image: "doctor1",
-            room: "Room 204",
-            floor: "Ground Floor"
-        )
+        item: state.currentItem!
     )
-    .environmentObject(appState)
+    .environmentObject(state)
 }
 
 #Preview("Lab Success") {
     
-    let appState = AppState()
-    appState.currentAppointment = AppointmentDetails(
-        queueNumber: 11,
+    let state = AppState()
+    
+    state.queueNumber = 11
+    state.currentItem = BookableItem(
+        serviceType: .laboratory,
+        title: "Complete Blood Count",
+        subtitle: "Full blood analysis",
+        price: 800,
+        image: "BT",
         room: "Room 12",
-        dateTime: "12 Feb 2026, 09:30"
+        floor: "First Floor"
     )
-    appState.hasActiveAppointment = true
+    state.hasActiveAppointment = true
+    state.currentStage = .awaiting
     
     return PaymentSuccessView(
-        item: BookableItem(
-            serviceType: .laboratory,
-            title: "Complete Blood Count",
-            subtitle: "Full blood cell analysis",
-            price: 800,
-            image: "BT",
-            room: "Room 12",
-            floor: "First Floor"
-        )
+        item: state.currentItem!
     )
-    .environmentObject(appState)
+    .environmentObject(state)
 }
 
+#Preview("Pharmacy Success") {
+    
+    let state = AppState()
+    
+    state.queueNumber = 7
+    state.currentItem = BookableItem(
+        serviceType: .pharmacy,
+        title: "Prescription Medicines",
+        subtitle: "Uploaded Prescription",
+        price: 1500,
+        image: "pharmacy",
+        room: "Counter 3",
+        floor: "Ground Floor"
+    )
+    state.hasActiveAppointment = true
+    state.currentStage = .awaiting
+    
+    return PaymentSuccessView(
+        item: state.currentItem!
+    )
+    .environmentObject(state)
+}
 
