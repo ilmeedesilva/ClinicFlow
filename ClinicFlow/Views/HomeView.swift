@@ -113,6 +113,28 @@ struct HomeView: View {
             }
         }
         .navigationBarHidden(true)
+        
+        if let latest = appState.notifications.first {
+            
+            HStack {
+                VStack(alignment: .leading) {
+                    Text(latest.title)
+                        .fontWeight(.semibold)
+                        .foregroundColor(.white)
+                    
+                    Text(latest.message)
+                        .font(.caption)
+                        .foregroundColor(.white.opacity(0.8))
+                }
+                
+                Spacer()
+            }
+            .padding()
+            .background(Color(hex: "#68B2A1"))
+            .cornerRadius(16)
+            .padding(.horizontal)
+        }
+
     }
     
     // MARK: Queue Box UI

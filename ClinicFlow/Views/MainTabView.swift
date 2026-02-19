@@ -21,7 +21,7 @@ struct MainTabView: View {
             }
             
             NavigationStack {
-                Text("Notifications")
+                NotificationsView()
             }
             .tabItem {
                 Image(systemName: "bell")
