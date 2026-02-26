@@ -41,6 +41,22 @@ class AppState: ObservableObject {
     // MARK: Notifications
     @Published var notifications: [AppNotification] = []
     
+    // MARK: Authentication
+    @Published var isLoggedIn: Bool = false
+    @Published var otpCode: String = ""
+
+    func sendOTP(to phone: String) {
+        otpCode = "123456"
+    }
+
+    func verifyOTP(_ input: String) -> Bool {
+        return input == otpCode
+    }
+
+    func logout() {
+        isLoggedIn = false
+    }
+    
     // MARK: Create Appointment
     func createAppointment(for item: BookableItem) {
         
