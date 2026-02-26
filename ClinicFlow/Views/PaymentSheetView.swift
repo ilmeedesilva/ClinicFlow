@@ -163,9 +163,13 @@ struct PaymentSheetView: View {
                 .presentationDetents([.large])
                 .presentationDragIndicator(.visible)
         }
+        
+        //MARK: Success Screen
+            .fullScreenCover(isPresented: $showSuccess) {
+        PaymentSuccessView(item: item)
+        environmentObject(appState)
+        }
     }
-    
-
     
     func processPayment() {
         isProcessing = true
