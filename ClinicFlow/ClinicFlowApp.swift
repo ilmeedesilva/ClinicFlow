@@ -10,16 +10,19 @@ import SwiftUI
 @main
 struct ClinicFlowApp: App {
     
-    @State private var isLoggedIn = true
-    @StateObject var appState = AppState()
+    @StateObject private var appState = AppState()
     
     var body: some Scene {
         WindowGroup {
-            if isLoggedIn {
+            
+            if appState.isLoggedIn {
                 MainTabView()
                     .environmentObject(appState)
             } else {
-                StartView(isLoggedIn: $isLoggedIn)
+                NavigationStack {
+                    LoginLandingView()
+                }
+                .environmentObject(appState)
             }
         }
     }
