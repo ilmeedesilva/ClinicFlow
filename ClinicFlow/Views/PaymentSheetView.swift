@@ -7,7 +7,6 @@ struct PaymentSheetView: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var appState: AppState
 
-    
     @State private var cardNumber = ""
     @State private var expiry = ""
     @State private var cvv = ""
@@ -21,10 +20,8 @@ struct PaymentSheetView: View {
     @State private var showSuccess = false
     
     var body: some View {
-        
         ZStack {
             
-            // MARK: Dim Background
             Color.black.opacity(0.4)
                 .ignoresSafeArea()
             
@@ -103,7 +100,6 @@ struct PaymentSheetView: View {
                     
                     // MARK: Terms & Policies
                     VStack(alignment: .leading, spacing: 8) {
-                        
                         Text("By confirming your payment, you acknowledge and agree to our")
                             .font(.caption)
                             .fixedSize(horizontal: false, vertical: true)
@@ -120,11 +116,11 @@ struct PaymentSheetView: View {
                         Text("Please review your clinic visit details carefully, including the selected service, appointment date, and payment method. Once the payment is confirmed, changes may be subject to clinic policies.")
                             .font(.caption)
                             .fixedSize(horizontal: false, vertical: true)
-
+                        
                         Text("Refunds or rescheduling options are available according to clinic guidelines. To learn more, read our full")
                             .font(.caption)
                             .fixedSize(horizontal: false, vertical: true)
-
+                        
                         linkText("Refund Policy") { showRefund = true }
                             .font(.caption)
                     }
@@ -152,41 +148,34 @@ struct PaymentSheetView: View {
             }
         }
         
-        // MARK: Policy Sheets
         .sheet(isPresented: $showTerms) {
-            PolicyView(title: "Terms & Conditions")
+            PolicyView(title: "Terms and Conditions")
+                .presentationDetents([.large])
+                .presentationDragIndicator(.visible)
         }
         .sheet(isPresented: $showPrivacy) {
             PolicyView(title: "Privacy Policy")
+                .presentationDetents([.large])
+                .presentationDragIndicator(.visible)
         }
         .sheet(isPresented: $showRefund) {
             PolicyView(title: "Refund Policy")
+                .presentationDetents([.large])
+                .presentationDragIndicator(.visible)
         }
-        
-        // MARK: Success Screen
-        .fullScreenCover(isPresented: $showSuccess) {
-            PaymentSuccessView(item: item)
-                .environmentObject(appState)
-        }
-
     }
     
+
     
-    // MARK: Process Payment
     func processPayment() {
         isProcessing = true
-        
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             isProcessing = false
             
-            appState.createAppointment(for: item)
             showSuccess = true
         }
     }
 
-    
-    
-    // MARK: Payment Icon
     func paymentIcon(_ name: String) -> some View {
         Image(name)
             .resizable()
@@ -196,8 +185,6 @@ struct PaymentSheetView: View {
             .cornerRadius(12)
     }
     
-    
-    // MARK: Input Field
     func inputField(_ placeholder: String, text: Binding<String>) -> some View {
         TextField(placeholder, text: text)
             .padding()
@@ -207,8 +194,6 @@ struct PaymentSheetView: View {
             )
     }
     
-    
-    // MARK: Link Text
     func linkText(_ text: String, action: @escaping () -> Void) -> some View {
         Button(action: action) {
             Text(text)
@@ -218,14 +203,10 @@ struct PaymentSheetView: View {
     }
 }
 
-
 #Preview("Doctor Payment Sheet") {
-    
     let appState = AppState()
-    
     return ZStack {
         Color.black.opacity(0.4).ignoresSafeArea()
-        
         PaymentSheetView(
             item: BookableItem(
                 serviceType: .doctor,
@@ -240,4 +221,3 @@ struct PaymentSheetView: View {
         .environmentObject(appState)
     }
 }
-
