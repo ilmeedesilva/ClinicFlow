@@ -1,13 +1,6 @@
-//
-//  QueueView.swift
-//  ClinicFlow
-//
-//  Created by Ilmee De Silva on 2026-02-17.
-//
-
 import SwiftUI
 
-// MARK: - 1. Enum Definition (Outside the struct)
+// MARK: Enum Definition 
 enum QueueStatus: String {
     case completed = "Completed"
     case inProgress = "In Progress"
