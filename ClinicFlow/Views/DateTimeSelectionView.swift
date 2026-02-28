@@ -15,17 +15,75 @@ struct DateTimeSelectionView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 28) {
                     
-                    // Title
+                    // MARK: Doctor Details
+                    VStack(alignment: .leading, spacing: 16) {
+                        
+                        HStack(spacing: 12) {
+                            Image(item.image)
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: 60, height: 60)
+                                .clipShape(Circle())
+                            
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text(item.title)
+                                    .font(.system(size: 18, weight: .bold))
+                                
+                                Text(item.subtitle)
+                                    .font(.caption)
+                                    .foregroundColor(.gray)
+                            }
+                            
+                            Spacer()
+                        }
+                        
+                        Divider()
+                        
+                        // MARK: Rating
+                        HStack {
+                            Text("Rating")
+                                .font(.headline)
+                            
+                            Spacer()
+                            
+                            HStack(spacing: 4) {
+                                Image(systemName: "star.fill")
+                                    .foregroundColor(.orange)
+                                Text("4.5")
+                                    .foregroundColor(.gray)
+                            }
+                        }
+                        
+                        Divider()
+                        
+                        // MARK: Biography
+                        VStack(alignment: .leading, spacing: 8) {
+                            Text("Biography")
+                                .font(.headline)
+                            
+                            Text("""
+Dr. Nadeesha Senanayake is a skilled ENT specialist who treats sinus, allergy, hearing, and throat conditions. With a caring approach and years of clinical experience, she helps patients breathe easier and feel better every day.
+""")
+                            .font(.subheadline)
+                            .foregroundColor(.gray)
+                            .lineSpacing(4)
+                        }
+                    }
+                    
+                    Divider()
+                    
+                    // MARK: Date & Time Section Title
                     VStack(alignment: .leading, spacing: 8) {
-                        Text("Select your Visit Date & Time")
-                            .font(.title2)
+                        Text("Select your Date & Time")
+                            .font(.title3)
                             .bold()
                         
                         Text("You can choose the date and time from the available doctor's schedule")
+                            .font(.subheadline)
                             .foregroundColor(.gray.opacity(0.7))
                     }
                     
-                    // Choose Day
+                    // MARK: Choose Day
                     VStack(alignment: .leading, spacing: 16) {
                         Text("Choose Day, Feb 2026")
                             .bold()
@@ -37,26 +95,26 @@ struct DateTimeSelectionView: View {
                         }
                     }
                     
-                    // Morning
+                    // MARK: Morning Set
                     VStack(alignment: .leading, spacing: 16) {
                         Text("Morning Set")
                             .bold()
                         
                         HStack(spacing: 12) {
-                            timeBox("10:00", isAvailable: false)   // Disabled
+                            timeBox("10:00", isAvailable: false)
                             timeBox("11:00", isAvailable: true)
-                            timeBox("12:00", isAvailable: false)   // Disabled
+                            timeBox("12:00", isAvailable: false)
                             timeBox("13:30", isAvailable: true)
                         }
                     }
                     
-                    // Afternoon
+                    // MARK: Afternoon Set
                     VStack(alignment: .leading, spacing: 16) {
                         Text("Afternoon Set")
                             .bold()
                         
                         HStack(spacing: 12) {
-                            timeBox("18:00", isAvailable: false)   // Disabled
+                            timeBox("18:00", isAvailable: false)
                             timeBox("19:00", isAvailable: true)
                             timeBox("20:00", isAvailable: true)
                         }
@@ -64,6 +122,7 @@ struct DateTimeSelectionView: View {
                     
                     Spacer(minLength: 40)
                     
+                    // MARK: Confirm Button
                     NavigationLink {
                         BookingSummaryView(
                             item: item,
@@ -85,10 +144,9 @@ struct DateTimeSelectionView: View {
         .navigationBarHidden(true)
     }
     
-    // MARK: - Day Box
     
+    // MARK: Day Box
     func dayBox(day: String, date: String) -> some View {
-        
         Button {
             selectedDay = date
         } label: {
@@ -97,7 +155,7 @@ struct DateTimeSelectionView: View {
                     .font(.system(size: 14))
                 
                 Text(date)
-                    .font(.system(size: 20, weight: .bold))   // Bold date
+                    .font(.system(size: 20, weight: .bold))
             }
             .foregroundColor(selectedDay == date ? .white : .black)
             .frame(width: 80, height: 80)
@@ -110,10 +168,9 @@ struct DateTimeSelectionView: View {
         }
     }
     
-    // MARK: - Time Box
     
+    // MARK: Time Box
     func timeBox(_ value: String, isAvailable: Bool) -> some View {
-        
         Button {
             if isAvailable {
                 selectedTime = value

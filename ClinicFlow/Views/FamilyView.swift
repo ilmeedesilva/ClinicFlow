@@ -1,30 +1,16 @@
-
 import SwiftUI
 
-// MARK: Data Model
-struct FamilyMember: Identifiable {
-    let id = UUID()
-    let name: String
-    let relationship: String
-    let image: String
-}
-
 struct FamilyUsersView: View {
-    @Environment(\.dismiss) var dismiss
     
-    let familyMembers = [
-        FamilyMember(name: "John Dae", relationship: "You", image: "person.circle.fill"),
-        FamilyMember(name: "Kamal Silva", relationship: "Father", image: "person.circle.fill"),
-        FamilyMember(name: "Amila Silva", relationship: "Mother", image: "person.circle.fill")
-    ]
+    @Environment(\.dismiss) var dismiss
+    @EnvironmentObject var appState: AppState
     
     var body: some View {
         VStack(spacing: 0) {
+            
             // MARK: Header
             HStack {
-                Button {
-                    dismiss()
-                } label: {
+                Button { dismiss() } label: {
                     Image(systemName: "chevron.left")
                         .font(.title3)
                         .bold()
@@ -40,28 +26,30 @@ struct FamilyUsersView: View {
                 
                 Spacer()
                 
-                
-                Image(systemName: "chevron.left").opacity(0)
+                Image(systemName: "chevron.left")
+                    .opacity(0)
             }
             .padding()
             .background(Color(red: 0.18, green: 0.41, blue: 0.45))
             
-            // MARK: - Family List
+            // MARK: Family List
             List {
-                ForEach(familyMembers) { member in
-                    NavigationLink(destination: EditProfileView(member: member)){
+                ForEach(appState.familyMembers) { member in
+                    NavigationLink {
+                        EditProfileView(member: member)
+                            .environmentObject(appState)
+                    } label: {
                         HStack(spacing: 15) {
                             
                             Image(systemName: member.image)
                                 .resizable()
+                                .scaledToFit()
                                 .frame(width: 50, height: 50)
-                                .foregroundColor(Color(red: 0.4, green: 0.6, blue: 1.0))
-                            
+                                .foregroundColor(Color.blue)
                             
                             VStack(alignment: .leading, spacing: 4) {
                                 Text(member.name)
                                     .font(.headline)
-                                    .foregroundColor(.primary)
                                 
                                 Text(member.relationship)
                                     .font(.subheadline)
@@ -79,5 +67,8 @@ struct FamilyUsersView: View {
 }
 
 #Preview {
-    FamilyUsersView()
+    NavigationStack {
+        FamilyUsersView()
+            .environmentObject(AppState())
+    }
 }
