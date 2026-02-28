@@ -1,7 +1,8 @@
 import SwiftUI
 
 struct EditProfileView: View {
-    let member: FamilyMember
+    @EnvironmentObject var appState: AppState
+    var member: FamilyMember
     @Environment(\.dismiss) var dismiss
     
     
@@ -51,32 +52,52 @@ struct EditProfileView: View {
                         profileInputField(label: "Age", text: $age, placeholder: "47")
                         
                         Text("Gender").font(.headline)
-                            Picker("Select Gender", selection: $gender) {
-                                Text("Male").tag("Male")
-                                Text("Female").tag("Female")
-                                Text("Other").tag("Other")
+
+                        Menu {
+                            Button("Male") { gender = "Male" }
+                            Button("Female") { gender = "Female" }
+                            Button("Other") { gender = "Other" }
+                        } label: {
+                            HStack {
+                                Text(gender.isEmpty ? "Select Gender" : gender)
+                                    .foregroundColor(gender.isEmpty ? .gray : .black)
+                                Spacer()
+                                Image(systemName: "chevron.down")
                             }
-                            .pickerStyle(.menu)
-                            .frame(maxWidth: .infinity)
                             .padding()
-                            .overlay(RoundedRectangle(cornerRadius: 10).stroke(tealColor, lineWidth: 1))
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 10)
+                                    .stroke(tealColor, lineWidth: 1)
+                            )
+                        }
                         
                         profileInputField(label: "Contact Number", text: $contactNumber, placeholder: "075 764 3484")
                         
                         Text("Relationship").font(.headline)
-                        Picker("Select an option", selection: $relationship) {
-                            Text("Select an option").tag("")
-                            Text("Father").tag("Father")
-                            Text("Mother").tag("Mother")
-                            Text("Sister")
-                                .tag("Sister")
-                            Text("Brother")
-                                .tag("Brother")
+
+                        Menu {
+                            Button("You") { relationship = "You" }
+                            Button("Father") { relationship = "Father" }
+                            Button("Mother") { relationship = "Mother" }
+                            Button("Sister") { relationship = "Sister" }
+                            Button("Brother") { relationship = "Brother" }
+                            Button("Spouse") { relationship = "Spouse" }
+                            Button("Son") { relationship = "Son" }
+                            Button("Daughter") { relationship = "Daughter" }
+                            Button("Other") { relationship = "Other" }
+                        } label: {
+                            HStack {
+                                Text(relationship.isEmpty ? "Select Relationship" : relationship)
+                                    .foregroundColor(relationship.isEmpty ? .gray : .black)
+                                Spacer()
+                                Image(systemName: "chevron.down")
+                            }
+                            .padding()
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 10)
+                                    .stroke(tealColor, lineWidth: 1)
+                            )
                         }
-                        .pickerStyle(.menu)
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .overlay(RoundedRectangle(cornerRadius: 10).stroke(tealColor, lineWidth: 1))
                     }
                     
                     // MARK: Save Button
@@ -151,12 +172,16 @@ struct AppointmentCard: View {
 
 #Preview {
     let mockMember = FamilyMember(
+        id: UUID(uuidString: "00000000-0000-0000-0000-000000000000")!,
         name: "John Dae",
+        age: 30,
+        gender: "Male",
+        contact: "075 764 3484",
         relationship: "You",
         image: "person.circle.fill"
     )
     
-    return NavigationStack {
+   NavigationStack {
         EditProfileView(member: mockMember)
     }
 }

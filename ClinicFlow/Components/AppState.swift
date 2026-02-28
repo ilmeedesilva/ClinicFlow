@@ -35,6 +35,8 @@ class AppState: ObservableObject {
     
     @Published var selectedNotification: AppNotification?
     
+    @Published var selectedPatient: FamilyMember?
+    
     // MARK: Pharmacy Navigation
     @Published var shouldNavigateToPharmacyPayment = false
     
@@ -44,6 +46,40 @@ class AppState: ObservableObject {
     // MARK: Authentication
     @Published var isLoggedIn: Bool = false
     @Published var otpCode: String = ""
+    
+    @Published var familyMembers: [FamilyMember] = [
+            FamilyMember(
+                name: "John Dae",
+                age: 30,
+                gender: "Male",
+                contact: "0712345678",
+                relationship: "You"
+            ),
+            FamilyMember(
+                name: "Kamal Silva",
+                age: 55,
+                gender: "Male",
+                contact: "0771234567",
+                relationship: "Father"
+            ),
+            FamilyMember(
+                name: "Amila Silva",
+                age: 52,
+                gender: "Female",
+                contact: "0769876543",
+                relationship: "Mother"
+            )
+        ]
+        
+        func addFamilyMember(_ member: FamilyMember) {
+            familyMembers.append(member)
+        }
+        
+        func updateFamilyMember(_ updated: FamilyMember) {
+            if let index = familyMembers.firstIndex(where: { $0.id == updated.id }) {
+                familyMembers[index] = updated
+            }
+        }
 
     func sendOTP(to phone: String) {
         otpCode = "123456"

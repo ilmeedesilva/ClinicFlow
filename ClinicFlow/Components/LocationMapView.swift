@@ -23,10 +23,8 @@ struct LocationMapView: View {
                     .frame(height: 200)
                 
                 VStack {
-                    Image(systemName: "mappin.circle.fill")
+                    Image("Maps")
                         .resizable()
-                        .frame(width: 60, height: 60)
-                        .foregroundColor(.gray.opacity(0.5))
                     
                     Text("Clinic Map Preview")
                         .foregroundColor(.gray)

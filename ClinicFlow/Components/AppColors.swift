@@ -17,9 +17,10 @@ extension Color {
     static let homeBox3 = Color(hex: "#FEF6EE")
     static let homeBox4 = Color(hex: "#FDCEC9")
     static let specialtyBorder = Color(hex: "#68B2A1")
-    static let lightGrayBG = Color.gray.opacity(0.08)
+    static let lightGrayBG = Color.gray.opacity(0.05)
     static let disabledGray = Color.gray.opacity(0.2)
     static let successBackround = Color(hex: "#68B2A1")
+    static let bg = Color(hex: "#FFFFFF")
 }
 
 // Hex color initializer

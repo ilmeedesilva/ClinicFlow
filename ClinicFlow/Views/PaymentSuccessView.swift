@@ -74,6 +74,11 @@ struct PaymentSuccessView: View {
                                     
                                     Text("10 Feb 2026, 11:00")
                                                 .fontWeight(.bold)
+                                    
+                                    if let patient = appState.selectedPatient {
+                                        Text(patient.name)
+                                            .fontWeight(.bold)
+                                    }
                                 }
                             }
                             .padding(.top, 10)
@@ -145,7 +150,13 @@ struct PaymentSuccessView: View {
     )
     state.hasActiveAppointment = true
     state.currentStage = .awaiting
-    
+    state.selectedPatient = FamilyMember(
+        name: "John Dae",
+        age: 30,
+        gender: "Male",
+        contact: "0771231231",
+        relationship: "You"
+    )
     return PaymentSuccessView(
         item: state.currentItem!
     )
@@ -168,6 +179,13 @@ struct PaymentSuccessView: View {
     )
     state.hasActiveAppointment = true
     state.currentStage = .awaiting
+    state.selectedPatient = FamilyMember(
+        name: "John Dae",
+        age: 30,
+        gender: "Male",
+        contact: "0771231231",
+        relationship: "You"
+    )
     
     return PaymentSuccessView(
         item: state.currentItem!
@@ -191,6 +209,13 @@ struct PaymentSuccessView: View {
     )
     state.hasActiveAppointment = true
     state.currentStage = .awaiting
+    state.selectedPatient = FamilyMember(
+        name: "John Dae",
+        age: 30,
+        gender: "Male",
+        contact: "0771231231",
+        relationship: "You"
+    )
     
     return PaymentSuccessView(
         item: state.currentItem!
