@@ -21,6 +21,8 @@ extension Color {
     static let disabledGray = Color.gray.opacity(0.2)
     static let successBackround = Color(hex: "#68B2A1")
     static let bg = Color(hex: "#FFFFFF")
+    static let tealColor = Color(red: 0.18, green: 0.41, blue: 0.45)
+    static let lightGreen = Color(red: 0.44, green: 0.73, blue: 0.64)
 }
 
 // Hex color initializer
