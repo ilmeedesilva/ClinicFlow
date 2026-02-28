@@ -4,8 +4,7 @@ struct MapView: View {
     @Environment(\.dismiss) var dismiss
     @State private var showChatbot = false
     
-    let tealColor = Color(red: 0.18, green: 0.41, blue: 0.45)
-    let lightGreen = Color(red: 0.44, green: 0.73, blue: 0.64)
+    
 
     var body: some View {
         VStack(spacing: 0) {
@@ -32,7 +31,7 @@ struct MapView: View {
                 Image(systemName: "chevron.left").opacity(0)
             }
             .padding()
-            .background(tealColor)
+            .background(Color.tealColor)
             
             ScrollView {
                 VStack(alignment: .leading, spacing: 30) {
@@ -83,12 +82,12 @@ struct MapView: View {
                                     Image(systemName: "chevron.right.2")
                                         .font(.caption)
                                         .bold()
-                                        .foregroundColor(lightGreen)
+                                        .foregroundColor(Color.lightGreen)
                                 }
                             }
                             .padding(.horizontal, 10)
                             .padding(.vertical, 10)
-                            .background(lightGreen)
+                            .background(Color.lightGreen)
                             .clipShape(Capsule())
                         }
                     }
