@@ -1,9 +1,12 @@
 import SwiftUI
 
 struct MainTabView: View {
+    
     var body: some View {
+        
         TabView {
             
+            // MARK: Home
             NavigationStack {
                 HomeView()
             }
@@ -12,24 +15,30 @@ struct MainTabView: View {
                 Text("Home")
             }
             
+            
+            // MARK: Map
             NavigationStack {
-                Text("Map")
+                MapView()
             }
             .tabItem {
                 Image(systemName: "map")
                 Text("Map")
             }
             
+            
+            // MARK: Family Users
             NavigationStack {
-                NotificationsView()
+                FamilyUsersView()
             }
             .tabItem {
-                Image(systemName: "bell")
-                Text("Notifications")
+                Image(systemName: "person.3")
+                Text("Family Users")
             }
             
+            
+            // MARK: Settings
             NavigationStack {
-                Text("Settings")
+                SettingsView()
             }
             .tabItem {
                 Image(systemName: "gear")
@@ -39,3 +48,7 @@ struct MainTabView: View {
     }
 }
 
+#Preview("Main Tab View") {
+    MainTabView()
+        .environmentObject(AppState())
+}

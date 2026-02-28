@@ -12,20 +12,16 @@ struct HomeView: View {
                 // MARK: Queue Header Version
                 VStack(alignment: .leading, spacing: 16) {
                     
-                    Text("Welcome!")
-                        .font(.system(size: 28, weight: .bold))
-                    
-                    Text("May you always in a good condition")
-                        .foregroundColor(.gray)
+                    headerSection
                     
                     NavigationLink {
-                            QueueStatusView()
-                                .environmentObject(appState)
-                        } label: {
-                            queueBox
-                        }
-                        .buttonStyle(.plain)
+                        QueueStatusView()
+                            .environmentObject(appState)
+                    } label: {
+                        queueBox
                     }
+                    .buttonStyle(.plain)
+                }
                 .padding()
                 
             } else {
@@ -42,16 +38,9 @@ struct HomeView: View {
                         )
                         .ignoresSafeArea(edges: .top)
                     
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text("Welcome!")
-                            .font(.system(size: 28, weight: .bold))
-                            .foregroundColor(.black)
-                        
-                        Text("May you always in a good condition")
-                            .foregroundColor(.gray)
-                    }
-                    .padding(.horizontal, 20)
-                    .padding(.bottom, 20)
+                    headerSection
+                        .padding(.horizontal, 20)
+                        .padding(.bottom, 20)
                 }
             }
             
@@ -113,29 +102,34 @@ struct HomeView: View {
             }
         }
         .navigationBarHidden(true)
-        
-        if let latest = appState.notifications.first {
+    }
+    
+    
+    // MARK: Header With Notification Icon
+    var headerSection: some View {
+        VStack(alignment: .leading, spacing: 6) {
             
             HStack {
-                VStack(alignment: .leading) {
-                    Text(latest.title)
-                        .fontWeight(.semibold)
-                        .foregroundColor(.white)
-                    
-                    Text(latest.message)
-                        .font(.caption)
-                        .foregroundColor(.white.opacity(0.8))
-                }
+                Text("Welcome!")
+                    .font(.system(size: 28, weight: .bold))
                 
                 Spacer()
+                
+                NavigationLink {
+                    NotificationsView()
+                        .environmentObject(appState)
+                } label: {
+                    Image(systemName: "bell")
+                        .font(.system(size: 25))
+                        .foregroundColor(.black)
+                }
             }
-            .padding()
-            .background(Color(hex: "#68B2A1"))
-            .cornerRadius(16)
-            .padding(.horizontal)
+            
+            Text("May you always in a good condition")
+                .foregroundColor(.gray)
         }
-
     }
+    
     
     // MARK: Queue Box UI
     var queueBox: some View {
@@ -143,7 +137,6 @@ struct HomeView: View {
             
             HStack(alignment: .center, spacing: 12) {
                 
-                // Queue Icon
                 Image("queueimg")
                     .resizable()
                     .scaledToFit()
@@ -181,7 +174,6 @@ struct HomeView: View {
         .background(Color(hex: "#CFE0CD"))
         .cornerRadius(20)
     }
-    
 }
 
 #Preview("Home - No Appointment") {
