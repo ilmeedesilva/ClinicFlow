@@ -98,7 +98,13 @@ struct PaymentView: View {
         }
         .navigationBarHidden(true)
         .animation(.easeInOut, value: isAddingNewMember)
+        
+        .sheet(isPresented: $showPaymentSheet) {
+                PaymentSheetView(item: item)
+                    .environmentObject(appState)
+            }
     }
+       
 }
 
 // MARK: Sections
