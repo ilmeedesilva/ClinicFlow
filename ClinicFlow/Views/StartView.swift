@@ -9,7 +9,7 @@ struct StartView: View {
         NavigationStack {
             VStack(spacing: 30) {
                 
-                Image("startingimg")
+                Image("startimg")
                     .resizable()
                     .scaledToFill()
                     .frame(height: 500)
