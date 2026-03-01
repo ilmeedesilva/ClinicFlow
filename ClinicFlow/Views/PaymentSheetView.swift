@@ -19,6 +19,8 @@ struct PaymentSheetView: View {
     @State private var isProcessing = false
     @State private var showSuccess = false
     
+    @State private var selectedMethod: String = "visa"
+    
     var body: some View {
         ZStack {
             
@@ -61,9 +63,13 @@ struct PaymentSheetView: View {
                     // MARK: Payment Icons
                     HStack(spacing: 16) {
                         Spacer()
-                        paymentIcon("visa")
-                        paymentIcon("master")
-                        paymentIcon("paypal")
+                        ForEach(["visa", "master", "paypal"], id: \.self) { method in
+                            Button {
+                                selectedMethod = method
+                            } label: {
+                                paymentIcon(method)
+                            }
+                        }
                         Spacer()
                     }
                     
@@ -145,6 +151,12 @@ struct PaymentSheetView: View {
                 .background(Color.white)
                 .cornerRadius(25)
                 .padding(.horizontal, 20)
+                
+                // MARK: Success Screen
+                .fullScreenCover(isPresented: $showSuccess) {
+                    PaymentSuccessView(item: item)
+                        .environmentObject(appState) 
+                }
             }
         }
         
@@ -185,8 +197,15 @@ struct PaymentSheetView: View {
             .resizable()
             .scaledToFit()
             .frame(width: 80, height: 50)
-            .background(Color.headerColor.opacity(0.15))
-            .cornerRadius(12)
+            .padding(2)
+            .background(
+                RoundedRectangle(cornerRadius: 12)
+                    .fill(Color.headerColor.opacity(selectedMethod == name ? 0.3 : 0.15))
+            )
+            .overlay(
+                RoundedRectangle(cornerRadius: 12)
+                    .stroke(Color.headerColor, lineWidth: selectedMethod == name ? 2 : 0)
+            )
     }
     
     func inputField(_ placeholder: String, text: Binding<String>) -> some View {
