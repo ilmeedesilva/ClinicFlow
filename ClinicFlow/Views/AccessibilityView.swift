@@ -35,20 +35,21 @@ struct AccessibilityView: View {
             // MARK: iOS Style List
             List {
                 Section {
-                    Text("Larger Text")
-                        .foregroundColor(.primary)
-                    
-                    Button {
-                        selectedTextSize = "Default"
-                    } label: {
-                        HStack {
-                            Text("Default")
-                                .foregroundColor(.primary)
-                            Spacer()
-                            if selectedTextSize == "Default" {
-                                Image(systemName: "checkmark")
-                                    .foregroundColor(.blue)
-                                    .font(.system(size: 14, weight: .bold))
+                    ForEach(["Default", "Larger Text"], id: \.self) { size in
+                        Button {
+                            selectedTextSize = size
+                        } label: {
+                            HStack {
+                                Text(size)
+                                    .foregroundColor(.primary)
+                                
+                                Spacer()
+                                
+                                if selectedTextSize == size {
+                                    Image(systemName: "checkmark")
+                                        .foregroundColor(.blue)
+                                        .font(.system(size: 14, weight: .bold))
+                                }
                             }
                         }
                     }

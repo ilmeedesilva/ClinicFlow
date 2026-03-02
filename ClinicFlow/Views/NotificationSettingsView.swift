@@ -37,7 +37,7 @@ struct NotificationsSettingsView: View {
             List {
                 Section(header: Text("ENABLE  ALL NOTIFICATION")) {
                     Toggle("All Notification", isOn: $allNotificationsEnabled)
-                        .tint(Color(red: 0.47, green: 0.84, blue: 0.45))
+                        .tint(Color(red: 0.18, green: 0.41, blue: 0.45))
                 }
             }
             .listStyle(.insetGrouped)

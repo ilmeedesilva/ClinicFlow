@@ -10,13 +10,6 @@ struct FamilyUsersView: View {
             
             // MARK: Header
             HStack {
-                Button { dismiss() } label: {
-                    Image(systemName: "chevron.left")
-                        .font(.title3)
-                        .bold()
-                        .foregroundColor(.white)
-                }
-                
                 Spacer()
                 
                 Text("Family Users")
@@ -25,9 +18,6 @@ struct FamilyUsersView: View {
                     .foregroundColor(.white)
                 
                 Spacer()
-                
-                Image(systemName: "chevron.left")
-                    .opacity(0)
             }
             .padding()
             .background(Color(red: 0.18, green: 0.41, blue: 0.45))
