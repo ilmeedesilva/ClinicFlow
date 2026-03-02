@@ -13,6 +13,8 @@ struct ChatbotView: View {
     @Environment(\.dismiss) var dismiss
     @State private var messageText: String = ""
     @State private var currentStep = 0
+    @State private var selectedFrom: String = ""
+    @State private var selectedTo: String = ""
     @State private var messages: [ChatMessage] = [
         ChatMessage(text: "Hi! Where are you right now?", isUser: false, options: ["Waiting Area", "Registration", "OPD Counter"], isMapResult: false)
     ]
@@ -97,25 +99,38 @@ struct ChatbotView: View {
         messages.append(userMsg)
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+            
             if currentStep == 0 {
-
+                
+                selectedFrom = choice
+                
                 messages.append(ChatMessage(
                     text: "Great! Where do you need to go?",
                     isUser: false,
                     options: ["Consultation", "X-Ray", "Pharmacy"],
                     isMapResult: false
                 ))
+                
                 currentStep = 1
+                
             } else if currentStep == 1 {
-
+                
+                selectedTo = choice
+                
                 messages.append(ChatMessage(
-                    text: "I've generated the route from the \(messages[1].text) to the \(choice).",
+                    text: "I've generated the route from the \(selectedFrom) to the \(selectedTo).",
                     isUser: false,
                     options: nil,
                     isMapResult: false
                 ))
                 
-                messages.append(ChatMessage(text: "", isUser: false, options: nil, isMapResult: true))
+                messages.append(ChatMessage(
+                    text: "",
+                    isUser: false,
+                    options: nil,
+                    isMapResult: true
+                ))
+                
                 currentStep = 2
             }
         }
@@ -172,8 +187,13 @@ struct ChatbotView: View {
     }
 
     func routeResultCard() -> some View {
-        VStack(alignment: .leading, spacing: 12) {
-            Text("Route: Waiting Area → Pharmacy").bold()
+        
+        let instructions = generateInstructions(from: selectedFrom, to: selectedTo)
+        
+        return VStack(alignment: .leading, spacing: 12) {
+            
+            Text("Route: \(selectedFrom) → \(selectedTo)")
+                .bold()
             
             Image("Maps")
                 .resizable()
@@ -181,10 +201,12 @@ struct ChatbotView: View {
                 .cornerRadius(10)
             
             VStack(alignment: .leading, spacing: 5) {
-                Text("Instructions").font(.headline)
-                Text("• Exit the Waiting Area via the North door.")
-                Text("• Walk past the OPD Counter.")
-                Text("• The Pharmacy is located next to the main exit.")
+                Text("Instructions")
+                    .font(.headline)
+                
+                ForEach(instructions, id: \.self) { step in
+                    Text("• \(step)")
+                }
             }
             .font(.caption)
             .foregroundColor(.primary)
@@ -192,6 +214,47 @@ struct ChatbotView: View {
         .padding()
         .background(botGray)
         .cornerRadius(15)
+    }
+    
+    func generateInstructions(from: String, to: String) -> [String] {
+        
+        switch (from, to) {
+            
+        case ("Waiting Area", "Pharmacy"):
+            return [
+                "Exit the Waiting Area via the North door.",
+                "Walk past the OPD Counter.",
+                "The Pharmacy is located next to the main exit."
+            ]
+            
+        case ("Waiting Area", "X-Ray"):
+            return [
+                "Exit the Waiting Area and turn left.",
+                "Walk straight until Radiology section.",
+                "The X-Ray Room is on your right."
+            ]
+            
+        case ("Registration", "Consultation"):
+            return [
+                "Proceed straight from Registration desk.",
+                "Take the elevator to 2nd floor.",
+                "Consultation rooms are on the left corridor."
+            ]
+            
+        case ("OPD Counter", "Pharmacy"):
+            return [
+                "Walk straight past the billing desk.",
+                "Turn right near the elevator.",
+                "Pharmacy is beside the main lobby."
+            ]
+            
+        default:
+            return [
+                "Walk straight towards the main corridor.",
+                "Follow the directional signs.",
+                "You will reach the \(to) shortly."
+            ]
+        }
     }
 }
 
