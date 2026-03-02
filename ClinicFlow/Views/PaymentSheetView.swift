@@ -176,10 +176,13 @@ struct PaymentSheetView: View {
                 .presentationDragIndicator(.visible)
         }
         
-        //MARK: Success Screen
-            .fullScreenCover(isPresented: $showSuccess) {
-        PaymentSuccessView(item: item)
-        environmentObject(appState)
+        
+        .onChange(of: appState.shouldReturnToHome) { _, newValue in
+            if newValue {
+                showSuccess = false
+                dismiss()
+                appState.shouldReturnToHome = false
+            }
         }
     }
     
