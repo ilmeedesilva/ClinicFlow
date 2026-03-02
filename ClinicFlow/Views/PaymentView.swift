@@ -200,10 +200,10 @@ extension PaymentView {
                 .padding()
                 .overlay(
                     RoundedRectangle(cornerRadius: 12)
-                        .stroke(
-                            gender.isEmpty ? Color.red : Color.headerColor,
-                            lineWidth: 1
-                        )
+                    .stroke(
+                        gender.isEmpty ? Color.headerColor : Color.headerColor,
+                        lineWidth: 1
+                    )
                 )
             }
             
@@ -230,12 +230,12 @@ extension PaymentView {
                 .padding()
                 .overlay(
                     RoundedRectangle(cornerRadius: 12)
-                        .stroke(
-                            relationship == "Select Relationship"
-                            ? Color.red
-                            : Color.headerColor,
-                            lineWidth: 1
-                        )
+                    .stroke(
+                        relationship == "Select Relationship"
+                        ? Color.headerColor
+                        : Color.headerColor,
+                        lineWidth: 1
+                    )
                 )
             }
         }
@@ -248,8 +248,8 @@ extension PaymentView {
             Text("Select Payment Method")
                 .font(.headline)
             
-            paymentRow(icon: "card", title: "Credit/ Debit Card", method: .card)
-            paymentRow(icon: "cash", title: "Cash", method: .cash)
+            paymentRow(icon: "Credit card", title: "Credit/ Debit Card", method: .card)
+            paymentRow(icon: "Cash 1", title: "Cash", method: .cash)
         }
     }
     
@@ -340,8 +340,8 @@ extension PaymentView {
             .overlay(
                 RoundedRectangle(cornerRadius: 12)
                     .stroke(
-                        isValid ? Color.headerColor : Color.red,
-                        lineWidth: 1
+                        text.wrappedValue.isEmpty ? Color.headerColor : (isValid ? Color.headerColor : Color.red),
+                    lineWidth: 1
                     )
             )
     }

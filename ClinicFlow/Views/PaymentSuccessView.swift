@@ -89,9 +89,9 @@ struct PaymentSuccessView: View {
                         Button {
                             appState.currentItem = item
                                 appState.hasActiveAppointment = true
-                                appState.currentStage = .awaiting
+                            appState.currentStage = .awaiting
                                 
-                                dismiss()
+                            dismiss()
                         } label: {
                             Text("Back to home")
                                 .foregroundColor(.white)
@@ -105,7 +105,6 @@ struct PaymentSuccessView: View {
                     .background(Color.white)
                     .cornerRadius(30)
                     
-                    // Floating Success Icon
                     VStack {
                         ZStack {
                             RoundedRectangle(cornerRadius: 20)
