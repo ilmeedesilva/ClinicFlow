@@ -7,15 +7,6 @@ struct SettingsView: View {
         VStack(spacing: 0) {
             // MARK: Header
             HStack {
-                Button {
-                    dismiss()
-                } label: {
-                    Image(systemName: "chevron.left")
-                        .font(.title3)
-                        .bold()
-                        .foregroundColor(.white)
-                }
-                
                 Spacer()
                 
                 Text("Settings")
@@ -24,9 +15,6 @@ struct SettingsView: View {
                     .foregroundColor(.white)
                 
                 Spacer()
-                
-                Image(systemName: "chevron.left")
-                    .opacity(0)
             }
             .padding()
             .background(Color(red: 0.18, green: 0.41, blue: 0.45))
@@ -42,7 +30,7 @@ struct SettingsView: View {
                         settingsRow(icon: "accessibility", color: .blue, title: "Accessibility")
                     }
                     
-                    NavigationLink(destination: NotificationsView()) {
+                    NavigationLink(destination: NotificationsSettingsView()) {
                         settingsRow(icon: "bell.fill", color: .red, title: "Notifications")
                     }
                 }
