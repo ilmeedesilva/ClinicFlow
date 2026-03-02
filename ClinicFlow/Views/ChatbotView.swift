@@ -175,7 +175,7 @@ struct ChatbotView: View {
         VStack(alignment: .leading, spacing: 12) {
             Text("Route: Waiting Area → Pharmacy").bold()
             
-            Image("clinic_map")
+            Image("Maps")
                 .resizable()
                 .scaledToFit()
                 .cornerRadius(10)
