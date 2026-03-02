@@ -5,7 +5,6 @@ struct PaymentView: View {
     @EnvironmentObject var appState: AppState
     let item: BookableItem
     
-    @State private var selectedQueue = 14
     @State private var selectedMethod: PaymentMethod = .card
     
     @State private var selectedPatientID: UUID?
@@ -63,6 +62,8 @@ struct PaymentView: View {
         }
     }
     
+    // MARK: Body
+    
     var body: some View {
         VStack(spacing: 0) {
             
@@ -98,7 +99,6 @@ struct PaymentView: View {
         }
         .navigationBarHidden(true)
         .animation(.easeInOut, value: isAddingNewMember)
-        
         .sheet(isPresented: $showPaymentSheet) {
             PaymentSheetView(item: item)
                 .environmentObject(appState)
@@ -109,175 +109,97 @@ struct PaymentView: View {
                 appState.shouldReturnToHome = false
             }
         }
-        
     }
 }
-    // MARK: Sections
+
+
+// MARK: - Sections
+
+
+extension PaymentView {
     
-    extension PaymentView {
-        
-        var doctorDetails: some View {
-            HStack(spacing: 12) {
-                Image(item.image)
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: 60, height: 60)
-                    .clipShape(Circle())
-                
-                VStack(alignment: .leading, spacing: 4) {
-                    Text(item.title)
-                        .font(.system(size: 18, weight: .bold))
-                    Text(item.subtitle)
-                        .font(.caption)
-                        .foregroundColor(.gray)
-                }
+    var doctorDetails: some View {
+        HStack(spacing: 12) {
+            Image(item.image)
+                .resizable()
+                .scaledToFill()
+                .frame(width: 60, height: 60)
+                .clipShape(Circle())
+            
+            VStack(alignment: .leading, spacing: 4) {
+                Text(item.title)
+                    .font(.system(size: 18, weight: .bold))
+                Text(item.subtitle)
+                    .font(.caption)
+                    .foregroundColor(.gray)
             }
         }
-        
-        var selectPatientSection: some View {
-            VStack(alignment: .leading, spacing: 16) {
-                
-                Text("Select Patient")
-                    .font(.headline)
-                
-                ForEach(appState.familyMembers) { member in
-                    patientRow(member: member)
-                }
-                
-                Button {
-                    isAddingNewMember = true
-                    selectedPatientID = nil
-                } label: {
-                    HStack {
-                        Image(systemName: "plus")
-                        Text("Add New Member")
-                        Spacer()
-                    }
-                }
-                .buttonStyle(.plain)
-                
-                if isAddingNewMember {
-                    newMemberForm
-                }
+    }
+    
+    var selectPatientSection: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            
+            Text("Select Patient")
+                .font(.headline)
+            
+            ForEach(appState.familyMembers) { member in
+                patientRow(member: member)
             }
-        }
-        
-        func patientRow(member: FamilyMember) -> some View {
+            
             Button {
-                selectedPatientID = member.id
-                isAddingNewMember = false
+                isAddingNewMember = true
+                selectedPatientID = nil
             } label: {
-                HStack(spacing: 12) {
-                    
-                    Image(systemName: "person.crop.circle.fill")
-                        .resizable()
-                        .frame(width: 40, height: 40)
-                    
-                    Text(member.name)
-                    
+                HStack {
+                    Image(systemName: "plus")
+                    Text("Add New Member")
                     Spacer()
-                    
-                    radioButton(isSelected: selectedPatientID == member.id)
                 }
             }
             .buttonStyle(.plain)
-        }
-        
-        var newMemberForm: some View {
-            VStack(spacing: 12) {
-                
-                inputField("Patient Name", text: $patientName, isValid: !patientName.isEmpty)
-                
-                inputField("Age", text: $age, isValid: isAgeValid)
-                    .keyboardType(.numberPad)
-                
-                Menu {
-                    Button("Male") { gender = "Male" }
-                    Button("Female") { gender = "Female" }
-                    Button("Other") { gender = "Other" }
-                } label: {
-                    HStack {
-                        Text(gender.isEmpty ? "Select Gender" : gender)
-                            .foregroundColor(gender.isEmpty ? .gray : .black)
-                        Spacer()
-                        Image(systemName: "chevron.down")
-                    }
-                    .padding()
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 12)
-                            .stroke(
-                                gender.isEmpty ? Color.red : Color.headerColor,
-                                lineWidth: 1
-                            )
-                    )
-                }
-                
-                inputField("Contact Number", text: $contact, isValid: isContactValid)
-                    .keyboardType(.numberPad)
-                
-                Menu {
-                    ForEach(relationships, id: \.self) { relation in
-                        Button(relation) {
-                            relationship = relation
-                        }
-                    }
-                } label: {
-                    HStack {
-                        Text(relationship)
-                            .foregroundColor(
-                                relationship == "Select Relationship"
-                                ? .gray
-                                : .black
-                            )
-                        Spacer()
-                        Image(systemName: "chevron.down")
-                    }
-                    .padding()
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 12)
-                            .stroke(
-                                relationship == "Select Relationship"
-                                ? Color.red
-                                : Color.headerColor,
-                                lineWidth: 1
-                            )
-                    )
-                }
-            }
-            .transition(.move(edge: .top).combined(with: .opacity))
-        }
-        
-        var paymentMethodSection: some View {
-            VStack(alignment: .leading, spacing: 16) {
-                
-                Text("Select Payment Method")
-                    .font(.headline)
-                
-                paymentRow(icon: "card", title: "Credit/ Debit Card", method: .card)
-                paymentRow(icon: "cash", title: "Cash", method: .cash)
+            
+            if isAddingNewMember {
+                newMemberForm
             }
         }
-        
-        var totalsSection: some View {
-            VStack(alignment: .leading, spacing: 12) {
+    }
+    
+    func patientRow(member: FamilyMember) -> some View {
+        Button {
+            selectedPatientID = member.id
+            isAddingNewMember = false
+        } label: {
+            HStack(spacing: 12) {
                 
-                Text("Total payment")
-                    .font(.headline)
+                Image(systemName: "person.crop.circle.fill")
+                    .resizable()
+                    .frame(width: 40, height: 40)
                 
-                HStack {
-                    Text(feeTitle)
-                        .foregroundColor(.gray)
-                    Spacer()
-                    Text("Rs \(Int(item.price)).00")
-                }
-                .padding()
-                .overlay(
-                    RoundedRectangle(cornerRadius: 12)
-                    .stroke(
-                        gender.isEmpty ? Color.headerColor : Color.headerColor,
-                        lineWidth: 1
-                    )
-                )
+                Text(member.name)
+                
+                Spacer()
+                
+                radioButton(isSelected: selectedPatientID == member.id)
+            }
+        }
+        .buttonStyle(.plain)
+    }
+    
+    var newMemberForm: some View {
+        VStack(spacing: 12) {
+            
+            inputField("Patient Name", text: $patientName, isValid: !patientName.isEmpty)
+            
+            inputField("Age", text: $age, isValid: isAgeValid)
+                .keyboardType(.numberPad)
+            
+            Menu {
+                Button("Male") { gender = "Male" }
+                Button("Female") { gender = "Female" }
+                Button("Other") { gender = "Other" }
+            } label: {
+                dropdownField(title: gender.isEmpty ? "Select Gender" : gender,
+                              isValid: !gender.isEmpty)
             }
             
             inputField("Contact Number", text: $contact, isValid: isContactValid)
@@ -288,87 +210,10 @@ struct PaymentView: View {
                     Button(relation) {
                         relationship = relation
                     }
-                
-                HStack {
-                    Text("Admin")
-                        .foregroundColor(.gray)
-                    Spacer()
-                    Text("Free")
                 }
-            }
-        }
-        
-        var bottomPaySection: some View {
-            VStack {
-                Divider()
-                
-                HStack {
-                    VStack(alignment: .leading) {
-                        Text("Total")
-                            .foregroundColor(.gray)
-                        Text("Rs \(Int(item.price)).00")
-                            .font(.system(size: 18, weight: .bold))
-                    }
-                    
-                    Spacer()
-                    
-                    Button {
-                        if isAddingNewMember {
-                            let newMember = FamilyMember(
-                                name: patientName,
-                                age: Int(age) ?? 0,
-                                gender: gender,
-                                contact: contact,
-                                relationship: relationship
-                            )
-                            
-                            appState.addFamilyMember(newMember)
-                            appState.selectedPatient = newMember
-                            selectedPatientID = newMember.id
-                            isAddingNewMember = false
-                            
-                            clearForm()
-                        } else {
-                            if let id = selectedPatientID,
-                               let member = appState.familyMembers.first(where: { $0.id == id }) {
-                                appState.selectedPatient = member
-                            }
-                        }
-                        
-                        showPaymentSheet = true
-                    } label: {
-                        Text("Pay")
-                            .foregroundColor(.white)
-                            .frame(width: 120, height: 50)
-                            .background(
-                                canProceedToPay
-                                ? Color.headerColor
-                                : Color.gray.opacity(0.4)
-                            )
-                            .cornerRadius(14)
-                    }
-                    .disabled(!canProceedToPay)
-                }
-                .padding()
-            }
-            .background(Color.white)
-        }
-        
-        func inputField(_ placeholder: String,
-                        text: Binding<String>,
-                        isValid: Bool) -> some View {
-            
-            TextField(placeholder, text: text)
-                .padding()
-                .overlay(
-                    RoundedRectangle(cornerRadius: 12)
-                    .stroke(
-                        relationship == "Select Relationship"
-                        ? Color.headerColor
-                        : Color.headerColor,
-                        lineWidth: 1
-                    )
-                )
+            } label: {
+                dropdownField(title: relationship,
+                              isValid: relationship != "Select Relationship")
             }
         }
         .transition(.move(edge: .top).combined(with: .opacity))
@@ -380,45 +225,136 @@ struct PaymentView: View {
             Text("Select Payment Method")
                 .font(.headline)
             
-            paymentRow(icon: "Credit card", title: "Credit/ Debit Card", method: .card)
-            paymentRow(icon: "Cash 1", title: "Cash", method: .cash)
-                        .stroke(
-                            isValid ? Color.headerColor : Color.red,
-                            lineWidth: 1
+            paymentRow(icon: "card", title: "Credit/ Debit Card", method: .card)
+            paymentRow(icon: "cash", title: "Cash", method: .cash)
+        }
+    }
+    
+    var totalsSection: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            
+            Text("Total payment")
+                .font(.headline)
+            
+            HStack {
+                Text(feeTitle)
+                    .foregroundColor(.gray)
+                Spacer()
+                Text("Rs \(Int(item.price)).00")
+            }
+            
+            HStack {
+                Text("Admin")
+                    .foregroundColor(.gray)
+                Spacer()
+                Text("Free")
+            }
+        }
+    }
+    
+    var bottomPaySection: some View {
+        VStack {
+            Divider()
+            
+            HStack {
+                VStack(alignment: .leading) {
+                    Text("Total")
+                        .foregroundColor(.gray)
+                    Text("Rs \(Int(item.price)).00")
+                        .font(.system(size: 18, weight: .bold))
+                }
+                
+                Spacer()
+                
+                Button {
+                    handlePayment()
+                } label: {
+                    Text("Pay")
+                        .foregroundColor(.white)
+                        .frame(width: 120, height: 50)
+                        .background(
+                            canProceedToPay
+                            ? Color.headerColor
+                            : Color.gray.opacity(0.4)
                         )
-                )
+                        .cornerRadius(14)
+                }
+                .disabled(!canProceedToPay)
+            }
+            .padding()
+        }
+        .background(Color.white)
+    }
+}
+
+//
+// MARK: - Helpers
+//
+
+extension PaymentView {
+    
+    func handlePayment() {
+        if isAddingNewMember {
+            let newMember = FamilyMember(
+                name: patientName,
+                age: Int(age) ?? 0,
+                gender: gender,
+                contact: contact,
+                relationship: relationship
+            )
+            
+            appState.addFamilyMember(newMember)
+            appState.selectedPatient = newMember
+            selectedPatientID = newMember.id
+            isAddingNewMember = false
+            
+            clearForm()
+        } else if let id = selectedPatientID,
+                  let member = appState.familyMembers.first(where: { $0.id == id }) {
+            appState.selectedPatient = member
         }
         
-        func paymentRow(icon: String, title: String, method: PaymentMethod) -> some View {
-            Button {
-                selectedMethod = method
-            } label: {
-                HStack(spacing: 12) {
-                    Image(icon)
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 40, height: 40)
-                    
-                    Text(title)
-                    Spacer()
-                    radioButton(isSelected: selectedMethod == method)
-                }
-            }
-            .buttonStyle(.plain)
-        }
+        showPaymentSheet = true
+    }
+    
+    func inputField(_ placeholder: String,
+                    text: Binding<String>,
+                    isValid: Bool) -> some View {
         
         TextField(placeholder, text: text)
             .padding()
             .overlay(
                 RoundedRectangle(cornerRadius: 12)
                     .stroke(
-                        text.wrappedValue.isEmpty ? Color.headerColor : (isValid ? Color.headerColor : Color.red),
-                    lineWidth: 1
+                        isValid ? Color.headerColor : Color.red,
+                        lineWidth: 1
                     )
             )
     }
     
-    func paymentRow(icon: String, title: String, method: PaymentMethod) -> some View {
+    func dropdownField(title: String, isValid: Bool) -> some View {
+        HStack {
+            Text(title)
+                .foregroundColor(
+                    isValid ? .black : .gray
+                )
+            Spacer()
+            Image(systemName: "chevron.down")
+        }
+        .padding()
+        .overlay(
+            RoundedRectangle(cornerRadius: 12)
+                .stroke(
+                    isValid ? Color.headerColor : Color.red,
+                    lineWidth: 1
+                )
+        )
+    }
+    
+    func paymentRow(icon: String,
+                    title: String,
+                    method: PaymentMethod) -> some View {
+        
         Button {
             selectedMethod = method
         } label: {
@@ -427,29 +363,39 @@ struct PaymentView: View {
                     .resizable()
                     .scaledToFit()
                     .frame(width: 40, height: 40)
-        func radioButton(isSelected: Bool) -> some View {
-            ZStack {
-                Circle()
-                    .stroke(Color.headerColor, lineWidth: 1.5)
-                    .frame(width: 22, height: 22)
                 
-                if isSelected {
-                    Circle()
-                        .fill(Color.headerColor)
-                        .frame(width: 12, height: 12)
-                }
+                Text(title)
+                
+                Spacer()
+                
+                radioButton(isSelected: selectedMethod == method)
             }
         }
-        
-        func clearForm() {
-            patientName = ""
-            age = ""
-            gender = ""
-            contact = ""
-            relationship = "Select Relationship"
+        .buttonStyle(.plain)
+    }
+    
+    func radioButton(isSelected: Bool) -> some View {
+        ZStack {
+            Circle()
+                .stroke(Color.headerColor, lineWidth: 1.5)
+                .frame(width: 22, height: 22)
+            
+            if isSelected {
+                Circle()
+                    .fill(Color.headerColor)
+                    .frame(width: 12, height: 12)
+            }
         }
     }
-
+    
+    func clearForm() {
+        patientName = ""
+        age = ""
+        gender = ""
+        contact = ""
+        relationship = "Select Relationship"
+    }
+}
 
 // MARK: Preview
 
