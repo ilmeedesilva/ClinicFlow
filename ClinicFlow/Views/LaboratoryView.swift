@@ -77,13 +77,13 @@ struct LaboratoryView: View {
                     )
                     
                     labRow(
-                        image: "img-scan",
+                        image: "img_scan",
                         title: "Imaging & Scans",
                         subtitle: "X-Ray, CT, MRI and ultrasound services"
                     )
                     
                     labRow(
-                        image: "ECG",
+                        image: "Ecg",
                         title: "ECG & Heart Tests",
                         subtitle: "Cardiac diagnostics and monitoring"
                     )

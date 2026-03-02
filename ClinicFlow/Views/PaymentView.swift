@@ -270,6 +270,24 @@ struct PaymentView: View {
                     Spacer()
                     Text("Rs \(Int(item.price)).00")
                 }
+                .padding()
+                .overlay(
+                    RoundedRectangle(cornerRadius: 12)
+                    .stroke(
+                        gender.isEmpty ? Color.headerColor : Color.headerColor,
+                        lineWidth: 1
+                    )
+                )
+            }
+            
+            inputField("Contact Number", text: $contact, isValid: isContactValid)
+                .keyboardType(.numberPad)
+            
+            Menu {
+                ForEach(relationships, id: \.self) { relation in
+                    Button(relation) {
+                        relationship = relation
+                    }
                 
                 HStack {
                     Text("Admin")
@@ -344,6 +362,26 @@ struct PaymentView: View {
                 .padding()
                 .overlay(
                     RoundedRectangle(cornerRadius: 12)
+                    .stroke(
+                        relationship == "Select Relationship"
+                        ? Color.headerColor
+                        : Color.headerColor,
+                        lineWidth: 1
+                    )
+                )
+            }
+        }
+        .transition(.move(edge: .top).combined(with: .opacity))
+    }
+    
+    var paymentMethodSection: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            
+            Text("Select Payment Method")
+                .font(.headline)
+            
+            paymentRow(icon: "Credit card", title: "Credit/ Debit Card", method: .card)
+            paymentRow(icon: "Cash 1", title: "Cash", method: .cash)
                         .stroke(
                             isValid ? Color.headerColor : Color.red,
                             lineWidth: 1
@@ -369,6 +407,26 @@ struct PaymentView: View {
             .buttonStyle(.plain)
         }
         
+        TextField(placeholder, text: text)
+            .padding()
+            .overlay(
+                RoundedRectangle(cornerRadius: 12)
+                    .stroke(
+                        text.wrappedValue.isEmpty ? Color.headerColor : (isValid ? Color.headerColor : Color.red),
+                    lineWidth: 1
+                    )
+            )
+    }
+    
+    func paymentRow(icon: String, title: String, method: PaymentMethod) -> some View {
+        Button {
+            selectedMethod = method
+        } label: {
+            HStack(spacing: 12) {
+                Image(icon)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 40, height: 40)
         func radioButton(isSelected: Bool) -> some View {
             ZStack {
                 Circle()

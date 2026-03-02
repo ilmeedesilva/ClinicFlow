@@ -164,16 +164,29 @@ struct HomeView: View {
             }
             
             ProgressView(value: 0.7)
-                .tint(Color(hex: "#2D6876"))
+                            .tint(Color(hex: "#396F57"))
+                            .background(Color.white.opacity(0.3))
+                            .scaleEffect(x: 1, y: 1.5, anchor: .center)
+                            .cornerRadius(4)
             
             Text("Remaining 1 queue")
                 .font(.caption)
                 .foregroundColor(.white.opacity(0.85))
         }
         .padding()
-        .background(Color(hex: "#CFE0CD"))
-        .cornerRadius(20)
-    }
+                .background(
+                    LinearGradient(
+                        gradient: Gradient(colors: [
+                            Color(hex: "#84BDB2"),
+                            Color(hex: "#22927C")
+                        ]),
+                        startPoint: .top,
+                        endPoint: .bottom
+                    )
+                )
+                .cornerRadius(20)
+                .shadow(color: Color.black.opacity(0.15), radius: 8, x: 0, y: 4)
+            }
 }
 
 #Preview("Home - No Appointment") {
