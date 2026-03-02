@@ -91,7 +91,9 @@ struct PaymentSuccessView: View {
                                 appState.hasActiveAppointment = true
                             appState.currentStage = .awaiting
                                 
-                            dismiss()
+                                appState.shouldReturnToHome = true
+                                
+                                dismiss()
                         } label: {
                             Text("Back to home")
                                 .foregroundColor(.white)
