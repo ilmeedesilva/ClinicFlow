@@ -225,8 +225,8 @@ extension PaymentView {
             Text("Select Payment Method")
                 .font(.headline)
             
-            paymentRow(icon: "card", title: "Credit/ Debit Card", method: .card)
-            paymentRow(icon: "cash", title: "Cash", method: .cash)
+            paymentRow(icon: "Credit card", title: "Credit/ Debit Card", method: .card)
+            paymentRow(icon: "Cash 1", title: "Cash", method: .cash)
         }
     }
     
