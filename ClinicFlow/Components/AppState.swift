@@ -35,6 +35,8 @@ class AppState: ObservableObject {
     
     @Published var selectedNotification: AppNotification?
     
+    @Published var shouldReturnToHome: Bool = false
+    
     @Published var selectedPatient: FamilyMember?
     
     // MARK: Pharmacy Navigation
