@@ -2,21 +2,26 @@ import SwiftUI
 
 struct MainTabView: View {
     
+    @EnvironmentObject var appState: AppState
+    
+    @State private var homePath = NavigationPath()
+    @State private var selectedTab = 0
+    
     var body: some View {
         
-        TabView {
+        TabView(selection: $selectedTab) {
             
-            // MARK: Home
-            NavigationStack {
+            NavigationStack(path: $homePath) {
                 HomeView()
+                    .navigationDestination(for: String.self) { _ in }
             }
             .tabItem {
                 Image(systemName: "house")
                 Text("Home")
             }
+            .tag(0)
             
             
-            // MARK: Map
             NavigationStack {
                 MapView()
             }
@@ -24,9 +29,9 @@ struct MainTabView: View {
                 Image(systemName: "map")
                 Text("Map")
             }
+            .tag(1)
             
             
-            // MARK: Family Users
             NavigationStack {
                 FamilyUsersView()
             }
@@ -34,15 +39,24 @@ struct MainTabView: View {
                 Image(systemName: "person.3")
                 Text("Family Users")
             }
+            .tag(2)
             
             
-            // MARK: Settings
             NavigationStack {
                 SettingsView()
             }
             .tabItem {
                 Image(systemName: "gear")
                 Text("Settings")
+            }
+            .tag(3)
+        }
+        
+        .onChange(of: appState.shouldReturnToHome) { _, newValue in
+            if newValue {
+                selectedTab = 0
+                homePath = NavigationPath() 
+                appState.shouldReturnToHome = false
             }
         }
     }
