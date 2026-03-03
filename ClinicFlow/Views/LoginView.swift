@@ -1,14 +1,10 @@
 import SwiftUI
 
 struct LoginView: View {
-    
-    @Binding var isLoggedIn: Bool
+    @EnvironmentObject var appState: AppState
     
     var body: some View {
-        
         VStack(spacing: 0) {
-            
-            // MARK: Top Image
             Image("Hospitalimg")
                 .resizable()
                 .scaledToFill()
@@ -16,17 +12,13 @@ struct LoginView: View {
                 .clipped()
             
             ScrollView {
-                
                 VStack(alignment: .leading, spacing: 24) {
-                    
-                    // MARK: Title
                     Text("Welcome!")
                         .font(.system(size: 28, weight: .bold))
                     
                     Text("Begin your journey to better health!")
                         .foregroundColor(.gray)
                     
-                    // MARK: Continue With Phone
                     NavigationLink {
                         PhoneLoginView()
                     } label: {
@@ -38,31 +30,31 @@ struct LoginView: View {
                             .cornerRadius(14)
                     }
                     
-                    // MARK: Google Button
+                    // MARK: Google Login
                     Button {
-                        // Future Google login
+                        withAnimation {
+                            appState.isLoggedIn = true
+                        }
                     } label: {
                         HStack {
                             Image("google")
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: 18, height: 18)
-                            
                             Text("Sign in with Google")
                                 .foregroundColor(Color(hex: "#2D6876"))
                         }
                         .frame(maxWidth: .infinity)
                         .padding()
                         .background(Color.white)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 14)
-                                .stroke(Color(hex: "#2D6876"), lineWidth: 1.5)
-                        )
+                        .overlay(RoundedRectangle(cornerRadius: 14).stroke(Color(hex: "#2D6876"), lineWidth: 1.5))
                     }
                     
-                    // MARK: Apple Button
+                    // MARK: Apple Login 
                     Button {
-                        // Future Apple login
+                        withAnimation {
+                            appState.isLoggedIn = true
+                        }
                     } label: {
                         HStack {
                             Image(systemName: "applelogo")
@@ -77,23 +69,14 @@ struct LoginView: View {
                     
                     Spacer(minLength: 40)
                     
-                    // MARK: Terms
                     VStack(spacing: 4) {
-                        Text("By signing up or logging in, i accept the apps")
-                            .font(.caption)
-                            .foregroundColor(.gray)
-                        
+                        Text("By signing up or logging in, i accept the apps").font(.caption).foregroundColor(.gray)
                         HStack(spacing: 4) {
-                            Text("Terms of Service")
-                                .underline()
+                            Text("Terms of Service").underline()
                             Text("and")
-                            Text("Privacy Policy")
-                                .underline()
-                        }
-                        .font(.caption)
-                        .foregroundColor(Color(hex: "#2D6876"))
-                    }
-                    .frame(maxWidth: .infinity)
+                            Text("Privacy Policy").underline()
+                        }.font(.caption).foregroundColor(Color(hex: "#2D6876"))
+                    }.frame(maxWidth: .infinity)
                 }
                 .padding()
             }
@@ -101,8 +84,11 @@ struct LoginView: View {
         .navigationBarBackButtonHidden(true)
     }
 }
-
-
 #Preview {
-    LoginView(isLoggedIn: .constant(false))
+    let mockState = AppState()
+    
+    mockState.isLoggedIn = false
+    
+    return LoginView()
+        .environmentObject(mockState)
 }

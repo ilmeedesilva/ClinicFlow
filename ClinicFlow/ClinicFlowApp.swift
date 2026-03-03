@@ -20,7 +20,7 @@ struct ClinicFlowApp: App {
                     .environmentObject(appState)
             } else {
                 NavigationStack {
-                    LoginView(isLoggedIn: $appState.isLoggedIn)
+                    LoginView()
                 }
                 .environmentObject(appState)
             }
