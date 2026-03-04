@@ -1,14 +1,13 @@
 import SwiftUI
 
 struct StartView: View {
-    
-    @Binding var isLoggedIn: Bool
+
+    @EnvironmentObject var appState: AppState
     @State private var goToLogin = false
     
     var body: some View {
         NavigationStack {
             VStack(spacing: 30) {
-                
                 Image("startimg")
                     .resizable()
                     .scaledToFill()
@@ -48,7 +47,7 @@ struct StartView: View {
                 }
                 .padding(.horizontal)
                 .navigationDestination(isPresented: $goToLogin) {
-                    LoginView(isLoggedIn: $isLoggedIn)
+                    LoginView()
                 }
                 
                 Spacer()
@@ -58,6 +57,6 @@ struct StartView: View {
 }
 
 #Preview {
-    StartView(isLoggedIn: .constant(false))
+    StartView()
+        .environmentObject(AppState())
 }
-

@@ -46,7 +46,7 @@ class AppState: ObservableObject {
     @Published var notifications: [AppNotification] = []
     
     // MARK: Authentication
-    @Published var isLoggedIn: Bool = false
+    @Published var isLoggedIn: Bool = false  
     @Published var otpCode: String = ""
     
     @Published var familyMembers: [FamilyMember] = [
