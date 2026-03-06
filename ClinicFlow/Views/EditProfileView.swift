@@ -112,7 +112,7 @@ struct EditProfileView: View {
                         .padding(.top, 10)
                         
                         Text("My Appointments").font(.title3).bold().padding(.top, 10)
-                        AppointmentCard()
+                        ProfileAppointmentCard()
                     }
                     .padding()
                 }
@@ -176,31 +176,53 @@ struct Center<Content: View>: View {
     var body: some View { HStack { Spacer(); content; Spacer() } }
 }
 
-struct AppointmentCard: View {
+struct ProfileAppointmentCard: View {
+    
     var body: some View {
+        
         VStack(alignment: .leading, spacing: 10) {
+            
             HStack {
                 Image("doctor4")
-                    .resizable().frame(width: 50, height: 50).clipShape(Circle())
+                    .resizable()
+                    .frame(width: 50, height: 50)
+                    .clipShape(Circle())
+                
                 VStack(alignment: .leading) {
-                    Text("Dr. Joseph Brostito").font(.headline)
-                    Text("Dental Specialist").font(.subheadline).foregroundColor(.blue)
+                    Text("Dr. Joseph Brostito")
+                        .font(.headline)
+                    
+                    Text("Dental Specialist")
+                        .font(.subheadline)
+                        .foregroundColor(.blue)
                 }
+                
                 Spacer()
+                
                 Text("Completed")
-                    .font(.caption).bold().foregroundColor(.green)
-                    .padding(5).background(Color.green.opacity(0.1)).cornerRadius(5)
+                    .font(.caption)
+                    .bold()
+                    .foregroundColor(.green)
+                    .padding(5)
+                    .background(Color.green.opacity(0.1))
+                    .cornerRadius(5)
             }
+            
             Divider()
+            
             HStack {
                 Label("Sunday, 12 June", systemImage: "calendar")
                 Spacer()
                 Label("11:00 - 12:00 AM", systemImage: "clock")
             }
-            .font(.caption).foregroundColor(.secondary)
+            .font(.caption)
+            .foregroundColor(.secondary)
         }
         .padding()
-        .overlay(RoundedRectangle(cornerRadius: 15).stroke(Color.blue.opacity(0.3), lineWidth: 1))
+        .overlay(
+            RoundedRectangle(cornerRadius: 15)
+                .stroke(Color.blue.opacity(0.3), lineWidth: 1)
+        )
     }
 }
 
