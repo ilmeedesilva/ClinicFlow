@@ -49,6 +49,8 @@ class AppState: ObservableObject {
     @Published var isLoggedIn: Bool = false
     @Published var otpCode: String = ""
     
+    @Published var selectedTab: Int = 0
+    
     @Published var familyMembers: [FamilyMember] = [
             FamilyMember(
                 name: "John Dae",
