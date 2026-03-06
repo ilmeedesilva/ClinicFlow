@@ -32,6 +32,7 @@ class AppState: ObservableObject {
     @Published var queueNumber: Int = 0
     @Published var currentItem: BookableItem?
     @Published var currentStage: AppointmentStage = .awaiting
+    @Published var currentQueueStep: Int = 0
     
     @Published var selectedNotification: AppNotification?
     
@@ -97,20 +98,30 @@ class AppState: ObservableObject {
         isLoggedIn = false
     }
     
-    // MARK: Create Appointment
     func createAppointment(for item: BookableItem) {
-        
-        currentItem = item
-        queueNumber = Int.random(in: 5...20)
-        currentStage = .awaiting
-        hasActiveAppointment = true
-        
-        addNotification(
-            type: .waitingUpdated,
-            title: "Appointment Confirmed",
-            message: "Your queue number is \(queueNumber)"
-        )
+        DispatchQueue.main.async {
+            self.currentItem = item
+            self.queueNumber = Int.random(in: 1...50)
+            self.currentStage = .awaiting
+            self.hasActiveAppointment = true
+            self.currentQueueStep = 1
+            
+            self.addNotification(
+                type: .waitingUpdated,
+                title: "Appointment Confirmed",
+                message: "Your queue number is \(self.queueNumber)"
+            )
+            
+            self.objectWillChange.send()
+        }
     }
+        
+        func completeConsultation() {
+            if currentQueueStep == 1 {
+                currentQueueStep = 2
+                moveToNextStage()  
+            }
+        }
     
     // MARK: Move To Next Stage
     func moveToNextStage() {
@@ -151,6 +162,8 @@ class AppState: ObservableObject {
         case .pharmacy: return "Medicine Collection Completed"
         }
     }
+    
+    
     
     // MARK: Reset
     func resetAppointment() {

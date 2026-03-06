@@ -61,7 +61,7 @@ struct HomeView: View {
                         }
                         
                         NavigationLink {
-                            Text("Queue Screen")
+                            QueueView()
                         } label: {
                             HomeCard(
                                 imageName: "homecard-queueimg",
