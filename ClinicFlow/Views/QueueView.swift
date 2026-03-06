@@ -1,6 +1,5 @@
 import SwiftUI
 
-// MARK: Enum Definition 
 enum QueueStatus: String {
     case completed = "Completed"
     case inProgress = "In Progress"
@@ -16,68 +15,92 @@ enum QueueStatus: String {
 }
 
 struct QueueView: View {
-    
+    @EnvironmentObject var appState: AppState
     @Environment(\.dismiss) var dismiss
     
+    @State private var rotationAngle: Double = 0.0
     
-    let headerColor = Color(red: 0.18, green: 0.41, blue: 0.45)
+    let appointmentNames = ["Channeling", "Consultation", "Laboratory", "Pharmacy"]
+    let iconNames = ["check", "in-progress", "pending", "pending"]
     
     var body: some View {
         VStack(spacing: 0) {
+            AppHeader(title: "Queue Status", showBackButton: true)
             
-            AppHeader(title: "Queue Status")
-            
-            ScrollView {
-                VStack(alignment: .leading, spacing: 20) {
-                    Text("Your Appointments")
-                        .font(.title3)
-                        .bold()
-                        .padding(.top)
-                    
-                    // Appointment Cards
-                    statusCard(
-                        title: "Channeling",
-                        queueNo: "11",
-                        status: .completed,
-                        timeInfo: "Completed at 9:15 AM",
-                        icon: "check"
-                    )
-                    
-                    statusCard(
-                        title: "Consultation",
-                        queueNo: "11",
-                        status: .inProgress,
-                        timeInfo: "Est. wait time: 5 mins",
-                        icon: "in-progress"
-                    )
-                    
-                    statusCard(
-                        title: "Laboratory",
-                        queueNo: "11",
-                        status: .pending,
-                        timeInfo: "Est. wait time: 15 mins",
-                        icon: "pending"
-                    )
-                    
-                    statusCard(
-                        title: "Pharmacy",
-                        queueNo: "11",
-                        status: .pending,
-                        timeInfo: "Est. wait time: 25 mins",
-                        icon: "pending"
-                    )
+            if appState.hasActiveAppointment {
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 20) {
+                        Text("Your Appointments")
+                            .font(.title3)
+                            .bold()
+                            .padding(.top)
+                        
+                        ForEach(0..<appointmentNames.count, id: \.self) { index in
+                            statusCard(
+                                title: appointmentNames[index],
+                                queueNo: appState.hasActiveAppointment ? "\(appState.queueNumber)" : "--",
+                                status: getStatus(for: index),
+                                timeInfo: getTimeInfo(for: index),
+                                icon: iconNames[index],
+                                isCurrent: index == appState.currentQueueStep
+                            )
+                            .onTapGesture {
+                                if index == appState.currentQueueStep && appState.currentQueueStep < (appointmentNames.count - 1) {
+                                    withAnimation(.spring()) {
+                                        appState.currentQueueStep += 1
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    .padding(.horizontal)
                 }
-                .padding(.horizontal)
+                
+            }else {
+                VStack(spacing: 20) {
+                    Spacer()
+                    Image(systemName: "clock.badge.checkmark")
+                        .font(.system(size: 50))
+                        .foregroundColor(.gray.opacity(0.5))
+                    
+                    Text("No Active Queue")
+                        .font(.headline)
+                        .foregroundColor(.secondary)
+                    
+                    Text("Your live progress will appear here once you book an appointment.")
+                        .font(.subheadline)
+                        .foregroundColor(.gray)
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal)
+                    Spacer()
+                }
             }
-            
-            Spacer()
         }
         .navigationBarHidden(true)
+        .onAppear {
+            withAnimation(.linear(duration: 3).repeatForever(autoreverses: false)) {
+                rotationAngle = 360
+            }
+        }
     }
     
+    // MARK: - Helper Logic
     
+    private func getStatus(for index: Int) -> QueueStatus {
+        if index < appState.currentQueueStep { return .completed }
+        if index == appState.currentQueueStep { return .inProgress }
+        return .pending
+    }
     
-    func statusCard(title: String, queueNo: String, status: QueueStatus, timeInfo: String, icon: String) -> some View {
+    private func getTimeInfo(for index: Int) -> String {
+        if index < appState.currentQueueStep { return "Step Completed" }
+        if index == appState.currentQueueStep { return "Estimated wait: 5 mins" }
+        return "Waiting for previous step"
+    }
+
+    // MARK: - Card Component
+    
+    func statusCard(title: String, queueNo: String, status: QueueStatus, timeInfo: String, icon: String, isCurrent: Bool) -> some View {
         VStack(spacing: 12) {
             HStack(alignment: .top, spacing: 15) {
                 ZStack {
@@ -85,8 +108,12 @@ struct QueueView: View {
                         .fill(status.color.opacity(0.15))
                         .frame(width: 50, height: 50)
                     
-                    customIcon(icon)
+                    Image(systemName: isCurrent ? "arrow.clockwise" : (status == .completed ? "checkmark.circle" : "hourglass"))
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 24, height: 24)
                         .foregroundColor(status.color)
+                        .rotationEffect(.degrees(isCurrent ? rotationAngle : 0))
                 }
                 
                 VStack(alignment: .leading, spacing: 4) {
@@ -96,7 +123,7 @@ struct QueueView: View {
                     
                     Text("Queue No: \(queueNo)")
                         .font(.subheadline)
-                        .foregroundColor(.gray)
+                        .foregroundColor(.secondary)
                 }
                 
                 Spacer()
@@ -104,8 +131,8 @@ struct QueueView: View {
                 Text(status.rawValue)
                     .font(.caption2)
                     .bold()
-                    .padding(.horizontal, 8)
-                    .padding(.vertical, 4)
+                    .padding(.horizontal, 10)
+                    .padding(.vertical, 5)
                     .foregroundColor(status.color)
                     .overlay(
                         Capsule().stroke(status.color, lineWidth: 1)
@@ -115,32 +142,30 @@ struct QueueView: View {
             Divider()
             
             HStack(spacing: 8) {
-                Image(systemName: status == .completed ? "checkmark.circle" : "clock")
+                Image(systemName: status == .completed ? "checkmark.circle.fill" : "clock")
                     .foregroundColor(status.color)
                 
                 Text(timeInfo)
                     .font(.footnote)
-                    .foregroundColor(.gray)
+                    .foregroundColor(.secondary)
                 
                 Spacer()
             }
         }
         .padding()
         .background(Color.white)
-        .overlay(
-            RoundedRectangle(cornerRadius: 20)
-                .stroke(Color.teal.opacity(0.3), lineWidth: 1)
-        )
-    }
-
-    func customIcon(_ name: String) -> some View {
-        Image(name)
-            .resizable()
-            .scaledToFit()
-            .frame(width: 25, height: 25)
+        .cornerRadius(20)
+        .shadow(color: Color.black.opacity(0.05), radius: 8, x: 0, y: 4)
     }
 }
 
+// MARK: - Preview
 #Preview {
-    QueueView()
+    let mockState = AppState()
+    mockState.hasActiveAppointment = true
+    mockState.queueNumber = 12
+    mockState.currentQueueStep = 1
+    
+    return QueueView()
+        .environmentObject(mockState)
 }

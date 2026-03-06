@@ -9,12 +9,13 @@ struct MainTabView: View {
     
     var body: some View {
         
-        TabView(selection: $selectedTab) {
+        TabView(selection: $appState.selectedTab) {
             
             NavigationStack(path: $homePath) {
                 HomeView()
                     .navigationDestination(for: String.self) { _ in }
             }
+            .environmentObject(appState)
             .tabItem {
                 Image(systemName: "house")
                 Text("Home")
@@ -25,6 +26,7 @@ struct MainTabView: View {
             NavigationStack {
                 MapView()
             }
+            .environmentObject(appState)
             .tabItem {
                 Image(systemName: "map")
                 Text("Map")
@@ -35,6 +37,7 @@ struct MainTabView: View {
             NavigationStack {
                 FamilyUsersView()
             }
+            .environmentObject(appState)
             .tabItem {
                 Image(systemName: "person.3")
                 Text("Family Users")
@@ -45,6 +48,7 @@ struct MainTabView: View {
             NavigationStack {
                 SettingsView()
             }
+            .environmentObject(appState)
             .tabItem {
                 Image(systemName: "gear")
                 Text("Settings")

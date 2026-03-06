@@ -2,10 +2,7 @@ import SwiftUI
 
 struct MapView: View {
     @Environment(\.dismiss) var dismiss
-    @State private var showChatbot = false
     
-    
-
     var body: some View {
         VStack(spacing: 0) {
             // MARK: Header
@@ -49,20 +46,17 @@ struct MapView: View {
                             .font(.title3)
                             .bold()
                         
-                        // MARK: -Chatbot Button
-                        Button {
-                            showChatbot = true
-                        } label: {
+                        // MARK: Chatbot Navigation
+                        NavigationLink(destination: ChatbotView()) {
                             HStack {
-                                // Robot Icon Circle
                                 ZStack {
                                     Circle()
                                         .fill(.white)
                                         .frame(width: 50, height: 50)
                                     
                                     Image("Bot")
-                                        .font(.title2)
-                                        .foregroundColor(.black)
+                                        .resizable()
+                                        .frame(width: 30, height: 30)
                                 }
                                 
                                 Text("Discover Our Healthcare Chat Assistant")
@@ -96,10 +90,11 @@ struct MapView: View {
             }
         }
         .navigationBarHidden(true)
-        
     }
 }
 
 #Preview {
-    MapView()
+    NavigationStack {
+        MapView()
+    }
 }

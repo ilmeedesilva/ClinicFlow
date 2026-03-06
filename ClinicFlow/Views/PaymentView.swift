@@ -2,6 +2,8 @@ import SwiftUI
 
 struct PaymentView: View {
     
+    @Environment(\.dismiss) var dismiss  // <--- Add this line
+    
     @EnvironmentObject var appState: AppState
     let item: BookableItem
     
@@ -103,10 +105,9 @@ struct PaymentView: View {
             PaymentSheetView(item: item)
                 .environmentObject(appState)
         }
-        .onChange(of: appState.shouldReturnToHome) { _, newValue in
+        .onChange(of: appState.shouldReturnToHome) { oldValue, newValue in
             if newValue {
-                showPaymentSheet = false
-                appState.shouldReturnToHome = false
+                dismiss()
             }
         }
     }
@@ -287,9 +288,7 @@ extension PaymentView {
     }
 }
 
-//
 // MARK: - Helpers
-//
 
 extension PaymentView {
     

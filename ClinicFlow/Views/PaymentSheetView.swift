@@ -191,6 +191,8 @@ struct PaymentSheetView: View {
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             isProcessing = false
             
+            appState.createAppointment(for: item)
+            appState.selectedTab = 4
             showSuccess = true
         }
     }

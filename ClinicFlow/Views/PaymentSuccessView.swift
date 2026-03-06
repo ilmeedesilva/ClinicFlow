@@ -90,6 +90,8 @@ struct PaymentSuccessView: View {
                             appState.currentItem = item
                             appState.hasActiveAppointment = true
                             appState.currentStage = .awaiting
+                            appState.createAppointment(for: item)
+                            appState.selectedTab = 0
                                 
                             appState.shouldReturnToHome = true
                                 
