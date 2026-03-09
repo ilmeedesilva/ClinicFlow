@@ -77,10 +77,54 @@ struct ChatbotView: View {
                     .cornerRadius(25)
                 
                 Button {
+                    
                     if !messageText.isEmpty {
-                        handleChoice(messageText)
+                        
+                        let userText = messageText
                         messageText = ""
+                        
+                        let userMsg = ChatMessage(
+                            text: userText,
+                            isUser: true,
+                            options: nil,
+                            isMapResult: false
+                        )
+                        
+                        messages.append(userMsg)
+                        
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+                            
+                            if let destination = detectDestination(from: userText) {
+                                
+                                selectedFrom = "Your Location"
+                                selectedTo = destination
+                                
+                                messages.append(ChatMessage(
+                                    text: "Here is the route to the \(destination).",
+                                    isUser: false,
+                                    options: nil,
+                                    isMapResult: false
+                                ))
+                                
+                                messages.append(ChatMessage(
+                                    text: "",
+                                    isUser: false,
+                                    options: nil,
+                                    isMapResult: true
+                                ))
+                                
+                            } else {
+                                
+                                messages.append(ChatMessage(
+                                    text: "I can help you find locations in the clinic.",
+                                    isUser: false,
+                                    options: helpSuggestions(),
+                                    isMapResult: false
+                                ))
+                            }
+                        }
                     }
+                    
                 } label: {
                     Image(systemName: "paperplane.fill")
                         .font(.title3)
@@ -107,7 +151,7 @@ struct ChatbotView: View {
                 messages.append(ChatMessage(
                     text: "Great! Where do you need to go?",
                     isUser: false,
-                    options: ["Consultation", "X-Ray", "Pharmacy"],
+                    options: ["Consultation", "Lab", "Pharmacy"],
                     isMapResult: false
                 ))
                 
@@ -195,12 +239,13 @@ struct ChatbotView: View {
             Text("Route: \(selectedFrom) → \(selectedTo)")
                 .bold()
             
-            Image("Maps")
+            Image(mapImage(for: selectedTo))
                 .resizable()
                 .scaledToFit()
                 .cornerRadius(10)
             
             VStack(alignment: .leading, spacing: 5) {
+                
                 Text("Instructions")
                     .font(.headline)
                 
@@ -255,6 +300,51 @@ struct ChatbotView: View {
                 "You will reach the \(to) shortly."
             ]
         }
+    }
+    
+    func mapImage(for destination: String) -> String {
+        
+        switch destination {
+            
+        case "Pharmacy":
+            return "Pharmacy-map"
+            
+        case "X-Ray":
+            return "Lab-map"
+            
+        case "Consultation":
+            return "Consultation-map"
+            
+        default:
+            return "Consultation-map"
+        }
+    }
+    
+    func detectDestination(from text: String) -> String? {
+        
+        let lower = text.lowercased()
+        
+        if lower.contains("pharmacy") {
+            return "Pharmacy"
+        }
+        
+        if lower.contains("x-ray") || lower.contains("xray") || lower.contains("lab") {
+            return "X-Ray"
+        }
+        
+        if lower.contains("consult") || lower.contains("doctor") || lower.contains("room") {
+            return "Consultation"
+        }
+        
+        return nil
+    }
+    
+    func helpSuggestions() -> [String] {
+        return [
+            "Where is the pharmacy?",
+            "Show me the Laboratory room",
+            "Take me to consultation rooms"
+        ]
     }
 }
 
