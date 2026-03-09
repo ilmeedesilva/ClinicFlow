@@ -34,7 +34,7 @@ struct MapView: View {
                 VStack(alignment: .leading, spacing: 30) {
                     
                     // MARK: Map Image
-                    Image("Maps")
+                    Image("Map")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .cornerRadius(15)
