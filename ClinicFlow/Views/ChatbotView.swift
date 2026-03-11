@@ -68,6 +68,7 @@ struct ChatbotView: View {
                     }
                 }
             }
+            
 
             // MARK: Input Bar
             HStack(spacing: 15) {
@@ -135,6 +136,7 @@ struct ChatbotView: View {
             .background(userGreen.opacity(0.2))
         }
         .navigationBarHidden(true)
+        .ignoresSafeArea(.keyboard, edges: .bottom)
     }
 
     // MARK: Logic Handler
