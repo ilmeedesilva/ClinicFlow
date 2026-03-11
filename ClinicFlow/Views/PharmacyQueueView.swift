@@ -85,8 +85,8 @@ struct PharmacyQueueView: View {
                 appState.hasActiveAppointment = true
                 appState.queueNumber = selectedQueue
                 appState.currentItem = item
-                appState.selectedTab = 0          // ← Switch to Home tab
-                appState.shouldReturnToHome = true // ← Signal to pop to root
+                appState.selectedTab = 0
+                appState.shouldReturnToHome = true 
                 dismiss()
             } label: {
                 Text("Back to home")

@@ -244,23 +244,23 @@ struct QueueStatusView: View {
     
     func startQueueFlow() {
         
-        guard let item = appState.currentItem else { return }
+//        guard let item = appState.currentItem else { return }
         
-        if item.serviceType == .pharmacy {
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                
-                appState.addNotification(
-                    type: .pharmacyReady,
-                    title: "Pharmacy service ready",
-                    message: "Please proceed to the pharmacy counter."
-                )
-                
-                appState.shouldNavigateToPharmacyPayment = true
-            }
-            
-            return
-        }
+//        if item.serviceType == .pharmacy {
+//            
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+//                
+//                appState.addNotification(
+//                    type: .pharmacyReady,
+//                    title: "Pharmacy service ready",
+//                    message: "Please proceed to the pharmacy counter."
+//                )
+//                
+//                appState.shouldNavigateToPharmacyPayment = true
+//            }
+//            
+//            return
+//        }
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
             
@@ -303,7 +303,7 @@ struct QueueStatusView: View {
     state.queueNumber = 10
     state.currentStage = .awaiting
     state.currentItem = BookableItem(
-        serviceType: .laboratory,
+        serviceType: .pharmacy,
         title: "Complete Blood Count",
         subtitle: "Full blood cell analysis",
         price: 800,

@@ -2,7 +2,7 @@ import SwiftUI
 
 struct PharmacyUploadView: View {
     
-        @EnvironmentObject var appState: AppState  // ← Add this
+        @EnvironmentObject var appState: AppState
         
         @State private var selectedImage: UIImage?
         
@@ -82,7 +82,7 @@ struct PharmacyUploadView: View {
                                 floor: "First Floor"
                             )
                         )
-                        .environmentObject(appState) // ← Add this
+                        .environmentObject(appState)
                         
                     } label: {
                         Text("Submit Prescription")
