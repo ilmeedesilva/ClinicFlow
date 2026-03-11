@@ -3,18 +3,21 @@ import SwiftUI
 struct MapView: View {
     @Environment(\.dismiss) var dismiss
     
+    @State private var scale: CGFloat = 1.0
+    @State private var lastScale: CGFloat = 1.0
+
+    @State private var offset: CGSize = .zero
+    @State private var lastOffset: CGSize = .zero
+    
     var body: some View {
         VStack(spacing: 0) {
             // MARK: Header
             HStack {
-                Button {
-                    dismiss()
-                } label: {
-                    Image(systemName: "chevron.left")
-                        .font(.title3)
-                        .bold()
-                        .foregroundColor(.white)
-                }
+                Image(systemName: "chevron.left")
+                    .font(.title3)
+                    .bold()
+                    .foregroundColor(.white)
+                    .opacity(0)
                 
                 Spacer()
                 
@@ -37,9 +40,41 @@ struct MapView: View {
                     Image("Map")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
+                        .scaleEffect(scale)
+                        .offset(offset)
+                        .gesture(
+                            SimultaneousGesture(
+                                
+                                MagnificationGesture()
+                                    .onChanged { value in
+                                        scale = lastScale * value
+                                    }
+                                    .onEnded { value in
+                                        lastScale = scale
+                                    },
+                                
+                                DragGesture()
+                                    .onChanged { value in
+                                        offset = CGSize(
+                                            width: lastOffset.width + value.translation.width,
+                                            height: lastOffset.height + value.translation.height
+                                        )
+                                    }
+                                    .onEnded { value in
+                                        lastOffset = offset
+                                    }
+                            )
+                        )
+                        .onTapGesture(count: 2) {
+                            withAnimation {
+                                scale = 1
+                                lastScale = 1
+                                offset = .zero
+                                lastOffset = .zero
+                            }
+                        }
                         .cornerRadius(15)
                         .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: 5)
-                        .padding(.top)
 
                     VStack(alignment: .leading, spacing: 20) {
                         Text("Find your destination easily")

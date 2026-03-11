@@ -167,7 +167,6 @@ struct AddMemberView: View {
     }
 }
 
-// MARK: - Preview
 #Preview {
     AddMemberView()
         .environmentObject(AppState())
