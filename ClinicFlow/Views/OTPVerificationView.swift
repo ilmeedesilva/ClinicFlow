@@ -10,8 +10,11 @@ struct OTPVerificationView: View {
     // MARK: OTP States
     @State private var otpDigits: [String] = Array(repeating: "", count: 6)
     @FocusState private var focusedIndex: Int?
-    
     @State private var showSuccess = false
+    
+    // MARK: Policy Popup States
+    @State private var showPolicy = false
+    @State private var selectedPolicyTitle = ""
     
     // MARK: Timer
     @State private var timeRemaining = 59
@@ -26,12 +29,8 @@ struct OTPVerificationView: View {
     }
     
     var body: some View {
-        
         ZStack {
-            
             VStack(spacing: 20) {
-                
-                // Back Button
                 HStack {
                     Button {
                         dismiss()
@@ -45,7 +44,6 @@ struct OTPVerificationView: View {
                 Divider()
                 
                 VStack(alignment: .leading, spacing: 10) {
-                    
                     Text("OTP Code")
                         .font(.title2)
                         .bold()
@@ -102,20 +100,34 @@ struct OTPVerificationView: View {
                 }
                 .disabled(!isValidOTP)
                 
-                // Terms
-                Text("By signing up or logging in, i accept the apps")
+                // MARK: UPDATED TERMS SECTION
+                VStack(spacing: 4) {
+                    Text("By signing up or logging in, i accept the apps")
+                        .font(.caption)
+                        .foregroundColor(.gray)
+                    
+                    HStack(spacing: 4) {
+                        Button {
+                            selectedPolicyTitle = "Terms and Conditions"
+                            showPolicy = true
+                        } label: {
+                            Text("Terms of Service")
+                                .underline()
+                        }
+                        
+                        Text("and")
+                        
+                        Button {
+                            selectedPolicyTitle = "Privacy Policy"
+                            showPolicy = true
+                        } label: {
+                            Text("Privacy Policy")
+                                .underline()
+                        }
+                    }
                     .font(.caption)
-                    .foregroundColor(.gray)
-                
-                HStack(spacing: 4) {
-                    Text("Terms of Service")
-                        .underline()
-                    Text("and")
-                    Text("Privacy Policy")
-                        .underline()
+                    .foregroundColor(.black)
                 }
-                .font(.caption)
-                
             }
             .padding()
             
@@ -127,6 +139,10 @@ struct OTPVerificationView: View {
                 ) {
                 }
             }
+        }
+        // MARK: Policy Sheet
+        .sheet(isPresented: $showPolicy) {
+            PolicyView(title: selectedPolicyTitle)
         }
         .onAppear {
             startTimer()
@@ -147,7 +163,6 @@ private extension OTPVerificationView {
             .cornerRadius(10)
             .focused($focusedIndex, equals: index)
             .onChange(of: otpDigits[index]) { oldValue, newValue in
-                
                 if newValue.count > 1 {
                     otpDigits[index] = String(newValue.prefix(1))
                 }
@@ -163,15 +178,10 @@ private extension OTPVerificationView {
                 }
             }
     }
-}
-
-private extension OTPVerificationView {
     
     func startTimer() {
         timeRemaining = 59
-        
         timer?.invalidate()
-        
         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
             if timeRemaining > 0 {
                 timeRemaining -= 1
@@ -189,7 +199,6 @@ private extension OTPVerificationView {
     func verifyOTP() {
         if appState.verifyOTP(otpInput) {
             showSuccess = true
-            
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
                 appState.isLoggedIn = true
             }
@@ -203,4 +212,3 @@ private extension OTPVerificationView {
             .environmentObject(AppState())
     }
 }
-

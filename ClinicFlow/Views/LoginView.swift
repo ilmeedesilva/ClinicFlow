@@ -3,6 +3,10 @@ import SwiftUI
 struct LoginView: View {
     @EnvironmentObject var appState: AppState
     
+    // MARK: Popup States
+    @State private var showPolicy = false
+    @State private var selectedPolicyTitle = ""
+    
     var body: some View {
         VStack(spacing: 0) {
             Image("Hospitalimg")
@@ -50,7 +54,7 @@ struct LoginView: View {
                         .overlay(RoundedRectangle(cornerRadius: 14).stroke(Color(hex: "#2D6876"), lineWidth: 1.5))
                     }
                     
-                    // MARK: Apple Login 
+                    // MARK: Apple Login
                     Button {
                         withAnimation {
                             appState.isLoggedIn = true
@@ -69,21 +73,45 @@ struct LoginView: View {
                     
                     Spacer(minLength: 40)
                     
+                    // MARK: Policy Links
                     VStack(spacing: 4) {
-                        Text("By signing up or logging in, i accept the apps").font(.caption).foregroundColor(.gray)
+                        Text("By signing up or logging in, i accept the apps")
+                            .font(.caption)
+                            .foregroundColor(.gray)
+                        
                         HStack(spacing: 4) {
-                            Text("Terms of Service").underline()
+                            Button {
+                                selectedPolicyTitle = "Terms and Conditions"
+                                showPolicy = true
+                            } label: {
+                                Text("Terms of Service").underline()
+                            }
+                            
                             Text("and")
-                            Text("Privacy Policy").underline()
-                        }.font(.caption).foregroundColor(Color(hex: "#2D6876"))
-                    }.frame(maxWidth: .infinity)
+                            
+                            Button {
+                                selectedPolicyTitle = "Privacy Policy"
+                                showPolicy = true
+                            } label: {
+                                Text("Privacy Policy").underline()
+                            }
+                        }
+                        .font(.caption)
+                        .foregroundColor(Color(hex: "#2D6876"))
+                    }
+                    .frame(maxWidth: .infinity)
                 }
                 .padding()
             }
         }
         .navigationBarBackButtonHidden(true)
+        // MARK: - Policy Sheet Trigger
+        .sheet(isPresented: $showPolicy) {
+            PolicyView(title: selectedPolicyTitle)
+        }
     }
 }
+
 #Preview {
     let mockState = AppState()
     
