@@ -23,7 +23,7 @@ struct LocationMapView: View {
                     .frame(height: 200)
                 
                 VStack {
-                    Image("Maps")
+                    Image("Map")
                         .resizable()
                     
                     Text("Clinic Map Preview")

@@ -5,7 +5,6 @@ struct MainTabView: View {
     @EnvironmentObject var appState: AppState
     
     @State private var homePath = NavigationPath()
-    @State private var selectedTab = 0
     
     var body: some View {
         
@@ -58,9 +57,11 @@ struct MainTabView: View {
         
         .onChange(of: appState.shouldReturnToHome) { _, newValue in
             if newValue {
-                selectedTab = 0
-                homePath = NavigationPath() 
-                appState.shouldReturnToHome = false
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    appState.selectedTab = 0
+                    homePath = NavigationPath()
+                    appState.shouldReturnToHome = false
+                }
             }
         }
     }

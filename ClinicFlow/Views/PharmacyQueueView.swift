@@ -72,11 +72,6 @@ struct PharmacyQueueView: View {
                     
                     Divider()
                     
-                    // MARK: Appointment Queue Row (ADDED as requested)
-                    AppointmentQueueView()
-                    
-                    Divider()
-                    
                     // MARK: Location
                     LocationMapView()
                     
@@ -87,10 +82,11 @@ struct PharmacyQueueView: View {
             
             // MARK: Bottom Button
             Button {
-                // Activate queue in home
                 appState.hasActiveAppointment = true
                 appState.queueNumber = selectedQueue
                 appState.currentItem = item
+                appState.selectedTab = 0          // ← Switch to Home tab
+                appState.shouldReturnToHome = true // ← Signal to pop to root
                 dismiss()
             } label: {
                 Text("Back to home")
@@ -136,7 +132,7 @@ struct PharmacyQueueView: View {
                 serviceType: .pharmacy,
                 title: "Prescription Order",
                 subtitle: "Medicine Collection",
-                price: 0,
+                price: 800.00,
                 image: "pharmacy-icon",
                 room: "Counter 03",
                 floor: "First Floor"
