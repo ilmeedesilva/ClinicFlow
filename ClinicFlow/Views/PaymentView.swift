@@ -2,7 +2,7 @@ import SwiftUI
 
 struct PaymentView: View {
     
-    @Environment(\.dismiss) var dismiss  // <--- Add this line
+    @Environment(\.dismiss) var dismiss
     
     @EnvironmentObject var appState: AppState
     let item: BookableItem
@@ -217,7 +217,6 @@ extension PaymentView {
                                   isValid: relationship != "Select Relationship")
                 }
 
-                // --- ADD THIS BUTTON HERE ---
                 Button {
                     saveNewMemberToAppState()
                 } label: {
