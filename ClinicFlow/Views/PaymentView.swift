@@ -187,38 +187,56 @@ extension PaymentView {
     }
     
     var newMemberForm: some View {
-        VStack(spacing: 12) {
-            
-            inputField("Patient Name", text: $patientName, isValid: !patientName.isEmpty)
-            
-            inputField("Age", text: $age, isValid: isAgeValid)
-                .keyboardType(.numberPad)
-            
-            Menu {
-                Button("Male") { gender = "Male" }
-                Button("Female") { gender = "Female" }
-                Button("Other") { gender = "Other" }
-            } label: {
-                dropdownField(title: gender.isEmpty ? "Select Gender" : gender,
-                              isValid: !gender.isEmpty)
-            }
-            
-            inputField("Contact Number", text: $contact, isValid: isContactValid)
-                .keyboardType(.numberPad)
-            
-            Menu {
-                ForEach(relationships, id: \.self) { relation in
-                    Button(relation) {
-                        relationship = relation
-                    }
+            VStack(spacing: 12) {
+                
+                inputField("Patient Name", text: $patientName, isValid: !patientName.isEmpty)
+                
+                inputField("Age", text: $age, isValid: isAgeValid)
+                    .keyboardType(.numberPad)
+                
+                Menu {
+                    Button("Male") { gender = "Male" }
+                    Button("Female") { gender = "Female" }
+                    Button("Other") { gender = "Other" }
+                } label: {
+                    dropdownField(title: gender.isEmpty ? "Select Gender" : gender,
+                                  isValid: !gender.isEmpty)
                 }
-            } label: {
-                dropdownField(title: relationship,
-                              isValid: relationship != "Select Relationship")
+                
+                inputField("Contact Number", text: $contact, isValid: isContactValid)
+                    .keyboardType(.numberPad)
+                
+                Menu {
+                    ForEach(relationships, id: \.self) { relation in
+                        Button(relation) {
+                            relationship = relation
+                        }
+                    }
+                } label: {
+                    dropdownField(title: relationship,
+                                  isValid: relationship != "Select Relationship")
+                }
+
+                // --- ADD THIS BUTTON HERE ---
+                Button {
+                    saveNewMemberToAppState()
+                } label: {
+                    Text("Add Member")
+                        .font(.headline)
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 50)
+                        .background(isNewMemberValid ? Color.headerColor : Color.gray.opacity(0.4))
+                        .cornerRadius(12)
+                }
+                .disabled(!isNewMemberValid)
+                .padding(.top, 8)
             }
+            .padding()
+            .background(Color.gray.opacity(0.05))
+            .cornerRadius(15)
+            .transition(.move(edge: .top).combined(with: .opacity))
         }
-        .transition(.move(edge: .top).combined(with: .opacity))
-    }
     
     var paymentMethodSection: some View {
         VStack(alignment: .leading, spacing: 16) {
@@ -386,6 +404,31 @@ extension PaymentView {
             }
         }
     }
+    
+    func saveNewMemberToAppState() {
+            // 1. Create the new member object
+            let newMember = FamilyMember(
+                id: UUID(),
+                name: patientName,
+                age: Int(age) ?? 0,
+                gender: gender,
+                contact: contact,
+                relationship: relationship,
+                image: "person.crop.circle.fill" // Default image
+            )
+            
+            // 2. Append to the global list (this makes it show up in Family User View)
+            appState.familyMembers.append(newMember)
+            
+            // 3. Automatically select this new member for the current payment
+            selectedPatientID = newMember.id
+            
+            // 4. Close the form and clear it
+            withAnimation {
+                isAddingNewMember = false
+                clearForm()
+            }
+        }
     
     func clearForm() {
         patientName = ""
