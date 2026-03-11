@@ -13,23 +13,18 @@ struct FamilyUsersView: View {
             // MARK: Header
             HStack {
                 Spacer()
-                
                 Text("Family Users")
                     .font(.headline)
                     .bold()
                     .foregroundColor(.white)
-                
                 Spacer()
             }
             .padding()
             .background(Color(red: 0.18, green: 0.41, blue: 0.45))
             
-            
             // MARK: Segmented Tabs
             HStack(spacing: 0) {
-                
                 tabButton(title: "Family Users", index: 0)
-                
                 tabButton(title: "My Appointments", index: 1)
             }
             .padding(4)
@@ -40,8 +35,7 @@ struct FamilyUsersView: View {
             .padding(.horizontal)
             .padding(.top, 10)
             
-            
-            // MARK: Content
+            // MARK: Content Area
             if selectedTab == 0 {
                 familyUsersList
             } else {
@@ -52,11 +46,8 @@ struct FamilyUsersView: View {
     }
 }
 
-// MARK: - Components
-
 extension FamilyUsersView {
     
-    // Tab Button
     func tabButton(title: String, index: Int) -> some View {
         Button {
             withAnimation {
@@ -77,49 +68,72 @@ extension FamilyUsersView {
         }
     }
     
-    
-    // Family Users List
+    // MARK: Family Users List
     var familyUsersList: some View {
-        List {
-            ForEach(appState.familyMembers) { member in
+        ScrollView {
+            VStack(spacing: 0) {
+                // Loop through members
+                ForEach(appState.familyMembers) { member in
+                    NavigationLink {
+                        EditProfileView(member: member)
+                            .environmentObject(appState)
+                    } label: {
+                        VStack(spacing: 0) {
+                            HStack(spacing: 15) {
+                                Image(systemName: member.image)
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 50, height: 50)
+                                    .foregroundColor(Color.blue)
+                                
+                                VStack(alignment: .leading, spacing: 4) {
+                                    Text(member.name)
+                                        .font(.headline)
+                                        .foregroundColor(.primary)
+                                    
+                                    Text(member.relationship)
+                                        .font(.subheadline)
+                                        .foregroundColor(.secondary)
+                                }
+                                
+                                Spacer()
+                                
+                                Image(systemName: "chevron.right")
+                                    .font(.system(size: 14, weight: .semibold))
+                                    .foregroundColor(.gray.opacity(0.5))
+                            }
+                            .padding(.vertical, 15)
+                            .padding(.horizontal)
+                            
+                            Divider()
+                                .padding(.leading, 80)
+                        }
+                    }
+                }
+                
+                // MARK: Add New Member Button
                 NavigationLink {
-                    EditProfileView(member: member)
+                    AddMemberView()
                         .environmentObject(appState)
                 } label: {
-                    
-                    HStack(spacing: 15) {
-                        
-                        Image(systemName: member.image)
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 50, height: 50)
-                            .foregroundColor(Color.blue)
-                        
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text(member.name)
-                                .font(.headline)
-                            
-                            Text(member.relationship)
-                                .font(.subheadline)
-                                .foregroundColor(.secondary)
-                        }
-                        
-                        Spacer()
-                    }
-                    .padding(.vertical, 8)
+                    Text("Add New Member")
+                        .font(.headline)
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 55)
+                        .background(Color.headerColor)
+                        .cornerRadius(12)
                 }
+                .padding(.horizontal)
+                .padding(.top, 40)
+                .padding(.bottom, 30)
             }
         }
-        .listStyle(.plain)
     }
     
-    
-    // My Appointments
     var myAppointmentsView: some View {
-
         MyAppointmentsView()
     }
-    
 }
 
 #Preview {
