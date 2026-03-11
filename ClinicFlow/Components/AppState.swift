@@ -40,6 +40,8 @@ class AppState: ObservableObject {
     
     @Published var selectedPatient: FamilyMember?
     
+    @Published var drJosephStatus: String = "In Progress"
+    
     // MARK: Pharmacy Navigation
     @Published var shouldNavigateToPharmacyPayment = false
     
@@ -84,6 +86,9 @@ class AppState: ObservableObject {
             if let index = familyMembers.firstIndex(where: { $0.id == updated.id }) {
                 familyMembers[index] = updated
             }
+        }
+    func cancelJosephAppointment() {
+            self.drJosephStatus = "Cancelled"
         }
 
     func sendOTP(to phone: String) {
