@@ -27,7 +27,7 @@ struct StartView: View {
                         .foregroundColor(.gray)
                 }
                 .padding()
-                .frame(maxWidth: .infinity, alignment: .leading)
+                .frame(minWidth: 375, alignment: .leading)
                 .frame(height: 150)
                 .background(Color.startingBox)
                 .cornerRadius(15)
@@ -40,7 +40,7 @@ struct StartView: View {
                 } label: {
                     Text("Get Started !")
                         .foregroundColor(.white)
-                        .frame(maxWidth: .infinity)
+                        .frame(maxWidth: 350)
                         .padding()
                         .background(Color.primaryButton)
                         .cornerRadius(10)
