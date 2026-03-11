@@ -7,6 +7,9 @@ struct PaymentSuccessView: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var appState: AppState
     
+    @State private var showYourTurn = false
+    @State private var showCompleted = false
+    
     var body: some View {
         
         ZStack {
@@ -89,8 +92,8 @@ struct PaymentSuccessView: View {
                         Button {
                             appState.currentItem = item
                             appState.hasActiveAppointment = true
-                            appState.currentStage = .awaiting
-                            appState.createAppointment(for: item)
+//                            appState.currentStage = .awaiting
+//                            appState.createAppointment(for: item)
                             appState.selectedTab = 0
                                 
                             appState.shouldReturnToHome = true
@@ -132,6 +135,21 @@ struct PaymentSuccessView: View {
                 .padding(.horizontal, 24)
                 
                 Spacer()
+            }
+        }.fullScreenCover(isPresented: $showYourTurn) {
+            PharmacyYourTurnView()
+        }
+
+        .fullScreenCover(isPresented: $showCompleted) {
+            PharmacyCompletedView()
+        }
+        .onAppear {
+
+            if item.serviceType == .pharmacy {
+
+                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                    showYourTurn = true
+                }
             }
         }
     }
