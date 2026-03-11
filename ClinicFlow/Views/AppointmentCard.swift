@@ -7,7 +7,7 @@ struct AppointmentCard: View {
     let date: String
     let time: String
     let status: String
-    
+    let statusColor: Color
     var cancelAction: (() -> Void)? = nil
     
     var body: some View {
@@ -35,14 +35,13 @@ struct AppointmentCard: View {
                 Text(status)
                     .font(.caption)
                     .bold()
-                    .foregroundColor(status == "Completed" ? .green : .blue)
+                    .foregroundColor(statusColor)
                     .padding(6)
                     .background(
-                        (status == "Completed" ? Color.green : Color.blue)
-                            .opacity(0.15)
+                        (statusColor.opacity(0.15)
                     )
                     .cornerRadius(6)
-            }
+           ) }
             
             Divider()
             
@@ -77,11 +76,23 @@ struct AppointmentCard: View {
 }
 
 #Preview {
-    AppointmentCard(
-        doctor: "Dr. Joseph Brostito",
-        specialty: "Dental Specialist",
-        date: "Sunday, 12 June",
-        time: "11:00 - 12:00 AM",
-        status: "In Progress"
-    )
+    VStack(spacing: 20) {
+        AppointmentCard(
+            doctor: "Dr. Joseph Brostito",
+            specialty: "Dental Specialist",
+            date: "Sunday, 12 June",
+            time: "11:00 - 12:00 AM",
+            status: "In Progress",
+            statusColor: .blue
+        )
+        
+        AppointmentCard(
+            doctor: "Dr. Joseph Brostito",
+            specialty: "Dental Specialist",
+            date: "Sunday, 12 June",
+            time: "11:00 - 12:00 AM",
+            status: "Cancelled",
+            statusColor: .red 
+        )
+    }
 }

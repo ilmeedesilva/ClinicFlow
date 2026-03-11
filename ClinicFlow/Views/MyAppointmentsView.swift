@@ -1,26 +1,31 @@
 import SwiftUI
 
 struct MyAppointmentsView: View {
+    // 1. Access the global AppState
+    @EnvironmentObject var appState: AppState
     
     @State private var showReasonPopup = false
     @State private var showConfirmPopup = false
     @State private var showSuccessPopup = false
     
     var body: some View {
-        
         ZStack {
-            
             ScrollView {
                 VStack(spacing: 16) {
                     
+                    // 2. Use appState.drJosephStatus instead of "In Progress"
                     AppointmentCard(
                         doctor: "Dr. Joseph Brostito",
                         specialty: "Dental Specialist",
                         date: "Sunday, 12 June",
                         time: "11:00 - 12:00 AM",
-                        status: "In Progress"
+                        status: appState.drJosephStatus,
+                        statusColor: appState.drJosephStatus == "Cancelled" ? .red : .headerColor
                     ) {
-                        showReasonPopup = true
+                        // Only allow clicking the cancel button if it's not already cancelled
+                        if appState.drJosephStatus != "Cancelled" {
+                            showReasonPopup = true
+                        }
                     }
                     
                     AppointmentCard(
@@ -28,12 +33,12 @@ struct MyAppointmentsView: View {
                         specialty: "Psychiatrist",
                         date: "Sunday, 12 June",
                         time: "11:00 - 12:00 AM",
-                        status: "Completed"
+                        status: "Completed",
+                        statusColor: .blue
                     )
                 }
                 .padding()
             }
-            
             
             if showReasonPopup {
                 CancelReasonPopup(
@@ -45,7 +50,6 @@ struct MyAppointmentsView: View {
                 )
             }
             
-            
             if showConfirmPopup {
                 ConfirmCancelPopup(
                     onCancel: { showConfirmPopup = false },
@@ -56,11 +60,19 @@ struct MyAppointmentsView: View {
                 )
             }
             
-            
             if showSuccessPopup {
                 CancelSuccessPopup(
-                    onOK: { showSuccessPopup = false },
-                    onBookAgain: { showSuccessPopup = false }
+                    onOK: {
+                        // 3. Trigger the cancellation logic here
+                        appState.cancelJosephAppointment()
+                        showSuccessPopup = false
+                    },
+                    onBookAgain: {
+                        appState.cancelJosephAppointment()
+                        showSuccessPopup = false
+                        // Navigate back to home tab
+                        appState.selectedTab = 0
+                    }
                 )
             }
         }
@@ -68,5 +80,7 @@ struct MyAppointmentsView: View {
 }
 
 #Preview {
+    // Ensure the preview has the environment object or it will crash
     MyAppointmentsView()
+        .environmentObject(AppState())
 }
