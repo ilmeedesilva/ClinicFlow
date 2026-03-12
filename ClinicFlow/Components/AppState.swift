@@ -54,6 +54,8 @@ class AppState: ObservableObject {
     
     @Published var selectedTab: Int = 0
     
+    @Published var completedServices: [ServiceType] = []
+    
     @Published var familyMembers: [FamilyMember] = [
             FamilyMember(
                 name: "John Dae",
@@ -160,7 +162,7 @@ class AppState: ObservableObject {
     }
     
     // MARK: Completion Title
-    private func completionTitle(for type: ServiceType) -> String {
+    func completionTitle(for type: ServiceType) -> String {
         switch type {
         case .doctor: return "Consultation Completed"
         case .laboratory: return "Laboratory Service Completed"
@@ -191,7 +193,7 @@ class AppState: ObservableObject {
         )
     }
     
-    private func notificationType(for type: ServiceType) -> NotificationType {
+    func notificationType(for type: ServiceType) -> NotificationType {
         switch type {
         case .doctor: return .consultationReady
         case .laboratory: return .labReady

@@ -63,7 +63,7 @@ struct PharmacyCompletedView: View {
                         Spacer()
 
                         Button {
-
+                            appState.completedServices.append(.pharmacy)
                             appState.resetAppointment()
                             appState.selectedTab = 0
 
