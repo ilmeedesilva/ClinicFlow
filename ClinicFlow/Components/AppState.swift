@@ -7,7 +7,6 @@ enum AppointmentStage {
     case completed
 }
 
-// MARK: Notification Model
 struct AppNotification: Identifiable {
     let id = UUID()
     let type: NotificationType
@@ -22,12 +21,13 @@ enum NotificationType {
     case labReady
     case pharmacyReady
     case waitingUpdated
+    case followUpConsultation
+    case labAppointment
 }
 
 
 class AppState: ObservableObject {
     
-    // MARK: Appointment State
     @Published var hasActiveAppointment: Bool = false
     @Published var queueNumber: Int = 0
     @Published var currentItem: BookableItem?
@@ -42,19 +42,19 @@ class AppState: ObservableObject {
     
     @Published var drJosephStatus: String = "In Progress"
     
-    // MARK: Pharmacy Navigation
     @Published var shouldNavigateToPharmacyPayment = false
     
-    // MARK: Notifications
     @Published var notifications: [AppNotification] = []
     
-    // MARK: Authentication
     @Published var isLoggedIn: Bool = false  
     @Published var otpCode: String = ""
     
     @Published var selectedTab: Int = 0
     
     @Published var completedServices: [ServiceType] = []
+    
+    @Published var navigateToFollowUpBooking = false
+    @Published var navigateToLabBooking = false
     
     @Published var familyMembers: [FamilyMember] = [
             FamilyMember(

@@ -102,6 +102,25 @@ struct HomeView: View {
             }
         }
         .navigationBarHidden(true)
+        .navigationDestination(isPresented: $appState.navigateToFollowUpBooking) {
+
+            if let item = appState.currentItem {
+                DateTimeSelectionView(item: item)
+                    .onDisappear {
+                        appState.navigateToFollowUpBooking = false
+                    }
+            }
+
+        }
+
+        .navigationDestination(isPresented: $appState.navigateToLabBooking) {
+
+            LaboratoryView()
+                .onDisappear {
+                    appState.navigateToLabBooking = false
+                }
+
+        }
     }
     
     

@@ -285,6 +285,20 @@ struct QueueStatusView: View {
                     title: appState.completionTitle(for: item.serviceType),
                     message: "Your service has been completed."
                 )
+                
+                if item.serviceType == .doctor {
+                    appState.addNotification(
+                        type: .followUpConsultation,
+                        title: "Follow-up Consultation Available. Added from the portal",
+                        message: "Book your follow-up consultation with the doctor."
+                    )
+                    
+                    appState.addNotification(
+                        type: .labAppointment,
+                        title: "Laboratory Test Recommended. Added from the portal",
+                        message: "Your doctor recommended laboratory tests. Book your appointment."
+                    )
+                }
             }
         }
     }
@@ -306,7 +320,7 @@ struct QueueStatusView: View {
     state.queueNumber = 10
     state.currentStage = .awaiting
     state.currentItem = BookableItem(
-        serviceType: .pharmacy,
+        serviceType: .doctor,
         title: "Complete Blood Count",
         subtitle: "Full blood cell analysis",
         price: 800,
