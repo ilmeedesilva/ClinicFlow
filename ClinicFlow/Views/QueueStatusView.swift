@@ -276,9 +276,13 @@ struct QueueStatusView: View {
                 
                 appState.currentStage = .completed
                 
+                if !appState.completedServices.contains(item.serviceType) {
+                    appState.completedServices.append(item.serviceType)
+                }
+                
                 appState.addNotification(
-                    type: .consultationReady,
-                    title: "Consultation completed",
+                    type: appState.notificationType(for: item.serviceType),
+                    title: appState.completionTitle(for: item.serviceType),
                     message: "Your service has been completed."
                 )
             }
@@ -314,6 +318,4 @@ struct QueueStatusView: View {
     return QueueStatusView()
         .environmentObject(state)
 }
-
-
 

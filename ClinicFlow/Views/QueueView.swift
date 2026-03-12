@@ -87,15 +87,48 @@ struct QueueView: View {
     // MARK: - Helper Logic
     
     private func getStatus(for index: Int) -> QueueStatus {
-        if index < appState.currentQueueStep { return .completed }
-        if index == appState.currentQueueStep { return .inProgress }
+
+        if index == 0 {
+            return appState.completedServices.contains(.doctor) ? .completed : .pending
+        }
+
+        if index == 1 {
+            if appState.completedServices.contains(.laboratory) {
+                return .completed
+            }
+            if appState.completedServices.contains(.doctor) {
+                return .inProgress
+            }
+            return .pending
+        }
+
+        if index == 2 {
+            if appState.completedServices.contains(.pharmacy) {
+                return .completed
+            }
+            if appState.completedServices.contains(.laboratory) {
+                return .inProgress
+            }
+            return .pending
+        }
+
         return .pending
     }
     
     private func getTimeInfo(for index: Int) -> String {
-        if index < appState.currentQueueStep { return "Step Completed" }
-        if index == appState.currentQueueStep { return "Estimated wait: 5 mins" }
-        return "Waiting for previous step"
+        
+        let status = getStatus(for: index)
+        
+        switch status {
+        case .completed:
+            return "Step Completed"
+            
+        case .inProgress:
+            return "Estimated wait: 5 mins"
+            
+        case .pending:
+            return "Waiting for previous step"
+        }
     }
 
     // MARK: - Card Component
