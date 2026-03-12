@@ -9,15 +9,17 @@ struct PhoneLoginView: View {
     @State private var selectedCountry: Country?
     @State private var phoneNumber = ""
     
+    // MARK: Policy Popup States
+    @State private var showPolicy = false
+    @State private var selectedPolicyTitle = ""
+    
     var isValidPhone: Bool {
         phoneNumber.count >= 9
     }
     
     var body: some View {
-        
         VStack(spacing: 0) {
-            
-            // MARK: Header
+            // Header
             HStack {
                 Button {
                     dismiss()
@@ -31,9 +33,7 @@ struct PhoneLoginView: View {
             
             Divider()
             
-            // MARK: Main Content
             VStack(alignment: .leading, spacing: 16) {
-                
                 Text("Login")
                     .font(.title)
                     .bold()
@@ -45,9 +45,7 @@ struct PhoneLoginView: View {
                 Text("Phone Number")
                     .padding(.top, 20)
                 
-                // MARK: Phone Row
                 HStack(spacing: 10) {
-                    
                     Menu {
                         ForEach(countries) { country in
                             Button {
@@ -86,7 +84,6 @@ struct PhoneLoginView: View {
             
             // MARK: Bottom Section
             VStack(spacing: 16) {
-                
                 NavigationLink {
                     OTPVerificationView(
                         phoneNumber: "\(selectedCountry?.dialCode ?? "")\(phoneNumber)"
@@ -107,13 +104,26 @@ struct PhoneLoginView: View {
                         .foregroundColor(.gray)
                     
                     HStack(spacing: 4) {
-                        Text("Terms of Service")
-                            .underline()
+                        Button {
+                            selectedPolicyTitle = "Terms and Conditions"
+                            showPolicy = true
+                        } label: {
+                            Text("Terms of Service")
+                                .underline()
+                        }
+                        
                         Text("and")
-                        Text("Privacy Policy")
-                            .underline()
+                        
+                        Button {
+                            selectedPolicyTitle = "Privacy Policy"
+                            showPolicy = true
+                        } label: {
+                            Text("Privacy Policy")
+                                .underline()
+                        }
                     }
                     .font(.caption)
+                    .foregroundColor(.black)
                 }
             }
             .padding()
@@ -121,6 +131,10 @@ struct PhoneLoginView: View {
         }
         .background(Color.white)
         .navigationBarBackButtonHidden(true)
+        // MARK: Policy Sheet
+        .sheet(isPresented: $showPolicy) {
+            PolicyView(title: selectedPolicyTitle)
+        }
         .onAppear {
             countries = CountryProvider.loadCountries()
             selectedCountry = countries.first(where: { $0.isoCode == "LK" }) ?? countries.first

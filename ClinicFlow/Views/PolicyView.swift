@@ -49,24 +49,29 @@ struct PolicyView: View {
         .background(Color.white)
     }
     
-    // Content Sections
+    // Content 
     
     private var privacyContent: some View {
         VStack(alignment: .leading, spacing: 15) {
             policySection(title: "Data Collection", content: [
-                "Clinic Flow collects only the minimum information required to provide its services, such as:",
-                "•  Queue number",
-                "•  Appointment status",
-                "•  Selected clinic services",
+                "ClinicFlow collects only the minimum information required to provide its services, including:",
+                "•  Queue number and appointment status",
+                "•  Selected clinic services and booking details",
+                "•  Payment transaction references",
+                "•  Cancellation and refund records",
                 "No sensitive medical records are stored within the application."
             ])
             
             policySection(title: "Use of Information", content: [
                 "Collected data is used solely to:",
-                "•  Display queue status",
-                "•  Provide visit updates",
+                "•  Display queue status and visit updates",
+                "•  Process bookings, cancellations, and refunds",
                 "•  Improve patient experience and clinic flow",
                 "User data is not sold or shared with third parties."
+            ])
+            
+            policySection(title: "Payment Data", content: [
+                "ClinicFlow does not store full card details. Refund transaction records are retained only to process eligible refund requests."
             ])
             
             policySection(title: "Data Security", content: [
@@ -74,28 +79,37 @@ struct PolicyView: View {
             ])
             
             policySection(title: "User Privacy", content: [
-                "Clinic Flow respects patient confidentiality and follows general healthcare data protection principles. Users are encouraged to review this policy regularly."
+                "ClinicFlow respects patient confidentiality and follows general healthcare data protection principles. Users are encouraged to review this policy regularly."
             ])
         }
     }
-    
+
     private var termsContent: some View {
         VStack(alignment: .leading, spacing: 15) {
             policySection(title: "Acceptance of Terms", content: [
-                "By using the Clinic Flow mobile application, you agree to comply with and be bound by these Terms & Conditions."
+                "By using the ClinicFlow mobile application, you agree to comply with and be bound by these Terms & Conditions."
             ])
             
             policySection(title: "Purpose of the Application", content: [
-                "Clinic Flow is designed to assist patients in managing their clinic visits by providing queue status updates, visit progress tracking, navigation assistance, and notifications."
+                "ClinicFlow is designed to assist patients in managing their clinic visits by providing queue status updates, visit progress tracking, navigation assistance, and notifications."
+            ])
+            
+            policySection(title: "Appointment Cancellation", content: [
+                "Patients may cancel confirmed appointments through the app. Upon cancellation:",
+                "•  A 90% refund of the paid amount will be processed to the original payment method.",
+                "•  The remaining 10% is retained as a non-refundable administrative fee.",
+                "•  Cancellations must be made before the scheduled appointment time.",
+                "•  Refunds are typically processed within 5–7 business days."
             ])
             
             policySection(title: "User Responsibilities", content: [
                 "Users must ensure that the information they provide is accurate and up to date.",
-                "The app should not be used for emergency medical situations."
+                "The app should not be used for emergency medical situations.",
+                "Users are responsible for cancelling appointments they cannot attend in a timely manner."
             ])
             
             policySection(title: "Limitation of Liability", content: [
-                "Clinic Flow shall not be held responsible for delays, schedule changes, or service disruptions caused by clinic operations or external factors."
+                "ClinicFlow shall not be held responsible for delays, schedule changes, or service disruptions caused by clinic operations or external factors. Refund timelines may vary based on third-party payment processors."
             ])
             
             policySection(title: "Changes to Terms", content: [
@@ -103,30 +117,40 @@ struct PolicyView: View {
             ])
         }
     }
-    
+
     private var refundContent: some View {
         VStack(alignment: .leading, spacing: 15) {
             policySection(title: "Payment Processing", content: [
-                "Payments made through Clinic Flow are processed for clinic services such as consultations or laboratory services, where applicable."
+                "Payments made through ClinicFlow are processed for clinic services such as consultations, laboratory services, and pharmacy orders, where applicable."
+            ])
+            
+            policySection(title: "Cancellation Refund — 90% Policy", content: [
+                "When a patient cancels a confirmed appointment through the app:",
+                "•  90% of the total paid amount will be refunded to the original payment method.",
+                "•  The remaining 10% is a non-refundable administrative and processing fee.",
+                "•  Refunds are typically processed within 5–7 business days."
             ])
             
             policySection(title: "Refund Eligibility", content: [
-                "Refunds or rescheduling requests are subject to the clinic's operational policies and may depend on:",
-                "•  Service type",
-                "•  Appointment status",
-                "•  Time of cancellation"
+                "A refund is eligible when:",
+                "•  The cancellation is made before the appointment time.",
+                "•  The service has not yet been rendered.",
+                "•  The appointment is not marked as Completed or In Progress."
             ])
             
             policySection(title: "Non-Refundable Cases", content: [
-                "Completed services and missed appointments may not be eligible for refunds unless stated otherwise by the clinic."
+                "The following are not eligible for a refund:",
+                "•  Completed services — once rendered, no refund is applicable.",
+                "•  Missed appointments — no-shows are not eligible for a refund.",
+                "•  Pharmacy orders where the prescription has already been dispensed."
             ])
             
             policySection(title: "Refund Process", content: [
-                "Eligible refunds will be processed according to clinic guidelines. Users are advised to contact the clinic directly for refund-related inquiries."
+                "Upon cancellation, the 90% refund is automatically initiated to your original payment method. A confirmation notification will be sent in the app.",
+                "For disputes or further inquiries, contact the clinic directly."
             ])
         }
     }
-
     
     func policySection(title: String, content: [String]) -> some View {
         VStack(alignment: .leading, spacing: 8) {
