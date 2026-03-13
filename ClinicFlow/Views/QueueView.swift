@@ -187,7 +187,7 @@ struct QueueView: View {
                     .scaledToFit()
                     .frame(width: 24, height: 24)
                     .foregroundColor(status.color)
-                    .rotationEffect(.degrees(isCurrent ? rotationAngle : 0))
+//                    .rotationEffect(.degrees(isCurrent ? rotationAngle : 0))
                 }
                 
                 VStack(alignment: .leading, spacing: 4) {
