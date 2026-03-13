@@ -17,7 +17,7 @@ struct AppointmentCard: View {
             
             HStack {
                 
-                Image("doctor4")
+                Image(imageName)
                     .resizable()
                     .frame(width: 50, height: 50)
                     .clipShape(Circle())

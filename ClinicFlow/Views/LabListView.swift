@@ -34,21 +34,30 @@ struct LabListView: View {
                 ScrollView {
                     VStack(spacing: 16) {
                         ForEach(filteredLabs) { lab in
+
                             NavigationLink {
-                                let item = BookableItem(
-                                    serviceType: .laboratory,
-                                    title: lab.name,
-                                    subtitle: lab.subtitle,
-                                    price: Double(lab.numericPrice),
-                                    image: lab.image,
-                                    room: "Lab A",
-                                    floor: "G"
+
+                                LabDetailView(
+                                    testName: lab.name,
+                                    price: lab.numericPrice,
+                                    appointments: 10,
+                                    avgTime: "15 minutes",
+                                    floor: "First Floor",
+                                    room: "Room No 12"
                                 )
-                                DateTimeSelectionView(item: item)
+
                             } label: {
-                                LabRow(image: lab.image, name: lab.name, subtitle: lab.subtitle, price: lab.priceString)
+
+                                LabRow(
+                                    image: lab.image,
+                                    name: lab.name,
+                                    subtitle: lab.subtitle,
+                                    price: lab.priceString
+                                )
+
                             }
                             .buttonStyle(.plain)
+
                         }
                     }
                     .padding(.horizontal)
@@ -94,4 +103,8 @@ struct LabListView: View {
             return []
         }
     }
+}
+
+#Preview() {
+    NavigationStack { LabListView(category: "Blood Test") }
 }
