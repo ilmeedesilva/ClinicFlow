@@ -33,7 +33,6 @@ struct PaymentSuccessView: View {
                         Text("an appointment")
                             .font(.title3)
                         
-                        // Dynamic Service Image
                         Image(item.image)
                             .resizable()
                             .scaledToFill()
@@ -51,8 +50,6 @@ struct PaymentSuccessView: View {
                         
                         Spacer().frame(height: 10)
                         
-                        // MARK: Dynamic Appointment Details
-                       
                             
                             HStack(alignment: .center, spacing: 12) {
                                 

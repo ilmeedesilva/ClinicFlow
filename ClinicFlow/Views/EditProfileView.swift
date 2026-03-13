@@ -92,7 +92,6 @@ struct EditProfileView: View {
                             }
                         }
                         
-                        // MARK: Save Button
                         Button {
                             showSuccess = true
                             
@@ -119,7 +118,6 @@ struct EditProfileView: View {
             }
             .navigationBarHidden(true)
             
-            // Image Upload Popup
             if showImagePicker {
                 ImageUploadPopupView(isPresented: $showImagePicker) {
                     profileImageName = "profile"
@@ -127,7 +125,7 @@ struct EditProfileView: View {
                 }
             }
             
-            // Success Popup
+
             if showSuccess {
                 SuccessOverlayView(
                     title: "Profile Updated",
@@ -168,7 +166,6 @@ struct EditProfileView: View {
     }
 }
 
-// MARK: Supporting Views
 
 struct Center<Content: View>: View {
     let content: Content

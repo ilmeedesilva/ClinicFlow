@@ -168,7 +168,6 @@ struct QueueView: View {
         }
     }
 
-    // MARK: - Card Component
     
     func statusCard(title: String, queueNo: String, status: QueueStatus, timeInfo: String, icon: String, isCurrent: Bool) -> some View {
         VStack(spacing: 12) {
@@ -233,7 +232,6 @@ struct QueueView: View {
     }
 }
 
-// MARK: - Preview
 #Preview {
     let mockState = AppState()
     mockState.hasActiveAppointment = true

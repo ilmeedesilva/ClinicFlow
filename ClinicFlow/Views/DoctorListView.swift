@@ -12,7 +12,6 @@ struct DoctorListView: View {
                 
                 VStack {
                     
-                    // Search Box
                     HStack {
                         Image(systemName: "magnifyingglass")
                             .foregroundColor(.gray)
@@ -58,7 +57,6 @@ struct DoctorListView: View {
             .navigationBarHidden(true)
         }
     
-    // MARK: - Hardcoded Doctors
     
     func getDoctors() -> [Doctor] {
         

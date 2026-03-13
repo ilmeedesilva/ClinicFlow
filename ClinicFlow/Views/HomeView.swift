@@ -9,7 +9,6 @@ struct HomeView: View {
             
             if appState.hasActiveAppointment {
                 
-                // MARK: Queue Header Version
                 VStack(alignment: .leading, spacing: 16) {
                     
                     headerSection
@@ -26,7 +25,6 @@ struct HomeView: View {
                 
             } else {
                 
-                // MARK: Normal Header With Image
                 ZStack(alignment: .bottomLeading) {
                     
                     Image("Hospitalimg")
@@ -122,8 +120,7 @@ struct HomeView: View {
         }
     }
     
-    
-    // MARK: Header With Notification Icon
+
     var headerSection: some View {
         VStack(alignment: .leading, spacing: 6) {
             
@@ -149,7 +146,6 @@ struct HomeView: View {
     }
     
     
-    // MARK: Queue Box UI
     var queueBox: some View {
         VStack(alignment: .leading, spacing: 12) {
             

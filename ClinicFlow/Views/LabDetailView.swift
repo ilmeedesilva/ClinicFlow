@@ -14,7 +14,6 @@ struct LabDetailView: View {
     var body: some View {
         VStack(spacing: 0) {
             
-            // MARK: Header
             ZStack {
                 Color(hex: "#2D6876")
                     .frame(height: 60)
@@ -45,7 +44,6 @@ struct LabDetailView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
                     
-                    // MARK: Test Info
                     HStack(spacing: 16) {
                         Image("BT")
                             .resizable()
@@ -67,7 +65,6 @@ struct LabDetailView: View {
                     
                     Divider()
                     
-                    // MARK: Stats
                     HStack {
                         InfoStatView(
                             icon: "appointment-icon",
@@ -89,7 +86,7 @@ struct LabDetailView: View {
                     
                     Divider()
                     
-                    // MARK: Instructions
+
                     VStack(alignment: .leading, spacing: 8) {
                         Text("Instructions")
                             .font(.headline)
@@ -101,7 +98,6 @@ struct LabDetailView: View {
                     
                     Divider()
                     
-                    // MARK: Location
                     LocationMapView()
                     
                     Spacer(minLength: 40)
@@ -109,7 +105,6 @@ struct LabDetailView: View {
                 .padding()
             }
             
-            // MARK: Continue Button
             NavigationLink {
                 PaymentView(
                     item: BookableItem(
@@ -134,8 +129,7 @@ struct LabDetailView: View {
         }
         .navigationBarHidden(true)
     }
-    
-    // MARK: Bullet View
+
     
     func bulletPoint(_ text: String) -> some View {
         HStack(alignment: .top, spacing: 8) {

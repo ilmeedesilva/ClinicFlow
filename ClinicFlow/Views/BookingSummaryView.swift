@@ -58,7 +58,6 @@ struct BookingSummaryView: View {
                     
                     Divider()
                     
-                    // MARK: Location
                     LocationMapView()
                     
                     Spacer(minLength: 40)
@@ -66,7 +65,6 @@ struct BookingSummaryView: View {
                 .padding()
             }
             
-            // MARK: Bottom Button
             NavigationLink {
                 PaymentView(item: item)
             } label: {

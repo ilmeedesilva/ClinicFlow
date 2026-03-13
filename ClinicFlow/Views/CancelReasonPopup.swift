@@ -23,11 +23,9 @@ struct CancelReasonPopup: View {
         
         ZStack {
             
-            // Background dim
             Color.black.opacity(0.35)
                 .ignoresSafeArea()
             
-            // Popup Card
             VStack(spacing: 22) {
                 
                 Text("Cancel Booking")
@@ -36,9 +34,6 @@ struct CancelReasonPopup: View {
                 Text("Choose a reason for cancellation:")
                     .font(.system(size: 16))
                     .foregroundColor(.gray)
-                
-                
-                // MARK: Reasons List
                 
                 VStack(alignment: .leading, spacing: 18) {
                     
@@ -73,8 +68,6 @@ struct CancelReasonPopup: View {
                 }
                 .padding(.top, 5)
                 
-                
-                // MARK: Buttons
                 
                 HStack(spacing: 16) {
                     

@@ -7,7 +7,7 @@ struct AccessibilityView: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            // MARK: Header
+
             HStack {
                 Button {
                     dismiss()
@@ -32,7 +32,6 @@ struct AccessibilityView: View {
             .padding()
             .background(Color(red: 0.18, green: 0.41, blue: 0.45))
             
-            // MARK: iOS Style List
             List {
                 Section {
                     ForEach(["Default", "Larger Text"], id: \.self) { size in

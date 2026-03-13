@@ -8,7 +8,6 @@ struct QueueStatusView: View {
     var body: some View {
         ZStack {
             
-            // MARK: Background
             Color(hex: "#68B2A1")
                 .ignoresSafeArea()
             
@@ -27,8 +26,7 @@ struct QueueStatusView: View {
                             .fontWeight(.semibold)
                         
                         Spacer().frame(height: 20)
-                        
-                        // MARK: Queue Info
+
                         VStack(spacing: 6) {
                             
                             Image("ticket")
@@ -65,8 +63,7 @@ struct QueueStatusView: View {
                     .padding()
                     .background(Color.white)
                     .cornerRadius(30)
-                    
-                    // MARK: Floating Icon
+
                     VStack {
                         ZStack {
                             RoundedRectangle(cornerRadius: 20)
@@ -103,8 +100,6 @@ struct QueueStatusView: View {
     }
 
 
-    
-    // MARK: Dynamic Content
     
     var titleText: String {
         
@@ -208,8 +203,6 @@ struct QueueStatusView: View {
     }
 
     
-    // MARK: Circular Progress
-    
     func circularProgress(current: Int) -> some View {
         ZStack {
             Circle()
@@ -240,8 +233,7 @@ struct QueueStatusView: View {
         }
     }
     
-    // MARK: Auto Flow
-    
+
     func startQueueFlow() {
         
         guard let item = appState.currentItem else { return }

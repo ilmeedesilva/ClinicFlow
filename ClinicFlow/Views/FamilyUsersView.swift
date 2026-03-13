@@ -10,7 +10,6 @@ struct FamilyUsersView: View {
     var body: some View {
         VStack(spacing: 0) {
             
-            // MARK: Header
             HStack {
                 Spacer()
                 Text("Family Users")
@@ -22,7 +21,6 @@ struct FamilyUsersView: View {
             .padding()
             .background(Color(red: 0.18, green: 0.41, blue: 0.45))
             
-            // MARK: Segmented Tabs
             HStack(spacing: 0) {
                 tabButton(title: "Family Users", index: 0)
                 tabButton(title: "My Appointments", index: 1)
@@ -35,7 +33,6 @@ struct FamilyUsersView: View {
             .padding(.horizontal)
             .padding(.top, 10)
             
-            // MARK: Content Area
             if selectedTab == 0 {
                 familyUsersList
             } else {
@@ -72,7 +69,7 @@ extension FamilyUsersView {
     var familyUsersList: some View {
         ScrollView {
             VStack(spacing: 0) {
-                // Loop through members
+                
                 ForEach(appState.familyMembers) { member in
                     NavigationLink {
                         EditProfileView(member: member)
@@ -111,7 +108,6 @@ extension FamilyUsersView {
                     }
                 }
                 
-                // MARK: Add New Member Button
                 NavigationLink {
                     AddMemberView()
                         .environmentObject(appState)

@@ -7,7 +7,7 @@ struct PolicyView: View {
     
     var body: some View {
         VStack(spacing: 20) {
-            // Header
+
             Text(title)
                 .font(.system(size: 32, weight: .bold))
                 .multilineTextAlignment(.center)
@@ -40,7 +40,7 @@ struct PolicyView: View {
                     .bold()
                     .foregroundColor(.white)
                     .frame(width: 150, height: 50)
-                    .background(Color(red: 0.18, green: 0.41, blue: 0.45)) // The dark teal from your UI
+                    .background(Color(red: 0.18, green: 0.41, blue: 0.45))
                     .cornerRadius(10)
             }
             .padding(.bottom, 20)
@@ -49,7 +49,6 @@ struct PolicyView: View {
         .background(Color.white)
     }
     
-    // Content 
     
     private var privacyContent: some View {
         VStack(alignment: .leading, spacing: 15) {

@@ -6,7 +6,7 @@ struct AppearanceView: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            // MARK: Header
+
             HStack {
                 Button {
                     dismiss()
@@ -31,7 +31,6 @@ struct AppearanceView: View {
             .padding()
             .background(Color(red: 0.18, green: 0.41, blue: 0.45))
             
-            // MARK: - iOS Style Settings List
             List {
                 Section(header: Text("ENABLE DARK MODE")) {
                     Toggle(isOn: $isDarkMode) {

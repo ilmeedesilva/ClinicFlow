@@ -1,7 +1,6 @@
 import SwiftUI
 
 struct MyAppointmentsView: View {
-    // 1. Access the global AppState
     @EnvironmentObject var appState: AppState
     
     @State private var showReasonPopup = false
@@ -13,7 +12,7 @@ struct MyAppointmentsView: View {
             ScrollView {
                 VStack(spacing: 16) {
                     
-                    // 2. Use appState.drJosephStatus instead of "In Progress"
+
                     AppointmentCard(
                         doctor: "Dr. Joseph Brostito",
                         specialty: "Dental Specialist",
@@ -22,7 +21,7 @@ struct MyAppointmentsView: View {
                         status: appState.drJosephStatus,
                         statusColor: appState.drJosephStatus == "Cancelled" ? .red : .headerColor
                     ) {
-                        // Only allow clicking the cancel button if it's not already cancelled
+
                         if appState.drJosephStatus != "Cancelled" {
                             showReasonPopup = true
                         }
@@ -63,14 +62,12 @@ struct MyAppointmentsView: View {
             if showSuccessPopup {
                 CancelSuccessPopup(
                     onOK: {
-                        // 3. Trigger the cancellation logic here
                         appState.cancelJosephAppointment()
                         showSuccessPopup = false
                     },
                     onBookAgain: {
                         appState.cancelJosephAppointment()
                         showSuccessPopup = false
-                        // Navigate back to home tab
                         appState.selectedTab = 0
                     }
                 )
@@ -80,7 +77,6 @@ struct MyAppointmentsView: View {
 }
 
 #Preview {
-    // Ensure the preview has the environment object or it will crash
     MyAppointmentsView()
         .environmentObject(AppState())
 }

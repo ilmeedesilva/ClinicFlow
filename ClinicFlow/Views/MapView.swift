@@ -11,7 +11,6 @@ struct MapView: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            // MARK: Header
             HStack {
                 Image(systemName: "chevron.left")
                     .font(.title3)
@@ -36,7 +35,7 @@ struct MapView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 30) {
                     
-                    // MARK: Map Image
+
                     Image("Map")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
@@ -80,8 +79,7 @@ struct MapView: View {
                         Text("Find your destination easily")
                             .font(.title3)
                             .bold()
-                        
-                        // MARK: Chatbot Navigation
+
                         NavigationLink(destination: ChatbotView()) {
                             HStack {
                                 ZStack {
