@@ -55,6 +55,7 @@ class AppState: ObservableObject {
     
     @Published var navigateToFollowUpBooking = false
     @Published var navigateToLabBooking = false
+    @Published var navigateToDoctorSuccess = false
     
     @Published var familyMembers: [FamilyMember] = [
             FamilyMember(

@@ -102,15 +102,14 @@ struct HomeView: View {
             }
         }
         .navigationBarHidden(true)
-        .navigationDestination(isPresented: $appState.navigateToFollowUpBooking) {
+        .navigationDestination(isPresented: $appState.navigateToDoctorSuccess) {
 
             if let item = appState.currentItem {
-                DateTimeSelectionView(item: item)
+                PaymentSuccessView(item: item)
                     .onDisappear {
-                        appState.navigateToFollowUpBooking = false
+                        appState.navigateToDoctorSuccess = false
                     }
             }
-
         }
 
         .navigationDestination(isPresented: $appState.navigateToLabBooking) {
