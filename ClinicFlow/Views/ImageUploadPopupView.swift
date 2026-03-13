@@ -8,12 +8,12 @@ struct ImageUploadPopupView: View {
     
     var body: some View {
         ZStack {
-            // MARK: Dim Background
+
             Color.black.opacity(0.4)
                 .ignoresSafeArea()
                 .onTapGesture { isPresented = false }
             
-            // MARK: Popup Card
+
             VStack(spacing: 25) {
                 Text("Upload New Profile Picture")
                     .font(.title2)
@@ -21,7 +21,7 @@ struct ImageUploadPopupView: View {
                     .multilineTextAlignment(.center)
                     .padding(.top, 10)
                 
-                // MARK: Upload Icon
+
                 ZStack(alignment: .bottomTrailing) {
                     Image(systemName: "photo.on.rectangle.angled")
                         .resizable()
@@ -37,7 +37,6 @@ struct ImageUploadPopupView: View {
                         .offset(x: 5, y: 5)
                 }
                 
-                // MARK: Instruction Text
                 VStack(spacing: 5) {
                     Text("Only JPG, JPEG, PNG, or WEBP files are allowed.")
                     Text("Maximum file size: 25MB.")
@@ -46,7 +45,6 @@ struct ImageUploadPopupView: View {
                 .foregroundColor(.gray)
                 .multilineTextAlignment(.center)
                 
-                // MARK: Action Buttons
                 VStack(spacing: 15) {
                     Button {
                         isPresented = false

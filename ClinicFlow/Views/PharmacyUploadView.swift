@@ -9,12 +9,10 @@ struct PharmacyUploadView: View {
         var body: some View {
             VStack(spacing: 0) {
                 
-                // MARK: Header
                 AppHeader(title: "Pharmacy")
                 
                 VStack(alignment: .leading, spacing: 20) {
                     
-                    // Title
                     Text("Upload Your Prescription")
                         .font(.title3)
                         .fontWeight(.bold)
@@ -23,7 +21,6 @@ struct PharmacyUploadView: View {
                         .font(.caption)
                         .foregroundColor(.gray)
                     
-                    // MARK: Upload Box
                     VStack(spacing: 20) {
                         
                         Image(systemName: "photo.on.rectangle.angled")
@@ -69,7 +66,6 @@ struct PharmacyUploadView: View {
                     
                     Spacer()
                     
-                    // MARK: Submit Button
                     NavigationLink {
                         PharmacyQueueView(
                             item: BookableItem(

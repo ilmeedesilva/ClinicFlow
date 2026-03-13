@@ -13,13 +13,11 @@ struct PharmacyQueueView: View {
         
         VStack(spacing: 0) {
             
-            // MARK: Header
             AppHeader(title: "Pharmacy Queue")
             
             ScrollView {
                 VStack(alignment: .leading, spacing: 24) {
                     
-                    // MARK: Success Title
                     Text("Prescription submitted")
                         .font(.title3)
                         .fontWeight(.semibold)
@@ -29,8 +27,7 @@ struct PharmacyQueueView: View {
                         .fontWeight(.semibold)
                     
                     Divider()
-                    
-                    // MARK: Appointment + Avg Time
+
                     HStack {
                         
                         HStack(spacing: 8) {
@@ -72,7 +69,6 @@ struct PharmacyQueueView: View {
                     
                     Divider()
                     
-                    // MARK: Location
                     LocationMapView()
                     
                     Spacer(minLength: 40)
@@ -80,7 +76,6 @@ struct PharmacyQueueView: View {
                 .padding()
             }
             
-            // MARK: Bottom Button
             Button {
                 appState.hasActiveAppointment = true
                 appState.queueNumber = selectedQueue
@@ -102,7 +97,6 @@ struct PharmacyQueueView: View {
     }
     
     
-    // MARK: Queue Box
     func queueBox(_ number: Int) -> some View {
         Button {
             selectedQueue = number

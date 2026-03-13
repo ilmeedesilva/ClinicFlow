@@ -7,16 +7,13 @@ struct OTPVerificationView: View {
     
     let phoneNumber: String
     
-    // MARK: OTP States
     @State private var otpDigits: [String] = Array(repeating: "", count: 6)
     @FocusState private var focusedIndex: Int?
     @State private var showSuccess = false
     
-    // MARK: Policy Popup States
     @State private var showPolicy = false
     @State private var selectedPolicyTitle = ""
     
-    // MARK: Timer
     @State private var timeRemaining = 59
     @State private var timer: Timer?
     
@@ -52,15 +49,13 @@ struct OTPVerificationView: View {
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 
-                // MARK: OTP BOXES
                 HStack(spacing: 12) {
                     ForEach(0..<6, id: \.self) { index in
                         otpBox(index: index)
                     }
                 }
                 .padding(.top, 10)
-                
-                // MARK: TIMER
+
                 HStack(spacing: 6) {
                     Image(systemName: "stopwatch.fill")
                         .foregroundColor(Color(hex: "#2D6876"))
@@ -72,7 +67,6 @@ struct OTPVerificationView: View {
                 
                 Spacer()
                 
-                // MARK: RESEND
                 Button {
                     resendCode()
                 } label: {
@@ -87,7 +81,6 @@ struct OTPVerificationView: View {
                 .disabled(timeRemaining > 0)
                 .opacity(timeRemaining > 0 ? 0.5 : 1)
                 
-                // MARK: CONTINUE
                 Button {
                     verifyOTP()
                 } label: {
@@ -100,7 +93,7 @@ struct OTPVerificationView: View {
                 }
                 .disabled(!isValidOTP)
                 
-                // MARK: UPDATED TERMS SECTION
+
                 VStack(spacing: 4) {
                     Text("By signing up or logging in, i accept the apps")
                         .font(.caption)
@@ -140,7 +133,6 @@ struct OTPVerificationView: View {
                 }
             }
         }
-        // MARK: Policy Sheet
         .sheet(isPresented: $showPolicy) {
             PolicyView(title: selectedPolicyTitle)
         }

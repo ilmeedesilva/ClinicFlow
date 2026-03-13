@@ -11,7 +11,6 @@ struct MapView: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            // MARK: Header
             HStack {
                 Image(systemName: "chevron.left")
                     .font(.title3)
@@ -38,6 +37,8 @@ struct MapView: View {
                     
                     // MARK: Map Image
                     Image("Consultation-Map")
+
+                    Image("Map")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .scaleEffect(scale)
@@ -80,8 +81,7 @@ struct MapView: View {
                         Text("Find your destination easily")
                             .font(.title3)
                             .bold()
-                        
-                        // MARK: Chatbot Navigation
+
                         NavigationLink(destination: ChatbotView()) {
                             HStack {
                                 ZStack {

@@ -57,6 +57,7 @@ class AppState: ObservableObject {
     
     @Published var navigateToFollowUpBooking = false
     @Published var navigateToLabBooking = false
+    @Published var navigateToDoctorSuccess = false
     
     @Published var familyMembers: [FamilyMember] = [
             FamilyMember(
@@ -132,7 +133,6 @@ class AppState: ObservableObject {
             }
         }
     
-    // MARK: Move To Next Stage
     func moveToNextStage() {
         
         switch currentStage {
@@ -163,7 +163,6 @@ class AppState: ObservableObject {
         }
     }
     
-    // MARK: Completion Title
     func completionTitle(for type: ServiceType) -> String {
         switch type {
         case .doctor: return "Consultation Completed"
@@ -172,17 +171,13 @@ class AppState: ObservableObject {
         }
     }
     
-    
-    
-    // MARK: Reset
     func resetAppointment() {
         hasActiveAppointment = false
         currentItem = nil
         currentStage = .awaiting
         queueNumber = 0
     }
-    
-    // MARK: Notifications
+
     func addNotification(type: NotificationType, title: String, message: String) {
         notifications.insert(
             AppNotification(

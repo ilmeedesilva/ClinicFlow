@@ -6,7 +6,7 @@ struct LaboratoryView: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            // MARK: Custom Header
+            
             ZStack {
                 Color(hex: "#2D6876")
                     .frame(height: 60)

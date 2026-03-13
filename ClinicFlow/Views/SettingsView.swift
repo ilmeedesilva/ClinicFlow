@@ -10,7 +10,7 @@ struct SettingsView: View {
     var body: some View {
         ZStack {
             VStack(spacing: 0) {
-                // Header
+                
                 HStack {
                     Spacer()
                     Text("Settings")
@@ -41,7 +41,6 @@ struct SettingsView: View {
                         }
                     }
                     
-                    // Logout
                     Section {
                         Button(action: {
                             withAnimation {

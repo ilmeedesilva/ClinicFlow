@@ -9,7 +9,6 @@ struct HomeView: View {
             
             if appState.hasActiveAppointment {
                 
-                // MARK: Queue Header Version
                 VStack(alignment: .leading, spacing: 16) {
                     
                     headerSection
@@ -26,7 +25,6 @@ struct HomeView: View {
                 
             } else {
                 
-                // MARK: Normal Header With Image
                 ZStack(alignment: .bottomLeading) {
                     
                     Image("Hospitalimg")
@@ -102,15 +100,14 @@ struct HomeView: View {
             }
         }
         .navigationBarHidden(true)
-        .navigationDestination(isPresented: $appState.navigateToFollowUpBooking) {
+        .navigationDestination(isPresented: $appState.navigateToDoctorSuccess) {
 
             if let item = appState.currentItem {
-                DateTimeSelectionView(item: item)
+                PaymentSuccessView(item: item)
                     .onDisappear {
-                        appState.navigateToFollowUpBooking = false
+                        appState.navigateToDoctorSuccess = false
                     }
             }
-
         }
 
         .navigationDestination(isPresented: $appState.navigateToLabBooking) {
@@ -123,8 +120,7 @@ struct HomeView: View {
         }
     }
     
-    
-    // MARK: Header With Notification Icon
+
     var headerSection: some View {
         VStack(alignment: .leading, spacing: 6) {
             
@@ -150,7 +146,6 @@ struct HomeView: View {
     }
     
     
-    // MARK: Queue Box UI
     var queueBox: some View {
         VStack(alignment: .leading, spacing: 12) {
             

@@ -28,7 +28,6 @@ struct AppHeader: View {
             
             Spacer()
             
-            // Invisible spacer for symmetry
             if showBackButton {
                 Image(systemName: "chevron.left")
                     .opacity(0)

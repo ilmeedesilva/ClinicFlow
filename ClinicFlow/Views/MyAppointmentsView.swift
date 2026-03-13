@@ -12,6 +12,7 @@ struct MyAppointmentsView: View {
             ScrollView {
                 VStack(spacing: 16) {
                     
+
                     AppointmentCard(
                         imageName: "doctor3",
                         doctor: "Dr. Joseph Brostito",
@@ -21,6 +22,7 @@ struct MyAppointmentsView: View {
                         status: appState.drJosephStatus,
                         statusColor: appState.drJosephStatus == "Cancelled" ? .red : .headerColor
                     ) {
+
                         if appState.drJosephStatus != "Cancelled" {
                             showReasonPopup = true
                         }

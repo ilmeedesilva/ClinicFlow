@@ -44,13 +44,13 @@ struct QueueView: View {
                                 icon: iconNames[index],
                                 isCurrent: index == appState.currentQueueStep
                             )
-                            .onTapGesture {
-                                if index == appState.currentQueueStep && appState.currentQueueStep < (appointmentNames.count - 1) {
-                                    withAnimation(.spring()) {
-                                        appState.currentQueueStep += 1
-                                    }
-                                }
-                            }
+//                            .onTapGesture {
+//                                if index == appState.currentQueueStep && appState.currentQueueStep < (appointmentNames.count - 1) {
+//                                    withAnimation(.spring()) {
+//                                        appState.currentQueueStep += 1
+//                                    }
+//                                }
+//                            }
                         }
                     }
                     .padding(.horizontal)
@@ -84,54 +84,90 @@ struct QueueView: View {
         }
     }
     
-    // MARK: - Helper Logic
+    
+//    private func getStatus(for index: Int) -> QueueStatus {
+//
+//        if index == 0 {
+//            return appState.completedServices.contains(.doctor) ? .completed : .pending
+//        }
+//
+//        if index == 1 {
+//            if appState.completedServices.contains(.laboratory) {
+//                return .completed
+//            }
+//            if appState.completedServices.contains(.doctor) {
+//                return .inProgress
+//            }
+//            return .pending
+//        }
+//
+//        if index == 2 {
+//            if appState.completedServices.contains(.pharmacy) {
+//                return .completed
+//            }
+//            if appState.completedServices.contains(.laboratory) {
+//                return .inProgress
+//            }
+//            return .pending
+//        }
+//
+//        return .pending
+//    }
     
     private func getStatus(for index: Int) -> QueueStatus {
 
-        if index == 0 {
-            return appState.completedServices.contains(.doctor) ? .completed : .pending
-        }
+        switch index {
 
-        if index == 1 {
-            if appState.completedServices.contains(.laboratory) {
-                return .completed
-            }
-            if appState.completedServices.contains(.doctor) {
-                return .inProgress
-            }
+        case 0:
+            return .completed
+
+        case 1:
+            return .completed
+
+        case 2:
+            return .inProgress
+
+        case 3:
+            return .pending
+
+        default:
             return .pending
         }
-
-        if index == 2 {
-            if appState.completedServices.contains(.pharmacy) {
-                return .completed
-            }
-            if appState.completedServices.contains(.laboratory) {
-                return .inProgress
-            }
-            return .pending
-        }
-
-        return .pending
     }
     
+//    private func getTimeInfo(for index: Int) -> String {
+//        
+//        let status = getStatus(for: index)
+//        
+//        switch status {
+//        case .completed:
+//            return "Step Completed"
+//            
+//        case .inProgress:
+//            return "Estimated wait: 5 mins"
+//            
+//        case .pending:
+//            return "Waiting for previous step"
+//        }
+//    }
+    
     private func getTimeInfo(for index: Int) -> String {
-        
+
         let status = getStatus(for: index)
-        
+
         switch status {
+
         case .completed:
-            return "Step Completed"
-            
+            return "Service Completed"
+
         case .inProgress:
             return "Estimated wait: 5 mins"
-            
+
         case .pending:
             return "Waiting for previous step"
         }
     }
 
-    // MARK: - Card Component
     
     func statusCard(title: String, queueNo: String, status: QueueStatus, timeInfo: String, icon: String, isCurrent: Bool) -> some View {
         VStack(spacing: 12) {
@@ -141,12 +177,16 @@ struct QueueView: View {
                         .fill(status.color.opacity(0.15))
                         .frame(width: 50, height: 50)
                     
-                    Image(systemName: isCurrent ? "arrow.clockwise" : (status == .completed ? "checkmark.circle" : "hourglass"))
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 24, height: 24)
-                        .foregroundColor(status.color)
-                        .rotationEffect(.degrees(isCurrent ? rotationAngle : 0))
+                    Image(systemName:
+                            status == .completed ? "checkmark.circle.fill" :
+                            status == .inProgress ? "arrow.triangle.2.circlepath" :
+                            "clock"
+                    )
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 24, height: 24)
+                    .foregroundColor(status.color)
+//                    .rotationEffect(.degrees(isCurrent ? rotationAngle : 0))
                 }
                 
                 VStack(alignment: .leading, spacing: 4) {
@@ -192,7 +232,6 @@ struct QueueView: View {
     }
 }
 
-// MARK: - Preview
 #Preview {
     let mockState = AppState()
     mockState.hasActiveAppointment = true

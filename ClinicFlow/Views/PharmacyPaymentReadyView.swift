@@ -23,7 +23,6 @@ struct PharmacyPaymentReadyView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 24) {
                     
-                    // MARK: Success Circle
                     VStack(spacing: 16) {
                         
                         ZStack {
@@ -43,8 +42,7 @@ struct PharmacyPaymentReadyView: View {
                     .frame(maxWidth: .infinity)
                     
                     Divider()
-                    
-                    // MARK: Queue Number
+
                     VStack(spacing: 8) {
                         Text("Queue Number")
                             .font(.headline)
@@ -60,7 +58,6 @@ struct PharmacyPaymentReadyView: View {
                     
                     Divider()
                     
-                    // MARK: Payment Method
                     VStack(alignment: .leading, spacing: 16) {
                         Text("Select Payment Method")
                             .font(.headline)
@@ -71,7 +68,6 @@ struct PharmacyPaymentReadyView: View {
                     
                     Divider()
                     
-                    // MARK: Medicine Details
                     VStack(alignment: .leading, spacing: 12) {
                         
                         Text("Medicine Details")
@@ -96,7 +92,6 @@ struct PharmacyPaymentReadyView: View {
                     
                     Divider()
                     
-                    // MARK: Total
                     VStack(alignment: .leading, spacing: 12) {
                         
                         Text("Total payment")
@@ -124,7 +119,6 @@ struct PharmacyPaymentReadyView: View {
                 .padding()
             }
             
-            // MARK: Bottom Pay Button
             VStack {
                 Divider()
                 

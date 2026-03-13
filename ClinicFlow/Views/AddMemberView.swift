@@ -23,7 +23,7 @@ struct AddMemberView: View {
     var body: some View {
         ZStack {
             VStack(spacing: 0) {
-                // MARK: Header
+
                 HStack {
                     Button { dismiss() } label: {
                         Image(systemName: "chevron.left")
@@ -38,7 +38,6 @@ struct AddMemberView: View {
                         Text("Add Member")
                             .font(.title).bold()
                         
-                        // MARK: Profile Image Placeholder
                         Center {
                             ZStack(alignment: .bottomTrailing) {
                                 Image( "Man")
@@ -84,7 +83,6 @@ struct AddMemberView: View {
                             }
                         }
                         
-                        // MARK: Save Button
                         Button {
                             saveMemberAction()
                         } label: {
@@ -104,7 +102,6 @@ struct AddMemberView: View {
             }
             .navigationBarHidden(true)
             
-            // MARK: Success Overlay
             if showSuccess {
                 SuccessOverlayView(
                     title: "Member Added",
@@ -117,8 +114,7 @@ struct AddMemberView: View {
             }
         }
     }
-    
-    // MARK: - Helper Components
+
     
     func profileInputField(label: String, text: Binding<String>, placeholder: String) -> some View {
         VStack(alignment: .leading, spacing: 5) {
@@ -140,7 +136,6 @@ struct AddMemberView: View {
         .overlay(RoundedRectangle(cornerRadius: 10).stroke(tealColor, lineWidth: 1))
     }
     
-    // MARK: Save Function
     func saveMemberAction() {
         let newMember = FamilyMember(
             id: UUID(),

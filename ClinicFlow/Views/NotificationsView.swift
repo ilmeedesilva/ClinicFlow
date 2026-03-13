@@ -6,7 +6,7 @@ struct NotificationsView: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            // MARK: Header
+
             HStack {
                 Button {
                     dismiss()
@@ -49,7 +49,6 @@ struct NotificationsView: View {
                             
                             HStack(alignment: .top, spacing: 12) {
                                 
-                                // MARK: Notification Icon
                                 ZStack {
                                     Circle()
                                         .fill(iconColor(for: notification.type).opacity(0.15))
@@ -58,8 +57,7 @@ struct NotificationsView: View {
                                     Image(systemName: iconName(for: notification.type))
                                         .foregroundColor(iconColor(for: notification.type))
                                 }
-                                
-                                // MARK: Text Content
+
                                 VStack(alignment: .leading, spacing: 6) {
                                     
                                     Text(notification.title)
@@ -106,8 +104,20 @@ struct NotificationsView: View {
             appState.shouldNavigateToPharmacyPayment = true
 
         case .followUpConsultation:
+            appState.currentItem = BookableItem(
+                serviceType: .doctor,
+                title: "Dr. Patricia Ahoy",
+                subtitle: "ENT Specialist",
+                price: 0,
+                image: "doctor1",
+                room: "Room 204",
+                floor: "Ground Floor"
+            )
+
+            appState.queueNumber = Int.random(in: 1...20)
+            appState.hasActiveAppointment = true
             appState.selectedTab = 0
-            appState.navigateToFollowUpBooking = true
+            appState.navigateToDoctorSuccess = true
 
         case .labAppointment:
             appState.selectedTab = 0
@@ -171,12 +181,12 @@ struct NotificationsView: View {
     let state = AppState()
     
     state.addNotification(
-        type: .consultationReady,
+        type: .labAppointment,
         title: "Laboratory Appointment",
         message: "Your laboratory appointment booked from the portal"
     )
     state.addNotification(
-        type: .labAppointment,
+        type: .followUpConsultation,
         title: "Follow-up consultation appointment",
         message: "Your follow-up consultation doctor appointment booked"
     )
