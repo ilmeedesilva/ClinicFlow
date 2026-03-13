@@ -61,7 +61,6 @@ struct AppointmentView: View {
         .navigationBarHidden(true)
     }
     
-    // MARK: - Specialty Row
     
     func specialtyRow(title: String, image: String) -> some View {
         

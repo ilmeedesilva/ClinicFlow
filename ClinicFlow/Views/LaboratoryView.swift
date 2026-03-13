@@ -8,7 +8,6 @@ struct LaboratoryView: View {
     var body: some View {
         VStack(spacing: 0) {
             
-            // MARK: Custom Header
             ZStack {
                 Color(hex: "#2D6876")
                     .frame(height: 60)
@@ -30,7 +29,6 @@ struct LaboratoryView: View {
                     
                     Spacer()
                     
-                    // For balance
                     Image(systemName: "chevron.left")
                         .opacity(0)
                 }
@@ -40,7 +38,6 @@ struct LaboratoryView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
                     
-                    // MARK: Title Section
                     VStack(alignment: .leading, spacing: 6) {
                         Text("Medical Tests")
                             .font(.title2)
@@ -50,7 +47,6 @@ struct LaboratoryView: View {
                             .foregroundColor(.gray)
                     }
                     
-                    // MARK: Search Box
                     HStack {
                         Image(systemName: "magnifyingglass")
                             .foregroundColor(.gray)
@@ -63,7 +59,6 @@ struct LaboratoryView: View {
                             .stroke(Color.gray.opacity(0.4), lineWidth: 1)
                     )
                     
-                    // MARK: Lab Categories
                     labRow(
                         image: "BT",
                         title: "Blood Tests",
@@ -93,8 +88,7 @@ struct LaboratoryView: View {
         }
         .navigationBarHidden(true)
     }
-    
-    // MARK: Lab Row Component
+
     
     func labRow(image: String, title: String, subtitle: String) -> some View {
         NavigationLink {
