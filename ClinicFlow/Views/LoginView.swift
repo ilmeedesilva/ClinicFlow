@@ -3,7 +3,6 @@ import SwiftUI
 struct LoginView: View {
     @EnvironmentObject var appState: AppState
     
-    // MARK: Popup States
     @State private var showPolicy = false
     @State private var selectedPolicyTitle = ""
     
@@ -105,7 +104,6 @@ struct LoginView: View {
             }
         }
         .navigationBarBackButtonHidden(true)
-        // MARK: - Policy Sheet Trigger
         .sheet(isPresented: $showPolicy) {
             PolicyView(title: selectedPolicyTitle)
         }

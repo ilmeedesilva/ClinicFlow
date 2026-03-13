@@ -29,11 +29,9 @@ struct PaymentSheetView: View {
             
             VStack {
                 Spacer()
-                
-                // MARK: Popup Card
+
                 VStack(alignment: .leading, spacing: 20) {
                     
-                    // MARK: Header
                     HStack {
                         Button {
                             dismiss()
@@ -56,11 +54,9 @@ struct PaymentSheetView: View {
                     
                     Divider()
                     
-                    // MARK: Payment Method Title
                     Text("Payment Method")
                         .font(.headline)
-                    
-                    // MARK: Payment Icons
+
                     HStack(spacing: 16) {
                         Spacer()
                         ForEach(["visa", "master", "paypal"], id: \.self) { method in
@@ -72,16 +68,14 @@ struct PaymentSheetView: View {
                         }
                         Spacer()
                     }
-                    
-                    // MARK: Card Details
+
                     Text("Card Details")
                         .font(.headline)
                     
                     inputField("Card Number", text: $cardNumber)
                     inputField("Expiration Date", text: $expiry)
                     inputField("CVV", text: $cvv)
-                    
-                    // MARK: Save Card Checkbox
+
                     HStack {
                         Button {
                             saveCard.toggle()
@@ -103,8 +97,7 @@ struct PaymentSheetView: View {
                             .font(.caption)
                             .foregroundColor(.blue)
                     }
-                    
-                    // MARK: Terms & Policies
+
                     VStack(alignment: .leading, spacing: 8) {
                         Text("By confirming your payment, you acknowledge and agree to our")
                             .font(.caption)
@@ -133,7 +126,6 @@ struct PaymentSheetView: View {
                     
                     Spacer()
                     
-                    // MARK: Pay Button
                     Button {
                         processPayment()
                     } label: {
@@ -152,7 +144,6 @@ struct PaymentSheetView: View {
                 .cornerRadius(25)
                 .padding(.horizontal, 20)
                 
-                // MARK: Success Screen
                 .fullScreenCover(isPresented: $showSuccess) {
                     PaymentSuccessView(item: item)
                         .environmentObject(appState) 

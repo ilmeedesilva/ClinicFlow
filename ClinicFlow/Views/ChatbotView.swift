@@ -1,6 +1,5 @@
 import SwiftUI
 
-// MARK: Data Model
 struct ChatMessage: Identifiable {
     let id = UUID()
     let text: String
@@ -25,7 +24,7 @@ struct ChatbotView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            // MARK: Header
+
             HStack {
                 Button { dismiss() } label: {
                     Image(systemName: "chevron.left")
@@ -39,7 +38,6 @@ struct ChatbotView: View {
             .padding()
             .background(themeTeal)
 
-            // MARK: Chat History
             ScrollViewReader { proxy in
                 ScrollView {
                     VStack(alignment: .leading, spacing: 20) {
@@ -69,8 +67,6 @@ struct ChatbotView: View {
                 }
             }
             
-
-            // MARK: Input Bar
             HStack(spacing: 15) {
                 TextField("Type a message...", text: $messageText)
                     .padding(12)
@@ -139,7 +135,6 @@ struct ChatbotView: View {
         .ignoresSafeArea(.keyboard, edges: .bottom)
     }
 
-    // MARK: Logic Handler
     func handleChoice(_ choice: String) {
         let userMsg = ChatMessage(text: choice, isUser: true, options: nil, isMapResult: false)
         messages.append(userMsg)
@@ -182,7 +177,6 @@ struct ChatbotView: View {
         }
     }
 
-    // MARK: Component Views
     @ViewBuilder
     func botBubble(message: ChatMessage) -> some View {
         VStack(alignment: .leading, spacing: 12) {

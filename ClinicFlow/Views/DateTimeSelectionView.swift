@@ -122,7 +122,6 @@ Dr. Nadeesha Senanayake is a skilled ENT specialist who treats sinus, allergy, h
                     
                     Spacer(minLength: 40)
                     
-                    // MARK: Confirm Button
                     NavigationLink {
                         BookingSummaryView(
                             item: item,
@@ -145,7 +144,6 @@ Dr. Nadeesha Senanayake is a skilled ENT specialist who treats sinus, allergy, h
     }
     
     
-    // MARK: Day Box
     func dayBox(day: String, date: String) -> some View {
         Button {
             selectedDay = date
@@ -169,7 +167,6 @@ Dr. Nadeesha Senanayake is a skilled ENT specialist who treats sinus, allergy, h
     }
     
     
-    // MARK: Time Box
     func timeBox(_ value: String, isAvailable: Bool) -> some View {
         Button {
             if isAvailable {

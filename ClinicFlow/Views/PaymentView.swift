@@ -29,8 +29,7 @@ struct PaymentView: View {
         "You", "Father", "Mother", "Brother", "Sister",
         "Spouse", "Son", "Daughter", "Other"
     ]
-    
-    // MARK: Validation
+
     
     var isAgeValid: Bool {
         Int(age) != nil && Int(age)! > 0
@@ -63,8 +62,7 @@ struct PaymentView: View {
         case .pharmacy: return "Medicine Fee"
         }
     }
-    
-    // MARK: Body
+
     
     var body: some View {
         VStack(spacing: 0) {
@@ -113,8 +111,6 @@ struct PaymentView: View {
     }
 }
 
-
-// MARK: - Sections
 
 
 extension PaymentView {
@@ -305,8 +301,6 @@ extension PaymentView {
     }
 }
 
-// MARK: - Helpers
-
 extension PaymentView {
     
     func handlePayment() {
@@ -405,7 +399,6 @@ extension PaymentView {
     }
     
     func saveNewMemberToAppState() {
-            // 1. Create the new member object
             let newMember = FamilyMember(
                 id: UUID(),
                 name: patientName,
@@ -413,16 +406,13 @@ extension PaymentView {
                 gender: gender,
                 contact: contact,
                 relationship: relationship,
-                image: "person.crop.circle.fill" // Default image
+                image: "person.crop.circle.fill"
             )
             
-            // 2. Append to the global list (this makes it show up in Family User View)
             appState.familyMembers.append(newMember)
-            
-            // 3. Automatically select this new member for the current payment
+
             selectedPatientID = newMember.id
-            
-            // 4. Close the form and clear it
+
             withAnimation {
                 isAddingNewMember = false
                 clearForm()
@@ -438,7 +428,6 @@ extension PaymentView {
     }
 }
 
-// MARK: Preview
 
 #Preview("Payment View") {
     let mockItem = BookableItem(

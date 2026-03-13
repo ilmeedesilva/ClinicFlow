@@ -10,8 +10,6 @@ struct AppointmentView: View {
             
             AppHeader(title: "Book an Appointment")
             
-            // MARK: - Content
-            
             VStack(alignment: .leading, spacing: 16) {
                 
                 Text("Medical Specialties")
@@ -21,7 +19,6 @@ struct AppointmentView: View {
                 Text("Wide selection of doctor's specialties")
                     .foregroundColor(.gray)
                 
-                // Search Box
                 HStack {
                     Image(systemName: "magnifyingglass")
                         .foregroundColor(.gray)
@@ -74,7 +71,6 @@ struct AppointmentView: View {
             
             HStack(spacing: 16) {
                 
-                // Icon Circle
                 ZStack {
                     
                     

@@ -18,7 +18,7 @@ struct LogoutOverlayView: View {
                 }
             
             VStack(spacing: 24) {
-                // MARK: Icon Section
+
                 ZStack {
                     Circle()
 
@@ -31,7 +31,7 @@ struct LogoutOverlayView: View {
                 }
                 .padding(.top, 10)
                 
-                // MARK: Text Section
+
                 VStack(spacing: 8) {
                     Text(title)
                         .font(.title3)
@@ -43,8 +43,7 @@ struct LogoutOverlayView: View {
                         .multilineTextAlignment(.center)
                         .padding(.horizontal, 10)
                 }
-                
-                // MARK: Buttons
+
                 HStack(spacing: 12) {
                     Button(action: onCancel) {
                         Text(cancelButtonTitle)

@@ -6,7 +6,7 @@ struct NotificationsView: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            // MARK: Header
+
             HStack {
                 Button {
                     dismiss()
@@ -49,7 +49,6 @@ struct NotificationsView: View {
                             
                             HStack(alignment: .top, spacing: 12) {
                                 
-                                // MARK: Notification Icon
                                 ZStack {
                                     Circle()
                                         .fill(iconColor(for: notification.type).opacity(0.15))
@@ -58,8 +57,7 @@ struct NotificationsView: View {
                                     Image(systemName: iconName(for: notification.type))
                                         .foregroundColor(iconColor(for: notification.type))
                                 }
-                                
-                                // MARK: Text Content
+
                                 VStack(alignment: .leading, spacing: 6) {
                                     
                                     Text(notification.title)

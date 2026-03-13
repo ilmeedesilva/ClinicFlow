@@ -8,7 +8,7 @@ struct NotificationsSettingsView: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            // MARK: Header
+
             HStack {
                 Button {
                     dismiss()
@@ -33,7 +33,6 @@ struct NotificationsSettingsView: View {
             .padding()
             .background(Color(red: 0.18, green: 0.41, blue: 0.45))
             
-            // MARK: iOS Style List
             List {
                 Section(header: Text("ENABLE  ALL NOTIFICATION")) {
                     Toggle("All Notification", isOn: $allNotificationsEnabled)

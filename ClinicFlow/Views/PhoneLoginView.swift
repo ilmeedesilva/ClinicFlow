@@ -9,7 +9,6 @@ struct PhoneLoginView: View {
     @State private var selectedCountry: Country?
     @State private var phoneNumber = ""
     
-    // MARK: Policy Popup States
     @State private var showPolicy = false
     @State private var selectedPolicyTitle = ""
     
@@ -19,7 +18,6 @@ struct PhoneLoginView: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            // Header
             HStack {
                 Button {
                     dismiss()
@@ -82,7 +80,6 @@ struct PhoneLoginView: View {
             }
             .padding()
             
-            // MARK: Bottom Section
             VStack(spacing: 16) {
                 NavigationLink {
                     OTPVerificationView(
@@ -131,7 +128,6 @@ struct PhoneLoginView: View {
         }
         .background(Color.white)
         .navigationBarBackButtonHidden(true)
-        // MARK: Policy Sheet
         .sheet(isPresented: $showPolicy) {
             PolicyView(title: selectedPolicyTitle)
         }

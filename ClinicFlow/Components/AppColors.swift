@@ -25,7 +25,6 @@ extension Color {
     static let lightGreen = Color(red: 0.44, green: 0.73, blue: 0.64)
 }
 
-// Hex color initializer
 extension Color {
     init(hex: String) {
         let hex = hex.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
