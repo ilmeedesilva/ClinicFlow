@@ -55,6 +55,8 @@ struct MainTabView: View {
             .tag(3)
         }
         
+        .preferredColorScheme(appState.isDarkMode ? .dark : .light)
+        
         .onChange(of: appState.shouldReturnToHome) { _, newValue in
             if newValue {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {

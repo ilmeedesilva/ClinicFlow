@@ -36,6 +36,8 @@ class AppState: ObservableObject {
     
     @Published var selectedNotification: AppNotification?
     
+    @Published var isDarkMode: Bool = false
+    
     @Published var shouldReturnToHome: Bool = false
     
     @Published var selectedPatient: FamilyMember?

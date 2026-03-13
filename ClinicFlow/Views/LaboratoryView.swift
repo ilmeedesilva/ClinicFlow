@@ -8,6 +8,7 @@ struct LaboratoryView: View {
     var body: some View {
         VStack(spacing: 0) {
             
+            // MARK: Custom Header
             ZStack {
                 Color(hex: "#2D6876")
                     .frame(height: 60)
@@ -97,14 +98,7 @@ struct LaboratoryView: View {
     
     func labRow(image: String, title: String, subtitle: String) -> some View {
         NavigationLink {
-            LabDetailView(
-                    testName: title,
-                    price: 800,
-                    appointments: 10,
-                    avgTime: "15 minutes",
-                    floor: "First Floor",
-                    room: "Room No 12"
-                )
+            LabListView(category: title)
         } label: {
             HStack(spacing: 16) {
                 
@@ -116,7 +110,7 @@ struct LaboratoryView: View {
                 VStack(alignment: .leading, spacing: 4) {
                     Text(title)
                         .fontWeight(.semibold)
-                        .foregroundColor(.black)
+                        .foregroundColor(.primary)
                     
                     Text(subtitle)
                         .font(.caption)

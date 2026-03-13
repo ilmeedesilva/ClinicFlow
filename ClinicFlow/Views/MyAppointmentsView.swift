@@ -14,6 +14,7 @@ struct MyAppointmentsView: View {
                     
 
                     AppointmentCard(
+                        imageName: "doctor3",
                         doctor: "Dr. Joseph Brostito",
                         specialty: "Dental Specialist",
                         date: "Sunday, 12 June",
@@ -28,6 +29,7 @@ struct MyAppointmentsView: View {
                     }
                     
                     AppointmentCard(
+                        imageName: "doctor4",
                         doctor: "Dr. Nimal Perera",
                         specialty: "Psychiatrist",
                         date: "Sunday, 12 June",

@@ -35,8 +35,7 @@ struct MapView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 30) {
                     
-
-                    Image("Map")
+                    Image("Consultation-Map")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .scaleEffect(scale)

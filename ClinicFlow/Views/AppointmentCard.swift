@@ -2,6 +2,7 @@ import SwiftUI
 
 struct AppointmentCard: View {
     
+    let imageName: String
     let doctor: String
     let specialty: String
     let date: String
@@ -16,7 +17,7 @@ struct AppointmentCard: View {
             
             HStack {
                 
-                Image("doctor4")
+                Image(imageName)
                     .resizable()
                     .frame(width: 50, height: 50)
                     .clipShape(Circle())
@@ -78,6 +79,7 @@ struct AppointmentCard: View {
 #Preview {
     VStack(spacing: 20) {
         AppointmentCard(
+            imageName: "doctor2",
             doctor: "Dr. Joseph Brostito",
             specialty: "Dental Specialist",
             date: "Sunday, 12 June",
@@ -87,9 +89,10 @@ struct AppointmentCard: View {
         )
         
         AppointmentCard(
-            doctor: "Dr. Joseph Brostito",
+            imageName: "doctor3",
+            doctor: "Dr. Saman Fernando",
             specialty: "Dental Specialist",
-            date: "Sunday, 12 June",
+            date: "Sunday, 14 June",
             time: "11:00 - 12:00 AM",
             status: "Cancelled",
             statusColor: .red 

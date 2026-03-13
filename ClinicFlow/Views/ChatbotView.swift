@@ -303,16 +303,16 @@ struct ChatbotView: View {
         switch destination {
             
         case "Pharmacy":
-            return "Pharmacy-map"
+            return "Pharmacy-map 1"
             
         case "X-Ray":
-            return "Lab-map"
+            return "Lab-Map"
             
         case "Consultation":
-            return "Consultation-map"
+            return "Consultation-Map"
             
         default:
-            return "Consultation-map"
+            return "Consultation-Map"
         }
     }
     
