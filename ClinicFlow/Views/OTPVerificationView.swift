@@ -28,15 +28,15 @@ struct OTPVerificationView: View {
     var body: some View {
         ZStack {
             VStack(spacing: 20) {
-                HStack {
-                    Button {
-                        dismiss()
-                    } label: {
-                        Image(systemName: "chevron.left")
-                            .foregroundColor(.black)
-                    }
-                    Spacer()
-                }
+//                HStack {
+//                    Button {
+//                        dismiss()
+//                    } label: {
+//                        Image(systemName: "chevron.left")
+//                            .foregroundColor(.black)
+//                    }
+//                    Spacer()
+//                }
                 
                 Divider()
                 
